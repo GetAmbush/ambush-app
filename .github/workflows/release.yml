@@ -22,7 +22,7 @@ jobs:
           encodedString: ${{ secrets.KEYSTORE }}
 
       - name: Install Java
-        uses: actions/setup-java@v2
+        uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -64,7 +64,7 @@ jobs:
         run: zip -r macos.zip Invoice.app
 
       - name: Archive Files
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: release-artifacts
           path: |
@@ -81,7 +81,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Download Artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: release-artifacts
           path: ./
