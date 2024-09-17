@@ -29,14 +29,14 @@ class OnBoardingPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Do you want to set your information now?',
+                'Welcome to the\nAmbush Invoice tool!',
                 style: textTheme.headlineSmall?.copyWith(
                     color: colors.primary, fontWeight: FontWeight.bold),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
               Text(
-                'It may speed up your invoice generation.',
+                'It seems like it is your first time here.',
                 style: textTheme.bodyMedium,
                 textAlign: TextAlign.center,
               ),
@@ -48,14 +48,6 @@ class OnBoardingPage extends StatelessWidget {
                   flow.start();
                 },
                 text: 'Set my info',
-              ),
-              const SizedBox(height: 20),
-              SecondaryButton(
-                onPressed: () async {
-                  await _viewModel.finishOnboarding();
-                  navigator.replace(InvoiceListRoute());
-                },
-                text: "I'll do it later",
               ),
             ],
           ),

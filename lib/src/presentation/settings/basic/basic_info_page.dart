@@ -23,8 +23,8 @@ class BasicInfoPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Observer(builder: (context) {
       return BaseSettingsPage(
-        title: "Independent Contractor",
-        infoText: "In this page you should insert your company information, not Ambush’s",
+        title: "Contractor Information",
+        infoText: "With your information as a contractor, fill the details below",
         buttonText: screenConfig.ctaText,
         saveSwitch: screenConfig.showSaveSwitch
             ? SaveSwitch(
@@ -40,8 +40,8 @@ class BasicInfoPage extends StatelessWidget {
           child: Column(
             children: [
               InputField(
-                label: "Name",
-                helperText: "Enter your full name",
+                label: "Full Name",
+                helperText: "Your full name",
                 textInputAction: TextInputAction.next,
                 controller: _viewModel.fullNameController,
                 validator: (String? value) {
@@ -60,15 +60,23 @@ class BasicInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: marginBetweenFields),
               InputField(
-                label: "CNPJ (optional)",
-                helperText: "Contractor's company CNPJ number",
+                label: "Tax ID (CNPJ)",
+                helperText: "Contractor's company Tax ID (CNPJ) number",
                 textInputAction: TextInputAction.next,
                 controller: _viewModel.cnpjController,
+                validator: (String? value) {
+                  var validation = requiredFieldValidator(value);
+                  if(validation != null) {
+                    return validation;
+                  }
+                  return null;
+                },
+                autovalidateMode: AutovalidateMode.onUserInteraction,
               ),
               const SizedBox(height: marginBetweenFields),
               InputField(
                 label: "Company name",
-                helperText: "Enter your company name",
+                helperText: "Contractor's company name",
                 textInputAction: TextInputAction.next,
                 controller: _viewModel.compNameController,
                 validator: (String? value) {
