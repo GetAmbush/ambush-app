@@ -157,11 +157,6 @@ class BankInfoPage extends StatelessWidget {
       }
 
       if (flow != null) {
-        if (flow is AddInvoiceNavigationFlow) {
-          (flow as AddInvoiceNavigationFlow).invoiceFlowData.bankInfo =
-              bankInfo;
-        }
-
         flow!.onNextPress();
       }
     }

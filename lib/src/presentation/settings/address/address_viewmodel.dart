@@ -1,8 +1,10 @@
+import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:ambush_app/src/domain/usecases/get_company_info.dart';
 import 'package:ambush_app/src/domain/usecases/save_company_info.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:mobx/mobx.dart';
+
 
 part 'address_viewmodel.g.dart';
 
@@ -18,7 +20,20 @@ abstract class _AddressViewModelBase with Store {
   final IGetCompanyInfo _getCompanyInfo;
   final ISaveCompanyInfo _saveCompanyInfo;
 
-  _AddressViewModelBase(this._getCompanyInfo, this._saveCompanyInfo) {}
+  _AddressViewModelBase(this._getCompanyInfo, this._saveCompanyInfo) {
+    var info = _getCompanyInfo.get();
+    var address = info?.address;
+
+    if(address != null) {
+      streetAddressController.text = address.street;
+      addressExtraController.text = address.extraInfo ?? '';
+      neighbourhoodController.text = address.neighbourhood;
+      cityController.text = address.city;
+      stateController.text = address.state;
+      countryController.text = address.country;
+      zipController.text = address.zipCode;
+    }
+  }
 
   final formKey = GlobalKey<FormState>();
   final streetAddressController = TextEditingController();
@@ -37,4 +52,19 @@ abstract class _AddressViewModelBase with Store {
     switchValue = value;
   }
 
+  Future save() async {
+    var info = _getCompanyInfo.get()!;
+    var newInfo = info.copyWith(
+      address: CompanyAddress(
+        streetAddressController.text,
+        addressExtraController.text,
+        neighbourhoodController.text,
+        cityController.text,
+        stateController.text,
+        countryController.text,
+        zipController.text,
+      ),
+    );
+    await _saveCompanyInfo.save(newInfo);
+  }
 }

@@ -77,11 +77,6 @@ class ClientInfoPage extends StatelessWidget {
       }
 
       if (flow != null) {
-        if (flow is AddInvoiceNavigationFlow) {
-          (flow as AddInvoiceNavigationFlow).invoiceFlowData.clientInfo =
-              client;
-        }
-
         flow!.onNextPress();
       }
     }

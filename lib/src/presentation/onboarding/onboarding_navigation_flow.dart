@@ -30,6 +30,14 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
     switch (currentRoute) {
       case BasicInfoRoute.name:
         _router.push(
+          AddressRoute(
+            flow: this,
+            screenConfig: _pageConfig,
+          ),
+        );
+        break;
+      case AddressRoute.name:
+        _router.push(
           BankInfoRoute(
             flow: this,
             screenConfig: _pageConfig,

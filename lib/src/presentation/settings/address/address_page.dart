@@ -8,6 +8,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
+import '../../../core/settings/const.dart';
+import '../../add_invoice/add_invoice_navigation_flow.dart';
+
 @RoutePage()
 class AddressPage extends StatelessWidget {
   AddressPage({super.key, required this.screenConfig, this.flow});
@@ -53,12 +56,14 @@ class AddressPage extends StatelessWidget {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "Apt, suite, etc (optional)",
                   helperText: "Ex: apt 32",
                   textInputAction: TextInputAction.next,
                   controller: _viewModel.addressExtraController,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "Neighbourhood",
                   textInputAction: TextInputAction.next,
@@ -73,6 +78,7 @@ class AddressPage extends StatelessWidget {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "City",
                   textInputAction: TextInputAction.next,
@@ -87,6 +93,7 @@ class AddressPage extends StatelessWidget {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "State",
                   textInputAction: TextInputAction.next,
@@ -101,6 +108,7 @@ class AddressPage extends StatelessWidget {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "Country",
                   textInputAction: TextInputAction.next,
@@ -115,6 +123,7 @@ class AddressPage extends StatelessWidget {
                   },
                   autovalidateMode: AutovalidateMode.onUserInteraction,
                 ),
+                const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "Zip code",
                   hintText: "Ex: 90110090",
@@ -139,22 +148,15 @@ class AddressPage extends StatelessWidget {
   }
 
   Future onNextStepClick() async {
-    //TODO
-    // if (_viewModel.formKey.currentState!.validate()) {
-    //   final companyInfo = _viewModel.companyInfo;
-    //   if (_viewModel.switchValue || screenConfig.alwaysSave) {
-    //     await _viewModel.save(companyInfo);
-    //   }
-    //
-    //   if (flow != null) {
-    //     if (flow is AddInvoiceNavigationFlow) {
-    //       (flow as AddInvoiceNavigationFlow).invoiceFlowData.companyInfo =
-    //           companyInfo;
-    //     }
-    //
-    //     flow!.onNextPress();
-    //   }
-    // }
+    if(_viewModel.formKey.currentState!.validate()) {
+      if (_viewModel.switchValue || screenConfig.alwaysSave) {
+        await _viewModel.save();
+      }
+
+      if (flow != null) {
+        flow!.onNextPress();
+      }
+    }
   }
 
 }

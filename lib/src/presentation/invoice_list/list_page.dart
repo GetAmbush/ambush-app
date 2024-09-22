@@ -91,10 +91,7 @@ class InvoiceListPage extends StatelessWidget {
 
   void _onAddClick(BuildContext context) {
     final navigator = context.router;
-    final flow = AddInvoiceNavigationFlow(
-      navigator,
-      InvoiceFlowData(),
-    );
+    final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
   }
 }

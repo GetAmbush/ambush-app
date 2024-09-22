@@ -10,7 +10,6 @@ import 'package:ambush_app/src/presentation/settings/info_navigation_flow.dart';
 import '../base_settings_page.dart';
 import 'service_info_viewmodel.dart';
 
-
 @RoutePage()
 class ServiceInfoPage extends StatelessWidget {
   ServiceInfoPage({
@@ -30,7 +29,8 @@ class ServiceInfoPage extends StatelessWidget {
       builder: (context) {
         return BaseSettingsPage(
           title: "Service information",
-          infoText: "Fill in the form with information about the service provided",
+          infoText:
+              "Fill in the form with information about the service provided",
           onButtonPressed: () async {
             await _onNextClick();
           },
@@ -61,18 +61,19 @@ class ServiceInfoPage extends StatelessWidget {
                   helperText: "One month worked represents 1.0",
                   controller: _viewModel.quantityController,
                   autovalidateMode: AutovalidateMode.onUserInteraction,
-                  keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
                   textInputAction: TextInputAction.next,
                   validator: (value) {
-                    if(value == null) {
+                    if (value == null) {
                       return 'Required field';
                     }
 
-                    if(double.tryParse(value) == 0.0) {
+                    if (double.tryParse(value) == 0.0) {
                       return 'Quantity needs to be more than 0';
                     }
 
-                    if(double.tryParse(value) == null) {
+                    if (double.tryParse(value) == null) {
                       return 'Quantity needs to have the format 0.00';
                     }
 
@@ -82,11 +83,12 @@ class ServiceInfoPage extends StatelessWidget {
                 const SizedBox(height: marginBetweenFields),
                 InputField(
                   label: "Unit price",
-                  helperText: "Enter the value of a unit of work charged on the invoice",
+                  helperText:
+                      "Enter the value of a unit of work charged on the invoice",
                   hintText: "e.g. 5000.00",
                   controller: _viewModel.priceController,
                   validator: (value) {
-                    if(value == null || value.isEmpty || value == '\$0,00') {
+                    if (value == null || value.isEmpty || value == '\$0,00') {
                       return "Mandatory field";
                     }
                     return null;
@@ -114,11 +116,6 @@ class ServiceInfoPage extends StatelessWidget {
       }
 
       if (flow != null) {
-        if (flow is AddInvoiceNavigationFlow) {
-          (flow as AddInvoiceNavigationFlow).invoiceFlowData.service =
-              serviceInfo;
-        }
-
         flow!.onNextPress();
       }
     }

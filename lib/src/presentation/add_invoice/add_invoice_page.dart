@@ -93,20 +93,12 @@ class AddInvoicePage extends StatelessWidget {
 
   Future _onSavePressed() async {
     if (_viewModel.validateForm()) {
-      final invoiceFlowData = flow.invoiceFlowData;
-      invoiceFlowData.validateData();
-      final invoice = _viewModel.getInvoice(
-        invoiceFlowData.service!,
-        invoiceFlowData.companyInfo!,
-        invoiceFlowData.clientInfo!,
-        invoiceFlowData.bankInfo!,
-      );
+      final invoice = _viewModel.getInvoice();
 
       if (invoice == null) return;
 
       flow.onFinishFlow();
       await _viewModel.saveInvoice(invoice);
-      
     }
   }
 }

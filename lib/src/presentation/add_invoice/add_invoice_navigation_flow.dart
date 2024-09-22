@@ -11,7 +11,7 @@ import 'package:ambush_app/src/presentation/settings/info_navigation_flow.dart';
 
 class AddInvoiceNavigationFlow implements InfoNavigationFlow {
   final StackRouter _router;
-  final InvoiceFlowData invoiceFlowData;
+  final InvoiceFlowData invoiceFlowData = getIt();
   final IGetClientInfo _getClientInfo = getIt();
   final IGetBankInfo _getBankInfo = getIt();
   final IGetCompanyInfo _getCompanyInfo = getIt();
@@ -23,15 +23,7 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
     alwaysSave: false,
   );
 
-  AddInvoiceNavigationFlow(
-    this._router,
-    this.invoiceFlowData,
-  ) {
-    invoiceFlowData.clientInfo = _getClientInfo.get();
-    invoiceFlowData.bankInfo = _getBankInfo.get();
-    invoiceFlowData.companyInfo = _getCompanyInfo.get();
-    invoiceFlowData.service = _getServiceInfo.get();
-  }
+  AddInvoiceNavigationFlow(this._router);
 
   @override
   void onBackPress() {
@@ -74,7 +66,12 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
   @override
   void start() {
     try {
-      invoiceFlowData.validateData();
+      invoiceFlowData.validateData(
+        _getServiceInfo.get(),
+        _getCompanyInfo.get(),
+        _getClientInfo.get(),
+        _getBankInfo.get(),
+      );
       _router.push(
         AddInvoiceRoute(flow: this),
       );

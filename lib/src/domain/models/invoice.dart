@@ -40,6 +40,19 @@ class Invoice {
     return NumberFormat.currency(locale: 'en_US', symbol: symbol).format(totalPrice);
   }
 
+  String formattedAddress() {
+    if(companyInfo.address == null) {
+      return "no address";
+    } else {
+      var address = companyInfo.address!;
+      return '''${address.street} ${address.extraInfo ?? ''}
+      ${address.neighbourhood}, ${address.city}
+      ${address.state} - ${address.country}
+      Zip-code: ${address.zipCode}
+      ''';
+    }
+  }
+
   Invoice copyWith({
     int? id,
     int? issueDate,

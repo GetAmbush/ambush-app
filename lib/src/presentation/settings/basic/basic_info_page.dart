@@ -60,8 +60,8 @@ class BasicInfoPage extends StatelessWidget {
               ),
               const SizedBox(height: marginBetweenFields),
               InputField(
-                label: "Tax ID (CNPJ)",
-                helperText: "Contractor's company Tax ID (CNPJ) number",
+                label: "Tax ID or CNPJ",
+                helperText: "Contractor's company Tax ID or CNPJ number",
                 textInputAction: TextInputAction.next,
                 controller: _viewModel.cnpjController,
                 validator: (String? value) {
@@ -92,28 +92,6 @@ class BasicInfoPage extends StatelessWidget {
                   return null;
                 },
                 autovalidateMode: AutovalidateMode.onUserInteraction,
-              ),
-              const SizedBox(height: marginBetweenFields),
-              InputField(
-                label: "Company address",
-                helperText: "Enter your company address",
-                textInputAction: TextInputAction.done,
-                maxLines: null,
-                minLines: null,
-                validator: (String? value) {
-                  var validation = requiredFieldValidator(value);
-                  if(validation != null) {
-                    return validation;
-                  }
-
-                  if(value!.toLowerCase().contains("20 harcourt") || value.toLowerCase().contains("d02 pf99")) {
-                    return "This should be your company address";
-                  }
-
-                  return null;
-                },
-                autovalidateMode: AutovalidateMode.onUserInteraction,
-                controller: _viewModel.compAddressController,
               ),
               const SizedBox(height: marginBetweenFields),
               InputField(
@@ -151,11 +129,6 @@ class BasicInfoPage extends StatelessWidget {
       }
 
       if (flow != null) {
-        if (flow is AddInvoiceNavigationFlow) {
-          (flow as AddInvoiceNavigationFlow).invoiceFlowData.companyInfo =
-              companyInfo;
-        }
-
         flow!.onNextPress();
       }
     }

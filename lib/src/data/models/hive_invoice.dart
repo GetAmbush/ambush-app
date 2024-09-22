@@ -76,7 +76,7 @@ class HiveInvoice extends HiveObject {
       now.millisecondsSinceEpoch,
       now.millisecondsSinceEpoch,
       HiveServiceInfo.fromServiceInfo(serviceInfo),
-      HiveCompanyInfo.fromDataModel(companyInfo),
+      HiveCompanyInfo.fromDomainModel(companyInfo),
       HiveClientInfo.from(clientInfo),
       HiveBankInfo.fromDataModel(bankInfo),
     );
@@ -89,7 +89,7 @@ class HiveInvoice extends HiveObject {
         invoice.createdAt,
         invoice.updatedAt,
         HiveServiceInfo.fromServiceInfo(invoice.service),
-        HiveCompanyInfo.fromDataModel(invoice.companyInfo),
+        HiveCompanyInfo.fromDomainModel(invoice.companyInfo),
         HiveClientInfo.from(invoice.clientInfo),
         HiveBankInfo.fromDataModel(invoice.bankInfo),
       );
@@ -99,7 +99,7 @@ class HiveInvoice extends HiveObject {
         issueDate,
         dueDate,
         serviceInfo.toServiceInfo(),
-        companyInfo.toDataModel(),
+        companyInfo.toDomainModel(),
         clientInfo.toClientInfo(),
         bankInfo.toDataModel(),
         createdAt,

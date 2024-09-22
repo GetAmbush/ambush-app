@@ -19,11 +19,11 @@ class CompanyRepository implements ICompanyRepository {
   CompanyRepository(this._source);
 
   @override
-  CompanyInfo? getCompanyInfo() => _source.getCompanyInfo()?.toDataModel();
+  CompanyInfo? getCompanyInfo() => _source.getCompanyInfo()?.toDomainModel();
 
   @override
   Future<void> saveCompanyInfo(CompanyInfo value) =>
-      _source.saveCompanyInfo(HiveCompanyInfo.fromDataModel(value));
+      _source.saveCompanyInfo(HiveCompanyInfo.fromDomainModel(value));
 
   @override
   Stream<HiveCompanyInfo?> observeCompanyInfo() => _source.observeCompanyInfo();

@@ -56,7 +56,7 @@ class PdfTemplateRepo implements IPdfTemplateRepo {
             child: _pdfWidgets.getCompanyBlock(
               "From",
               invoice.companyInfo.name,
-              invoice.companyInfo.address,
+              invoice.formattedAddress(),
               invoice.companyInfo.email,
             ),
           ),
