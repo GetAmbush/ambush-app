@@ -10,8 +10,6 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
 
   final _pageConfig = BasicInfoPageConfig(
     ctaText: 'Next',
-    showSaveSwitch: false,
-    alwaysSave: true,
   );
 
   @override

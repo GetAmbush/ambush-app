@@ -42,7 +42,7 @@ abstract class _ServiceInfoViewModelBase with Store {
     switchValue = value;
   }
 
-  ServiceInfo? getServiceInfo() {
+  ServiceInfo? get _serviceInfo {
     double.tryParse(quantityController.text);
 
     var quantity = double.tryParse(quantityController.text);
@@ -66,7 +66,10 @@ abstract class _ServiceInfoViewModelBase with Store {
     );
   }
 
-  Future saveInfo(ServiceInfo serviceInfo) async {
-    await _saveServiceInfo.save(serviceInfo);
+  Future saveInfo() async {
+    if (_serviceInfo == null) {
+      return;
+    }
+    await _saveServiceInfo.save(_serviceInfo!);
   }
 }

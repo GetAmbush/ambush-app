@@ -28,20 +28,13 @@ abstract class _ClientInfoViewModelBase with Store {
   final nameController = TextEditingController();
   final addressController = TextEditingController();
 
-  @observable
-  bool saveSwitch = true;
 
-  @action
-  void onSwitchClicked(bool value) {
-    saveSwitch = value;
-  }
-
-  ClientInfo get clientInfo => ClientInfo(
+  ClientInfo get _clientInfo => ClientInfo(
         nameController.text,
         addressController.text,
       );
 
-  Future<void> saveInfo(ClientInfo value) async {
-    await _saveClientInfo.save(value);
+  Future<void> saveInfo() async {
+    await _saveClientInfo.save(_clientInfo);
   }
 }

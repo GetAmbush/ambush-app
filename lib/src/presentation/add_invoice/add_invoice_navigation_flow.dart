@@ -19,8 +19,6 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
 
   final _pageConfig = BasicInfoPageConfig(
     ctaText: 'Next step',
-    showSaveSwitch: true,
-    alwaysSave: false,
   );
 
   AddInvoiceNavigationFlow(this._router);

@@ -32,12 +32,6 @@ class ClientInfoPage extends StatelessWidget {
             await _onNextStepClick();
           },
           buttonText: screenConfig.ctaText,
-          saveSwitch: screenConfig.showSaveSwitch
-              ? SaveSwitch(
-                  value: _viewModel.saveSwitch,
-                  onChanged: _viewModel.onSwitchClicked,
-                )
-              : null,
           form: Form(
             key: _formKey,
             child: Column(
@@ -71,11 +65,7 @@ class ClientInfoPage extends StatelessWidget {
 
   Future _onNextStepClick() async {
     if (_formKey.currentState!.validate()) {
-      var client = _viewModel.clientInfo;
-      if (_viewModel.saveSwitch || screenConfig.alwaysSave) {
-        await _viewModel.saveInfo(client);
-      }
-
+      await _viewModel.saveInfo();
       if (flow != null) {
         flow!.onNextPress();
       }

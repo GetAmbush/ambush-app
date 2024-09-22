@@ -28,12 +28,6 @@ class AddressPage extends StatelessWidget {
           infoText:
               "With your information as a contractor, fill the details below",
           buttonText: screenConfig.ctaText,
-          saveSwitch: screenConfig.showSaveSwitch
-              ? SaveSwitch(
-                  value: _viewModel.switchValue,
-                  onChanged: _viewModel.onSwitchClicked,
-                )
-              : null,
           onButtonPressed: () async {
             await onNextStepClick();
           },
@@ -149,10 +143,7 @@ class AddressPage extends StatelessWidget {
 
   Future onNextStepClick() async {
     if(_viewModel.formKey.currentState!.validate()) {
-      if (_viewModel.switchValue || screenConfig.alwaysSave) {
-        await _viewModel.save();
-      }
-
+      await _viewModel.save();
       if (flow != null) {
         flow!.onNextPress();
       }

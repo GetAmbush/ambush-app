@@ -31,12 +31,6 @@ class BankInfoPage extends StatelessWidget {
         title: "Bank information",
         infoText: "Fill in the form with your company's banking information",
         buttonText: screenConfig.ctaText,
-        saveSwitch: screenConfig.showSaveSwitch
-            ? SaveSwitch(
-                value: _viewModel.switchValue,
-                onChanged: _viewModel.setSwitchValue,
-              )
-            : null,
         onButtonPressed: () async {
           await _onNextClicked();
         },
@@ -151,11 +145,7 @@ class BankInfoPage extends StatelessWidget {
 
   Future _onNextClicked() async {
     if (_viewModel.formKey.currentState!.validate()) {
-      final bankInfo = _viewModel.bankInfo;
-      if (_viewModel.switchValue || screenConfig.alwaysSave) {
-        await _viewModel.saveBankInfo(bankInfo);
-      }
-
+      await _viewModel.saveBankInfo();
       if (flow != null) {
         flow!.onNextPress();
       }

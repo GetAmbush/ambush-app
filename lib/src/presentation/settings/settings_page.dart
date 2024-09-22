@@ -16,8 +16,6 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final pageConfig = BasicInfoPageConfig(
       ctaText: 'Save',
-      showSaveSwitch: false,
-      alwaysSave: true,
     );
 
     return Scaffold(

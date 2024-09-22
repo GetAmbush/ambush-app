@@ -26,12 +26,6 @@ class BasicInfoPage extends StatelessWidget {
         title: "Contractor Information",
         infoText: "With your information as a contractor, fill the details below",
         buttonText: screenConfig.ctaText,
-        saveSwitch: screenConfig.showSaveSwitch
-            ? SaveSwitch(
-                value: _viewModel.switchValue,
-                onChanged: _viewModel.onSwitchClicked,
-              )
-            : null,
         onButtonPressed: () async {
           await onNextStepClick();
         },
@@ -123,11 +117,7 @@ class BasicInfoPage extends StatelessWidget {
 
   Future onNextStepClick() async {
     if (_viewModel.formKey.currentState!.validate()) {
-      final companyInfo = _viewModel.companyInfo;
-      if (_viewModel.switchValue || screenConfig.alwaysSave) {
-        await _viewModel.save(companyInfo);
-      }
-
+      await _viewModel.save();
       if (flow != null) {
         flow!.onNextPress();
       }

@@ -51,9 +51,6 @@ abstract class _BankInfoViewModelBase with Store {
   final intIbanController = TextEditingController();
 
   @observable
-  bool switchValue = true;
-
-  @observable
   bool isIntermediaryBankEnabled = false;
 
   @action
@@ -61,16 +58,11 @@ abstract class _BankInfoViewModelBase with Store {
     isIntermediaryBankEnabled = value;
   }
 
-  @action
-  void setSwitchValue(bool value) {
-    switchValue = value;
+  Future saveBankInfo() async {
+    await _saveBankInfo.save(_bankInfo);
   }
 
-  Future saveBankInfo(BankInfo bankInfo) async {
-    await _saveBankInfo.save(bankInfo);
-  }
-
-  BankInfo get bankInfo => BankInfo(
+  BankInfo get _bankInfo => BankInfo(
         beneficiaryNameController.text,
         _buildMainBank(),
         isIntermediaryBankEnabled ? _buildIntermediaryBank() : null,

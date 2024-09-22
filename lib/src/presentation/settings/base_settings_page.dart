@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
-import 'package:ambush_app/src/designsystem/switch.dart';
 
 class BaseSettingsPage extends StatelessWidget {
   const BaseSettingsPage({
@@ -11,7 +10,6 @@ class BaseSettingsPage extends StatelessWidget {
     required this.buttonText,
     required this.onButtonPressed,
     required this.form,
-    this.saveSwitch,
   });
 
   final String title;
@@ -19,7 +17,6 @@ class BaseSettingsPage extends StatelessWidget {
   final Form form;
   final String buttonText;
   final VoidCallback onButtonPressed;
-  final SaveSwitch? saveSwitch;
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +41,6 @@ class BaseSettingsPage extends StatelessWidget {
               ),
             ),
           form,
-          if (saveSwitch != null) _saveInfoRow(context, saveSwitch!.value),
           const SizedBox(height: 36),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,35 +56,12 @@ class BaseSettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _saveInfoRow(BuildContext context, bool switchValue) {
-    return Column(
-      children: [
-        const SizedBox(height: regularMargin),
-        SwitchRow(
-          text: "Save the information for future use",
-          value: switchValue,
-          onChanged: saveSwitch!.onChanged,
-        ),
-      ],
-    );
-  }
-}
-
-class SaveSwitch {
-  final bool value;
-  final Function(bool) onChanged;
-
-  SaveSwitch({required this.value, required this.onChanged});
 }
 
 class BasicInfoPageConfig {
   final String ctaText;
-  final bool showSaveSwitch;
-  final bool alwaysSave;
 
   BasicInfoPageConfig({
     required this.ctaText,
-    required this.showSaveSwitch,
-    required this.alwaysSave,
   });
 }

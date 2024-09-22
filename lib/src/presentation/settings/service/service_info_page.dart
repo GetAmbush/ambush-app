@@ -5,7 +5,6 @@ import 'package:ambush_app/src/core/di/di.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/core/utils/field_validators.dart';
 import 'package:ambush_app/src/designsystem/inputfield.dart';
-import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_flow.dart';
 import 'package:ambush_app/src/presentation/settings/info_navigation_flow.dart';
 import '../base_settings_page.dart';
 import 'service_info_viewmodel.dart';
@@ -35,12 +34,6 @@ class ServiceInfoPage extends StatelessWidget {
             await _onNextClick();
           },
           buttonText: screenConfig.ctaText,
-          saveSwitch: screenConfig.showSaveSwitch
-              ? SaveSwitch(
-                  value: _viewModel.switchValue,
-                  onChanged: _viewModel.onSwitchClicked,
-                )
-              : null,
           form: Form(
             key: _formKey,
             child: Column(
@@ -108,12 +101,7 @@ class ServiceInfoPage extends StatelessWidget {
 
   Future _onNextClick() async {
     if (_formKey.currentState!.validate()) {
-      final serviceInfo = _viewModel.getServiceInfo();
-      if (serviceInfo == null) return;
-
-      if (_viewModel.switchValue || screenConfig.alwaysSave) {
-        await _viewModel.saveInfo(serviceInfo);
-      }
+      await _viewModel.saveInfo();
 
       if (flow != null) {
         flow!.onNextPress();

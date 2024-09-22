@@ -44,14 +44,6 @@ abstract class _AddressViewModelBase with Store {
   final countryController = TextEditingController();
   final zipController = TextEditingController();
 
-  @observable
-  bool switchValue = true;
-
-  @action
-  void onSwitchClicked(bool value) {
-    switchValue = value;
-  }
-
   Future save() async {
     var info = _getCompanyInfo.get()!;
     var newInfo = info.copyWith(
