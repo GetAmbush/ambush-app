@@ -25,11 +25,24 @@ class SettingsPage extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: regularMargin),
           children: [
             SettingsItem(
-              title: "Basic information",
+              title: "Contractor Information",
               subtitle: "Basic information about your company",
               onClick: () {
                 context.router.push(
                   BasicInfoRoute(
+                    flow: SettingsNavigationFlow(context.router),
+                    screenConfig: pageConfig,
+                  ),
+                );
+              },
+            ),
+            const Divider(indent: regularMargin, endIndent: regularMargin),
+            SettingsItem(
+              title: "Company Address",
+              subtitle: "Your company’s address",
+              onClick: () {
+                context.router.push(
+                  AddressRoute(
                     flow: SettingsNavigationFlow(context.router),
                     screenConfig: pageConfig,
                   ),
