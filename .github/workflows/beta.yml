@@ -70,3 +70,4 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_INVOICES_APP_C2491 }}
           projectId: invoices-app-c2491
           channelId: beta
+          expires: 30d
