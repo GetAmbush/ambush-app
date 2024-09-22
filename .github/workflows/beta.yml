@@ -3,7 +3,7 @@ name: Release Workflow
 on:
   push:
     tags:
-      - "beta-[0-9]+.[0-9]+.[0-9]+"
+      - "beta"
 jobs:
   build-release-files:
     runs-on: macos-latest

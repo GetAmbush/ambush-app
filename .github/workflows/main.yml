@@ -24,9 +24,17 @@ jobs:
       - run: flutter pub get
       - run: flutter packages pub run build_runner build --delete-conflicting-outputs
       # - run: flutter test
-      - run: flutter build apk --debug
+      # - run: flutter build apk --debug
       - run: flutter build web
       - run: flutter build macos
+
+      - name: 🎯 Deploy to firebase
+        uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_INVOICES_APP_C2491 }}
+          projectId: invoices-app-c2491
+          channelId: ${{ github.event.number }}
 
   linter:
     runs-on: ubuntu-latest
