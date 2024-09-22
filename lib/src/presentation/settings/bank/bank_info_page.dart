@@ -6,7 +6,6 @@ import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/core/utils/field_validators.dart';
 import 'package:ambush_app/src/designsystem/inputfield.dart';
 import 'package:ambush_app/src/designsystem/switch.dart';
-import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_flow.dart';
 import 'package:ambush_app/src/presentation/settings/info_navigation_flow.dart';
 
 import '../base_settings_page.dart';

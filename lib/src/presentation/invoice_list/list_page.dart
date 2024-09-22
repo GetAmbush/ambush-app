@@ -4,7 +4,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ambush_app/src/core/di/di.dart';
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
-import 'package:ambush_app/src/domain/models/invoice_flow_data.dart';
 import 'package:ambush_app/src/presentation/invoice_list/invoice_dialogs.dart';
 import 'package:ambush_app/src/presentation/utils/share_invoice.dart';
 import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_flow.dart';
