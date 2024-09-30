@@ -52,6 +52,8 @@ abstract class ILocalDataSource {
 
   Future<void> saveInfoAlertStatus(bool status);
 
+  Future<void> clearDB();
+
   Stream<List<Invoice>> observeInvoiceList();
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
@@ -169,4 +171,7 @@ class LocalDataSource implements ILocalDataSource {
   @override
   Future<void> saveInfoAlertStatus(bool status) =>
       _appBox.put(_keyInfoAlertStatus, status);
+
+  @override
+  Future<void> clearDB() => _appBox.clear();
 }

@@ -14,7 +14,20 @@ class OnboardingRepository implements IOnboardingRepository {
   OnboardingRepository(this._source);
 
   @override
-  bool hasFinishedOnboarding() => _source.getOnboardingStatus();
+  bool hasFinishedOnboarding() {
+    try {
+      var onboardingStatus = _source.getOnboardingStatus();
+      var companyInfo = _source.getCompanyInfo();
+      var address = companyInfo?.address;
+      if (address is String) {
+        throw Exception("Force migration");
+      }
+      return onboardingStatus;
+    } catch (e) {
+      _source.clearDB();
+      return false;
+    }
+  }
 
   @override
   Future<void> setOnboardingStatus(bool status) =>
