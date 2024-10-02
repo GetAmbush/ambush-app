@@ -11,6 +11,7 @@ import 'package:ambush_app/src/domain/models/invoice.dart';
 import '../../domain/models/ambush_info.dart';
 
 const _appBoxName = 'AppBox';
+const _keyDbVersion = 'dbVersion';
 const _keyCompanyInfo = 'companyInfo';
 const _keyBankInfo = 'bankInfo';
 const _keyServiceInfo = 'serviceInfo';
@@ -21,6 +22,10 @@ const _keyInfoAlertStatus = 'infoAlertStatus';
 
 abstract class ILocalDataSource {
   Future initLocalDataSource();
+
+  int getDbVersion();
+
+  Future setDbVersion(int version);
 
   HiveCompanyInfo? getCompanyInfo();
 
@@ -51,6 +56,8 @@ abstract class ILocalDataSource {
   Future<void> saveOnboardingStatus(bool status);
 
   Future<void> saveInfoAlertStatus(bool status);
+
+  Future get(String key);
 
   Future<void> clearDB();
 
@@ -174,4 +181,21 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   Future<void> clearDB() => _appBox.clear();
+
+  @override
+  Future get(String key) => _appBox.get(key);
+
+  @override
+  int getDbVersion() {
+    if(_appBox.containsKey(_keyDbVersion)) {
+      return _appBox.get(_keyDbVersion);
+    } else {
+      return 1;
+    }
+  }
+
+  @override
+  Future setDbVersion(int version) async {
+    await _appBox.put(_keyDbVersion, version);
+  }
 }

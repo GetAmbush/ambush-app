@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/core/utils/migration_utils.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -11,6 +12,8 @@ import 'src/data/datasource/local_datasource.dart';
 Future<void> main() async {
   configureDependencies(Environment.prod);
   await getIt.get<ILocalDataSource>().initLocalDataSource();
+  // await getIt.get<MigrationUtils>().checkAndMigrateDbIfNeeded();
+
   runApp(App());
 }
 
