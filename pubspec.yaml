@@ -23,7 +23,7 @@
     path_provider: ^2.1.2
     hive: ^2.2.3
     hive_flutter: ^1.1.0
-    share_plus: ^9.0.0
+    share_plus: ^10.0.0
     image: ^4.1.7 # fix for the PDF package test_api 0.5.1 (0.6.1 available)
     flutter_svg: ^2.0.10+1
     flutter_svg_provider: ^1.0.7
