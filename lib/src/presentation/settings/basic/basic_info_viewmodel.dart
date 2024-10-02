@@ -39,14 +39,22 @@ abstract class _BasicInfoViewModelBase with Store {
   final fullNameController = TextEditingController();
   final cnpjController = TextEditingController();
 
-  CompanyInfo get _companyInfo => CompanyInfo.withoutAddress(
-      compNameController.text,
-      compEmailController.text,
-      fullNameController.text,
-      cnpjController.text,
-  );
-
   Future save() async {
-    await _saveCompanyInfo.save(_companyInfo);
+    var savedData = _getCompanyInfo.get();
+    CompanyInfo newData = savedData != null
+        ? savedData.copyWith(
+            name: compNameController.text,
+            email: compEmailController.text,
+            ownerName: fullNameController.text,
+            cnpj: cnpjController.text,
+          )
+        : CompanyInfo.withoutAddress(
+            compNameController.text,
+            compEmailController.text,
+            fullNameController.text,
+            cnpjController.text,
+          );
+
+    await _saveCompanyInfo.save(newData);
   }
 }
