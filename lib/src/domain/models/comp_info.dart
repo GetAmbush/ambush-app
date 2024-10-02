@@ -35,6 +35,10 @@ class CompanyInfo {
       cnpj ?? this.cnpj,
     );
   }
+
+  bool isValid() {
+    return address != null && cnpj != null;
+  }
 }
 
 class CompanyAddress {

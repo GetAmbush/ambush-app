@@ -1,8 +1,12 @@
+import 'package:ambush_app/src/data/repositories/bank_repository.dart';
+import 'package:ambush_app/src/data/repositories/company_repository.dart';
+import 'package:ambush_app/src/data/repositories/service_repository.dart';
+import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/data/datasource/local_datasource.dart';
 
 abstract class IOnboardingRepository {
-  bool hasFinishedOnboarding();
+  bool shouldShowOnboarding();
 
   Future<void> setOnboardingStatus(bool status);
 }
@@ -10,22 +14,37 @@ abstract class IOnboardingRepository {
 @Singleton(as: IOnboardingRepository)
 class OnboardingRepository implements IOnboardingRepository {
   final ILocalDataSource _source;
+  final ICompanyRepository _companyRepository;
+  final IBankRepository _bankRepository;
+  final IServiceRepository _serviceRepository;
 
-  OnboardingRepository(this._source);
+  OnboardingRepository(
+    this._source,
+    this._companyRepository,
+    this._bankRepository,
+    this._serviceRepository,
+  );
 
   @override
-  bool hasFinishedOnboarding() {
+  bool shouldShowOnboarding() {
     try {
-      var onboardingStatus = _source.getOnboardingStatus();
-      var companyInfo = _source.getCompanyInfo();
-      var address = companyInfo?.address;
-      if (address is String) {
-        throw Exception("Force migration");
+      CompanyInfo? companyInfo = _companyRepository.getCompanyInfo();
+      if (companyInfo == null || !companyInfo.isValid()) {
+        return true;
       }
-      return onboardingStatus;
+
+      if(_bankRepository.getBankInfo() == null) {
+        return true;
+      }
+
+      if(_serviceRepository.getServiceInfo() == null) {
+        return true;
+      }
+
+      return false;
     } catch (e) {
       _source.clearDB();
-      return false;
+      return true;
     }
   }
 

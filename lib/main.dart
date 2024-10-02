@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/core/di/di.dart';
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
-import 'package:ambush_app/src/domain/usecases/finished_onboarding.dart';
+import 'package:ambush_app/src/domain/usecases/show_onboarding.dart';
 
 import 'src/app.dart';
 import 'src/data/datasource/local_datasource.dart';
@@ -20,7 +20,7 @@ Future<void> main() async {
 @RoutePage()
 class MainPage extends StatelessWidget {
   MainPage({super.key});
-  final IFinishedOnboarding _hasFinishedOnboarding = getIt();
+  final IShowOnboarding _shouldShowOnboarding = getIt();
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class MainPage extends StatelessWidget {
   }
 
   void route(BuildContext context) {
-    if (_hasFinishedOnboarding.get()) {
-      context.router.replace(InvoiceListRoute());
-    } else {
+    if (_shouldShowOnboarding.get()) {
       context.router.replace(OnBoardingRoute());
+    } else {
+      context.router.replace(InvoiceListRoute());
     }
   }
 }
