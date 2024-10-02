@@ -12,7 +12,7 @@ import 'src/data/datasource/local_datasource.dart';
 Future<void> main() async {
   configureDependencies(Environment.prod);
   await getIt.get<ILocalDataSource>().initLocalDataSource();
-  // await getIt.get<MigrationUtils>().checkAndMigrateDbIfNeeded();
+  await getIt.get<MigrationUtils>().checkAndMigrateDbIfNeeded();
 
   runApp(App());
 }
