@@ -36,7 +36,7 @@
     flutter_test:
       sdk: flutter
 
-    flutter_lints: ^4.0.0
+    flutter_lints: ^5.0.0
     build_runner: ^2.4.11
     mobx_codegen: ^2.3.0
     injectable_generator: ^2.1.5
