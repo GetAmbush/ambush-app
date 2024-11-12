@@ -22,14 +22,17 @@ class ShareInvoice implements IShareInvoice {
     var pdf = _generateInvoiceUseCase.createPdf(invoice);
 
     if (kIsWeb) {
-      final bytes = await pdf.save() ;
+      final bytes = await pdf.save();
       var blob = web_file.Blob([bytes], 'application/pdf', 'native');
       web_file.AnchorElement(
         href: web_file.Url.createObjectUrlFromBlob(blob).toString(),
-      )..setAttribute("download", "invoice_${invoice.id}.pdf")..click();
-    } else if(Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
+      )
+        ..setAttribute("download", "invoice_${invoice.id}.pdf")
+        ..click();
+    } else if (Platform.isMacOS || Platform.isWindows || Platform.isLinux) {
       final filePath = await FilePicker.platform.saveFile(
         dialogTitle: "Save invoice",
+        type: FileType.custom,
         allowedExtensions: ['pdf'],
         fileName: "invoice_${invoice.id}.pdf",
       );
