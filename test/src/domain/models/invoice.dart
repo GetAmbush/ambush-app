@@ -1,9 +1,31 @@
+import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'models_mocks.dart';
 
 void main() {
   group('Invoice', () {
+        test('Given a complete address, when formattedAddress is called, then it should return the properly formatted address', () {
+      final address = CompanyAddress(
+        'R COMENDADOR TORLOGO',
+        'DAUNTRE SALA 1207',
+        'CAMBUI',
+        'CAMPINAS',
+        'SP',
+        'Brazil',
+        '13.025-270',
+      );
+      final companyInfo = testCompanyInfo.copyWith(address: address);
+      final invoice = testInvoice.copyWith(companyInfo: companyInfo);
+
+      final expectedAddress = '''R COMENDADOR TORLOGO DAUNTRE SALA 1207
+CAMBUI, CAMPINAS
+SP - Brazil
+Zip-code: 13.025-270\n''';
+
+      expect(invoice.formattedAddress(), expectedAddress);
+    });
+
     test('Given quantity 2.0 and price 50.0, when formattedQuantity is called, then it should return 2', () {
       final serviceInfo = testServiceInfo.copyWith(quantity: 2.0, price: 50.0);
       final invoice = testInvoice.copyWith(service: serviceInfo);
