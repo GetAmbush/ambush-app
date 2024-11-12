@@ -8,6 +8,7 @@ import 'package:ambush_app/src/presentation/invoice_list/invoice_dialogs.dart';
 import 'package:ambush_app/src/presentation/utils/share_invoice.dart';
 import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_flow.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:platform_local_notifications/platform_local_notifications.dart';
 
 import 'empty_list.dart';
 import 'invoice_list_item.dart';
@@ -22,6 +23,7 @@ class InvoiceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
         title: SvgPicture.asset(
@@ -68,23 +70,26 @@ class InvoiceListPage extends StatelessWidget {
           ),
         );
       }),
-      body: Observer(builder: (context) {
-        if (_viewModel.invoiceList.isEmpty) {
-          return EmptyList(
-            onAddClick: () {
-              _onAddClick(context);
-            },
-          );
-        } else {
-          return ListBody(
-            invoiceList: _viewModel.invoiceList,
-            hideMode: _viewModel.hideMode,
-            onDelete: (invoice) async {
-              await _viewModel.deleteInvoice(invoice);
-            },
-          );
-        }
-      }),
+      body: FutureBuilder(
+        future: _viewModel.fetchNotificationPermission(),
+        builder: (context, snapshot) => Observer(builder: (context) {
+          if (_viewModel.invoiceList.isEmpty) {
+            return EmptyList(
+              onAddClick: () {
+                _onAddClick(context);
+              },
+            );
+          } else {
+            return ListBody(
+              invoiceList: _viewModel.invoiceList,
+              hideMode: _viewModel.hideMode,
+              onDelete: (invoice) async {
+                await _viewModel.deleteInvoice(invoice);
+              },
+            );
+          }
+        }),
+      ),
     );
   }
 

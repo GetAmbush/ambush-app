@@ -4,6 +4,8 @@
 
 list(APPEND FLUTTER_PLUGIN_LIST
   dynamic_color
+  local_notifier
+  quick_notify_2
   share_plus
   url_launcher_windows
 )

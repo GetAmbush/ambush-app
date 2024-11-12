@@ -3,13 +3,17 @@ import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
 import 'package:ambush_app/src/domain/usecases/get_invoice_list.dart';
 import 'package:mobx/mobx.dart';
+import 'package:platform_local_notifications/platform_local_notifications.dart';
 
 part 'list_page_viewmodel.g.dart';
 
 @injectable
 class ListPageViewModel extends _ListPageViewModelBase
     with _$ListPageViewModel {
-  ListPageViewModel(super._getInvoiceList, super._deleteInvoice,);
+  ListPageViewModel(
+    super._getInvoiceList,
+    super._deleteInvoice,
+  );
 }
 
 abstract class _ListPageViewModelBase with Store {
@@ -53,6 +57,12 @@ abstract class _ListPageViewModelBase with Store {
   @action
   void toggleHideMode() {
     hideMode = !hideMode;
+  }
+
+  @action
+  Future fetchNotificationPermission() async {
+    bool? isAccepted = await PlatformNotifier.I.requestPermissions();
+    print("isAccepted $isAccepted");
   }
 
   void _observeChanges() {

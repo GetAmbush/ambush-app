@@ -1,3 +1,7 @@
+import 'dart:async';
+
+import 'package:ambush_app/src/data/models/hive_day_time.dart';
+import 'package:ambush_app/src/domain/models/day_time.dart';
 import 'package:injectable/injectable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
@@ -19,6 +23,7 @@ const _keyClientInfo = 'clientInfo';
 const _keyInvoiceList = 'invoiceList';
 const _keyOnboardingStatus = 'onboardingStatus';
 const _keyInfoAlertStatus = 'infoAlertStatus';
+const _keyNotificationTime = 'notificationTime';
 
 abstract class ILocalDataSource {
   Future initLocalDataSource();
@@ -41,6 +46,8 @@ abstract class ILocalDataSource {
 
   bool getInfoAlertStatus();
 
+  HiveDayTime getNotificationTime();
+
   Future<void> deleteInvoice(Invoice invoice);
 
   Future<void> saveClientInfo(HiveClientInfo value);
@@ -56,6 +63,8 @@ abstract class ILocalDataSource {
   Future<void> saveOnboardingStatus(bool status);
 
   Future<void> saveInfoAlertStatus(bool status);
+
+  Future<void> saveNotificationTime(DayTime time);
 
   Future get(String key);
 
@@ -111,6 +120,13 @@ class LocalDataSource implements ILocalDataSource {
   }
 
   @override
+  HiveDayTime getNotificationTime() {
+    HiveDayTime time =
+        _appBox.get(_keyNotificationTime, defaultValue: HiveDayTime());
+    return time;
+  }
+
+  @override
   Future<void> saveCompanyInfo(HiveCompanyInfo value) =>
       _appBox.put(_keyCompanyInfo, value);
 
@@ -137,6 +153,11 @@ class LocalDataSource implements ILocalDataSource {
         hiveList.map((e) => HiveInvoice.fromInvoice(e)).toList(),
       ),
     );
+  }
+
+  @override
+  Future<void> saveNotificationTime(DayTime time) async {
+    return _appBox.put(_keyNotificationTime, HiveDayTime.fromDomainModel(time));
   }
 
   @override
@@ -187,7 +208,7 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   int getDbVersion() {
-    if(_appBox.containsKey(_keyDbVersion)) {
+    if (_appBox.containsKey(_keyDbVersion)) {
       return _appBox.get(_keyDbVersion);
     } else {
       return 1;
