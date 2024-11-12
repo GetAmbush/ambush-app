@@ -89,6 +89,7 @@ class LocalDataSource implements ILocalDataSource {
     Hive.registerAdapter(HiveInvoiceAdapter());
     Hive.registerAdapter(HiveInvoiceListAdapter());
     Hive.registerAdapter(HiveCompanyAddressAdapter());
+    Hive.registerAdapter(HiveDayTimeAdapter());
 
     _appBox = await _getAppBox();
   }
@@ -157,7 +158,8 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   Future<void> saveNotificationTime(DayTime time) async {
-    return _appBox.put(_keyNotificationTime, HiveDayTime.fromDomainModel(time));
+    var hiveDayTime = HiveDayTime.fromDomainModel(time);
+    return _appBox.put(_keyNotificationTime, hiveDayTime);
   }
 
   @override

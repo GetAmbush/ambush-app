@@ -30,30 +30,37 @@ abstract class _NotificationTimeViewModelBase with Store {
   final hourController = TextEditingController();
   final minuteController = TextEditingController();
 
-  int? _day;
-  int? _hour;
-  int? _minute;
+  @observable
+  int? day;
+
+  @observable
+  int? hour;
+
+  @observable
+  int? minute;
 
   @action
   void didSelectDay(int day) {
-    _day = day;
+    this.day = day;
     dayController.text = day.toString();
   }
 
   @action
   void didSelectHour(int hour) {
-    _hour = hour;
+    this.hour = hour;
     hourController.text = hour.toString();
   }
 
   @action
   void didSelectMinute(int minute) {
-    _minute = minute;
+    this.minute = minute;
     minuteController.text = minute.toString();
   }
 
-  DayTime get _notificationTime => DayTime(_day ?? 1, _hour ?? 0, _minute ?? 0);
+  DayTime get _notificationTime => DayTime(day ?? 1, hour ?? 0, minute ?? 0);
 
-  Future<void> saveInfo() async =>
-      await _saveNotificationTime.save(_notificationTime);
+  Future<void> saveInfo() async {
+    print("save info");
+    await _saveNotificationTime.save(_notificationTime);
+  }
 }
