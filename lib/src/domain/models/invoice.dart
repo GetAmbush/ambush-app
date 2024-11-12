@@ -32,14 +32,12 @@ class Invoice {
   }
 
   String formattedPrice(String symbol) {
-    return NumberFormat.currency(locale: 'en_US', symbol: symbol)
-        .format(service.price);
+    return NumberFormat.currency(locale: 'en_US', symbol: symbol).format(service.price);
   }
 
   String formattedTotalPrice(String symbol) {
     final totalPrice = service.price * service.quantity;
-    return NumberFormat.currency(locale: 'en_US', symbol: symbol)
-        .format(totalPrice);
+    return NumberFormat.currency(locale: 'en_US', symbol: symbol).format(totalPrice);
   }
 
   String formattedAddress() {
