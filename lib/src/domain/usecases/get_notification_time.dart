@@ -6,7 +6,7 @@ abstract class IGetNotificationTime {
   DayTime get();
 }
 
-@Singleton(as: IGetNotificationTime)
+@Injectable(as: IGetNotificationTime)
 class GetNotificationTime implements IGetNotificationTime {
   final INotificationRepository _repository;
 

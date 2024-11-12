@@ -75,6 +75,21 @@ class SettingsPage extends StatelessWidget {
                 );
               },
             ),
+            const Divider(indent: regularMargin, endIndent: regularMargin),
+            SettingsItem(
+              title: "Monthly notification",
+              subtitle:
+                  "Set a specific time in the month to receive a notification to send your invoice",
+              onClick: () {
+                context.router.push(
+                  NotificationTimeRoute(
+                    flow: SettingsNavigationFlow(context.router),
+                    screenConfig: pageConfig,
+                  ),
+                );
+              },
+            ),
+            const Divider(indent: regularMargin, endIndent: regularMargin),
           ],
         );
       }),
