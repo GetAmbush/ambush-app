@@ -3,6 +3,19 @@ import 'package:ambush_app/src/domain/models/comp_info.dart';
 
 part 'hive_company_info.g.dart';
 
+const _keyStreet = 'street';
+const _keyAddress = 'address';
+const _keyEmail = 'email';
+const _keyOwnerName = 'owner_name';
+const _keyCnpj = 'cnpj';
+const _keyName = 'name';
+const _keyExtraInfo = 'extra_info';
+const _keyNeighbourhood = 'neighbourhood';
+const _keyCity = 'city';
+const _keyState = 'state';
+const _keyCountry = 'country';
+const _keyZipcode = 'zipcode';
+
 @HiveType(typeId: 1)
 class HiveCompanyInfo extends HiveObject {
   @HiveField(0)
@@ -47,12 +60,22 @@ class HiveCompanyInfo extends HiveObject {
       );
 
   Map<String, dynamic> toJson() => {
-        'name': name,
-        'address': address?.toJson(),
-        'email': email,
-        'owner_name': ownerName,
-        'cnpj': cnpj
+        _keyName: name,
+        _keyAddress: address?.toJson(),
+        _keyEmail: email,
+        _keyOwnerName: ownerName,
+        _keyCnpj: cnpj
       };
+
+  factory HiveCompanyInfo.fromJson(
+          Map<String, dynamic> json) =>
+      HiveCompanyInfo(
+          json[_keyName].toString(),
+          HiveCompanyAddress.fromJson(
+              json[_keyAddress] as Map<String, dynamic>),
+          json[_keyEmail].toString(),
+          json[_keyOwnerName].toString(),
+          json[_keyCnpj].toString());
 }
 
 @HiveType(typeId: 7)
@@ -110,12 +133,22 @@ class HiveCompanyAddress extends HiveObject {
       );
 
   Map<String, dynamic> toJson() => {
-        'street': street,
-        'extra_info': extraInfo,
-        'neighbourhood': neighbourhood,
-        'city': city,
-        'state': state,
-        'country': country,
-        'zip_code': zipCode
+        _keyStreet: street,
+        _keyExtraInfo: extraInfo,
+        _keyNeighbourhood: neighbourhood,
+        _keyCity: city,
+        _keyState: state,
+        _keyCountry: country,
+        _keyZipcode: zipCode
       };
+
+  factory HiveCompanyAddress.fromJson(Map<String, dynamic> json) =>
+      HiveCompanyAddress(
+          json[_keyState].toString(),
+          json[_keyExtraInfo].toString(),
+          json[_keyNeighbourhood].toString(),
+          json[_keyCity].toString(),
+          json[_keyState].toString(),
+          json[_keyCountry].toString(),
+          json[_keyZipcode].toString());
 }

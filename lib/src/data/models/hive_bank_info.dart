@@ -4,6 +4,16 @@ import 'package:ambush_app/src/domain/models/bank_info.dart';
 
 part 'hive_bank_info.g.dart';
 
+const _keyBenefitiaryName = 'benefitiary_name';
+const _keyIban = 'iban';
+const _keySwift = 'swift';
+const _keyBankName = 'bank_name';
+const _keyBankAddress = 'bank_address';
+const _keyIntermediaryIban = 'intermediary_iban';
+const _keyIntermediarySwift = 'intermediary_swift';
+const _keyIntermediaryBankName = 'intermediary_bank_name';
+const _keyIntermediaryBankAddress = 'intermediary_bank_address';
+
 @HiveType(typeId: 2)
 class HiveBankInfo extends HiveObject {
   @HiveField(0)
@@ -84,14 +94,25 @@ class HiveBankInfo extends HiveObject {
   }
 
   Map<String, dynamic> toJson() => {
-        'benefitiary_name': beneficiaryName,
-        'iban': iban,
-        'swift': swift,
-        'bank_name': bankName,
-        'bank_address': bankAddress,
-        'intermediary_iban': intermediaryIban,
-        'intermediary_swift': intermediarySwift,
-        'intermediary_bank_address': intermediaryBankAddress,
-        'intermediary_bank_name': intermediaryBankName
+        _keyBenefitiaryName: beneficiaryName,
+        _keyIban: iban,
+        _keySwift: swift,
+        _keyBankName: bankName,
+        _keyBankAddress: bankAddress,
+        _keyIntermediaryIban: intermediaryIban,
+        _keyIntermediarySwift: intermediarySwift,
+        _keyIntermediaryBankAddress: intermediaryBankAddress,
+        _keyIntermediaryBankName: intermediaryBankName
       };
+
+  factory HiveBankInfo.fromJson(Map<String, dynamic> json) => HiveBankInfo(
+      json[_keyBenefitiaryName].toString(),
+      json[_keyIban].toString(),
+      json[_keySwift].toString(),
+      json[_keyBankName].toString(),
+      json[_keyBankAddress].toString(),
+      json[_keyIntermediaryIban].toString(),
+      json[_keyIntermediarySwift].toString(),
+      json[_keyIntermediaryBankName].toString(),
+      json[_keyIntermediaryBankAddress].toString());
 }

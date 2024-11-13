@@ -12,6 +12,16 @@ import 'hive_service_info.dart';
 
 part 'hive_invoice.g.dart';
 
+const _keyId = 'id';
+const _keyIssueDate = 'issue_date';
+const _keyDueDate = 'due_date';
+const _keyCreatedAt = 'created_at';
+const _keyUpdatedAt = 'updated_at';
+const _keyServiceInfo = 'service_info';
+const _keyBankInfo = 'bank_info';
+const _keyCompanyInfo = 'company_info';
+const _keyClientInfo = 'client_info';
+
 @HiveType(typeId: 5)
 class HiveInvoice extends HiveObject {
   // Invoice basic info
@@ -107,13 +117,24 @@ class HiveInvoice extends HiveObject {
       );
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'issue_date': issueDate,
-        'due_date': dueDate,
-        'service_info': serviceInfo.toJson(),
-        'company_info': companyInfo.toJson(),
-        'client_info': clientInfo.toJson(),
-        'created_at': createdAt,
-        'updated_at': updatedAt,
+        _keyId: id,
+        _keyIssueDate: issueDate,
+        _keyDueDate: dueDate,
+        _keyServiceInfo: serviceInfo.toJson(),
+        _keyCompanyInfo: companyInfo.toJson(),
+        _keyClientInfo: clientInfo.toJson(),
+        _keyCreatedAt: createdAt,
+        _keyUpdatedAt: updatedAt,
       };
+
+  factory HiveInvoice.fromJson(Map<String, dynamic> json) => HiveInvoice(
+      json[_keyId] as int,
+      json[_keyIssueDate] as int,
+      json[_keyDueDate] as int,
+      json[_keyCreatedAt] as int,
+      json[_keyUpdatedAt] as int,
+      HiveServiceInfo.fromJson(json[_keyServiceInfo] as Map<String, dynamic>),
+      HiveCompanyInfo.fromJson(json[_keyCompanyInfo] as Map<String, dynamic>),
+      HiveClientInfo.fromJson(json[_keyClientInfo] as Map<String, dynamic>),
+      HiveBankInfo.fromJson(json[_keyBankInfo] as Map<String, dynamic>));
 }

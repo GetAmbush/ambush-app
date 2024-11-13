@@ -3,6 +3,9 @@ import 'package:ambush_app/src/domain/models/client_info.dart';
 
 part 'hive_client_info.g.dart';
 
+const _keyName = 'name';
+const _keyAddress = 'address';
+
 @HiveType(typeId: 4)
 class HiveClientInfo extends HiveObject {
   @HiveField(0)
@@ -20,5 +23,8 @@ class HiveClientInfo extends HiveObject {
         clientInfo.address,
       );
 
-  Map<String, dynamic> toJson() => {'name': name, 'address': address};
+  Map<String, dynamic> toJson() => {_keyName: name, _keyAddress: address};
+
+  factory HiveClientInfo.fromJson(Map<String, dynamic> json) =>
+      HiveClientInfo(json[_keyName].toString(), json[_keyAddress].toString());
 }

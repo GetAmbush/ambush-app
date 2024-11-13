@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -70,6 +71,8 @@ abstract class ILocalDataSource {
   Stream<HiveCompanyInfo?> observeCompanyInfo();
 
   void saveBackup();
+
+  void retrieveBackup();
 }
 
 @Singleton(as: ILocalDataSource)
@@ -216,14 +219,44 @@ class LocalDataSource implements ILocalDataSource {
     final invoiceListJson = invoiceList.toJson();
 
     final json = {
-      'company_info': companyInfo,
-      'client_info': clientInfo,
-      'bank_info': bankInfo,
-      'invoice_list': invoiceListJson
+      _keyCompanyInfo: companyInfo,
+      _keyClientInfo: clientInfo,
+      _keyBankInfo: bankInfo,
+      _keyInvoiceList: invoiceListJson
     };
 
     final jsonString = jsonEncode(json);
     _downloadJsonString(jsonString, "invoice_data.json");
+  }
+
+  @override
+  void retrieveBackup() async {
+    final json = await _uploadJsonFile();
+    final companyInfo = (json?[_keyCompanyInfo] != null)
+        ? HiveCompanyInfo.fromJson(json?[_keyCompanyInfo])
+        : null;
+    final clientInfo = (json?[_keyClientInfo] != null)
+        ? HiveClientInfo.fromJson(json?[_keyClientInfo])
+        : null;
+    final serviceInfo = (json?[_keyServiceInfo] != null)
+        ? HiveServiceInfo.fromJson(json?[_keyServiceInfo])
+        : null;
+    final bankInfo = (json?[_keyBankInfo] != null)
+        ? HiveBankInfo.fromJson(json?[_keyBankInfo])
+        : null;
+    final invoiceList = (json?[_keyInvoiceList] != null)
+        ? HiveInvoiceList.fromJson(json?[_keyInvoiceList])
+        : null;
+
+    if (companyInfo != null) saveCompanyInfo(companyInfo);
+    if (clientInfo != null) saveClientInfo(clientInfo);
+    if (serviceInfo != null) saveServiceInfo(serviceInfo);
+    if (bankInfo != null) saveBankInfo(bankInfo);
+
+    if (invoiceList != null) {
+      _saveInvoiceList(
+          invoiceList.invoiceList.map((elem) => elem.toInvoice()).toList());
+    }
   }
 
   void _downloadJsonString(String content, String fileName) {
@@ -231,11 +264,54 @@ class LocalDataSource implements ILocalDataSource {
     final blob = html.Blob([bytes]);
     final url = html.Url.createObjectUrlFromBlob(blob);
 
-    final anchor = html.AnchorElement(href: url)
+    html.AnchorElement(href: url)
       ..setAttribute("download", fileName)
       ..click();
 
     // Clean up the created object URL to free memory
     html.Url.revokeObjectUrl(url);
   }
+
+  Future<Map<String, dynamic>?> _uploadJsonFile() async {
+    // Create a completer to return the result asynchronously
+    final Completer<Map<String, dynamic>?> completer = Completer();
+
+    // Create an HTML file input element
+    final html.FileUploadInputElement input = html.FileUploadInputElement()
+      ..accept = '.json'; // Only allow JSON files
+
+    // Trigger the file selection dialog
+    input.click();
+
+    // Listen for the file selection event
+    input.onChange.listen((e) async {
+      final file = input.files!.first; // Get the first selected file
+      final reader = html.FileReader();
+
+      // Listen for the file to be read and loaded
+      reader.onLoadEnd.listen((e) {
+        try {
+          // The file is loaded, we can now read the content
+          final jsonString = reader.result as String;
+
+          // Parse the content as JSON
+          final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
+          completer.complete(jsonData); // Complete with the parsed JSON
+        } catch (error) {
+          print('Error parsing JSON: $error');
+          completer
+              .completeError(error); // Complete with an error if parsing fails
+        }
+      });
+
+      // Read the file as text (the JSON content)
+      reader.readAsText(file);
+    });
+
+    return completer
+        .future; // Return the future, which will complete with the JSON data
+  }
+
+  void _saveInvoiceList(List<Invoice> list) =>
+      list.forEach((item) => saveInvoice(item));
 }
