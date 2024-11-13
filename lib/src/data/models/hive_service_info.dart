@@ -49,4 +49,13 @@ class HiveServiceInfo extends HiveObject {
         serviceInfo.currency.cc,
         serviceInfo.price,
       );
+
+  Map<String, dynamic> toJson() => {
+        'description': description,
+        'quantity': quantity,
+        'currency_name': currencyName,
+        'currency_symbol': currencySymbol,
+        'currency_cc': currencyCC,
+        'price': price
+      };
 }

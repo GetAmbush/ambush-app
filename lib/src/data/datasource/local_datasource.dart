@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
@@ -9,6 +12,7 @@ import 'package:ambush_app/src/data/models/hive_service_info.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 
 import '../../domain/models/ambush_info.dart';
+import 'dart:html' as html;
 
 const _appBoxName = 'AppBox';
 const _keyDbVersion = 'dbVersion';
@@ -64,6 +68,8 @@ abstract class ILocalDataSource {
   Stream<List<Invoice>> observeInvoiceList();
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
+
+  void saveBackup();
 }
 
 @Singleton(as: ILocalDataSource)
@@ -187,7 +193,7 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   int getDbVersion() {
-    if(_appBox.containsKey(_keyDbVersion)) {
+    if (_appBox.containsKey(_keyDbVersion)) {
       return _appBox.get(_keyDbVersion);
     } else {
       return 1;
@@ -197,5 +203,39 @@ class LocalDataSource implements ILocalDataSource {
   @override
   Future setDbVersion(int version) async {
     await _appBox.put(_keyDbVersion, version);
+  }
+
+  @override
+  void saveBackup() {
+    final companyInfo = getCompanyInfo()?.toJson();
+    final clientInfo = getClientInfo().toJson();
+    final bankInfo = getBankInfo()?.toJson();
+    final HiveInvoiceList invoiceList =
+        _appBox.get(_keyInvoiceList, defaultValue: HiveInvoiceList([]));
+
+    final invoiceListJson = invoiceList.toJson();
+
+    final json = {
+      'company_info': companyInfo,
+      'client_info': clientInfo,
+      'bank_info': bankInfo,
+      'invoice_list': invoiceListJson
+    };
+
+    final jsonString = jsonEncode(json);
+    _downloadJsonString(jsonString, "invoice_data.json");
+  }
+
+  void _downloadJsonString(String content, String fileName) {
+    final bytes = utf8.encode(content);
+    final blob = html.Blob([bytes]);
+    final url = html.Url.createObjectUrlFromBlob(blob);
+
+    final anchor = html.AnchorElement(href: url)
+      ..setAttribute("download", fileName)
+      ..click();
+
+    // Clean up the created object URL to free memory
+    html.Url.revokeObjectUrl(url);
   }
 }

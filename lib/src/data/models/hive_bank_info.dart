@@ -82,4 +82,16 @@ class HiveBankInfo extends HiveObject {
 
     return BankInfo(beneficiaryName, mainBank, intermediaryBank);
   }
+
+  Map<String, dynamic> toJson() => {
+        'benefitiary_name': beneficiaryName,
+        'iban': iban,
+        'swift': swift,
+        'bank_name': bankName,
+        'bank_address': bankAddress,
+        'intermediary_iban': intermediaryIban,
+        'intermediary_swift': intermediarySwift,
+        'intermediary_bank_address': intermediaryBankAddress,
+        'intermediary_bank_name': intermediaryBankName
+      };
 }

@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/designsystem/buttons.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -44,6 +45,12 @@ class InvoiceListPage extends StatelessWidget {
             );
           }),
           IconButton(
+            icon: const Icon(Icons.download),
+            onPressed: () {
+              _onSaveBackupClick();
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               context.router.push(const SettingsRoute());
@@ -74,6 +81,7 @@ class InvoiceListPage extends StatelessWidget {
             onAddClick: () {
               _onAddClick(context);
             },
+            onSaveBackupClick: _onSaveBackupClick,
           );
         } else {
           return ListBody(
@@ -92,6 +100,10 @@ class InvoiceListPage extends StatelessWidget {
     final navigator = context.router;
     final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
+  }
+
+  void _onSaveBackupClick() {
+    _viewModel.saveApplicationBackup();
   }
 }
 

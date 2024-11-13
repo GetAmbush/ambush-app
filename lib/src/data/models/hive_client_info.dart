@@ -19,4 +19,6 @@ class HiveClientInfo extends HiveObject {
         clientInfo.name,
         clientInfo.address,
       );
+
+  Map<String, dynamic> toJson() => {'name': name, 'address': address};
 }

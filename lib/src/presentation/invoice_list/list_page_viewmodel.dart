@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/domain/usecases/save_backup.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
@@ -9,16 +10,22 @@ part 'list_page_viewmodel.g.dart';
 @injectable
 class ListPageViewModel extends _ListPageViewModelBase
     with _$ListPageViewModel {
-  ListPageViewModel(super._getInvoiceList, super._deleteInvoice,);
+  ListPageViewModel(
+    super._getInvoiceList,
+    super._deleteInvoice,
+    super._saveBackup,
+  );
 }
 
 abstract class _ListPageViewModelBase with Store {
   final IGetInvoiceList _getInvoiceList;
   final IDeleteInvoice _deleteInvoice;
+  final ISaveBackup _saveBackup;
 
   _ListPageViewModelBase(
     this._getInvoiceList,
     this._deleteInvoice,
+    this._saveBackup,
   ) {
     // Get initial value
     updateList(_getInvoiceList.get());
@@ -54,6 +61,8 @@ abstract class _ListPageViewModelBase with Store {
   void toggleHideMode() {
     hideMode = !hideMode;
   }
+
+  void saveApplicationBackup() => _saveBackup.save();
 
   void _observeChanges() {
     _getInvoiceList.observe().listen((event) {

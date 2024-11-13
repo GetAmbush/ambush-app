@@ -105,4 +105,15 @@ class HiveInvoice extends HiveObject {
         createdAt,
         updatedAt,
       );
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'issue_date': issueDate,
+        'due_date': dueDate,
+        'service_info': serviceInfo.toJson(),
+        'company_info': companyInfo.toJson(),
+        'client_info': clientInfo.toJson(),
+        'created_at': createdAt,
+        'updated_at': updatedAt,
+      };
 }

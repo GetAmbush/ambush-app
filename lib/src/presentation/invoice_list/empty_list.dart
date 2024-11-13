@@ -3,9 +3,11 @@ import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
 
 class EmptyList extends StatelessWidget {
-  const EmptyList({super.key, required this.onAddClick});
+  const EmptyList(
+      {super.key, required this.onAddClick, required this.onSaveBackupClick});
 
   final VoidCallback onAddClick;
+  final VoidCallback onSaveBackupClick;
 
   @override
   Widget build(BuildContext context) {
@@ -40,6 +42,11 @@ class EmptyList extends StatelessWidget {
                 text: "Create invoice",
                 onPressed: onAddClick,
               ),
+              const SizedBox(
+                height: 8,
+              ),
+              SecondaryButton(
+                  text: "Save back up", onPressed: onSaveBackupClick),
             ],
           ),
         ),

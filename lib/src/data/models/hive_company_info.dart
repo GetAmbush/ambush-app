@@ -45,6 +45,14 @@ class HiveCompanyInfo extends HiveObject {
         ownerName,
         cnpj,
       );
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'address': address?.toJson(),
+        'email': email,
+        'owner_name': ownerName,
+        'cnpj': cnpj
+      };
 }
 
 @HiveType(typeId: 7)
@@ -100,4 +108,14 @@ class HiveCompanyAddress extends HiveObject {
         country,
         zipCode,
       );
+
+  Map<String, dynamic> toJson() => {
+        'street': street,
+        'extra_info': extraInfo,
+        'neighbourhood': neighbourhood,
+        'city': city,
+        'state': state,
+        'country': country,
+        'zip_code': zipCode
+      };
 }

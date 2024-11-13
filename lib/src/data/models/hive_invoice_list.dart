@@ -10,4 +10,7 @@ class HiveInvoiceList extends HiveObject {
   List<HiveInvoice> invoiceList;
 
   HiveInvoiceList(this.invoiceList);
+
+  Map<String, dynamic> toJson() =>
+      {'invoice_list': invoiceList.map((value) => value.toJson()).toList()};
 }
