@@ -28,7 +28,7 @@ class BankInfoPage extends StatelessWidget {
     return Observer(builder: (context) {
       return BaseSettingsPage(
         title: "Bank information",
-        infoText: "Fill in the form with your company's banking information",
+        infoText: "Enter your company’s bank account details. This information will be used to process payments for the services you've provided",
         buttonText: screenConfig.ctaText,
         onButtonPressed: () async {
           await _onNextClicked();
