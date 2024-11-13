@@ -42,11 +42,6 @@ class EmptyList extends StatelessWidget {
                 text: "Create invoice",
                 onPressed: onAddClick,
               ),
-              const SizedBox(
-                height: 8,
-              ),
-              SecondaryButton(
-                  text: "Save back up", onPressed: onSaveBackupClick),
             ],
           ),
         ),
