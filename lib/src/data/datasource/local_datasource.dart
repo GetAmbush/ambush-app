@@ -70,9 +70,9 @@ abstract class ILocalDataSource {
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
 
-  Future<void> saveBackup();
+  Future<bool> saveBackup();
 
-  Future<void> retrieveBackup();
+  Future<bool> retrieveBackup();
 }
 
 @Singleton(as: ILocalDataSource)
@@ -209,7 +209,7 @@ class LocalDataSource implements ILocalDataSource {
   }
 
   @override
-  Future<void> saveBackup() async {
+  Future<bool> saveBackup() async {
     final companyInfo = getCompanyInfo()?.toJson();
     final clientInfo = getClientInfo().toJson();
     final bankInfo = getBankInfo()?.toJson();
@@ -236,37 +236,47 @@ class LocalDataSource implements ILocalDataSource {
       json[_keyServiceInfo] = serviceInfo;
     }
 
-    final jsonString = jsonEncode(json);
-    _downloadJsonString(jsonString, "invoice_data.json");
+    try {
+      final jsonString = jsonEncode(json);
+      _downloadJsonString(jsonString, "invoice_data.json");
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
-  Future<void> retrieveBackup() async {
-    final json = await _uploadJsonFile();
-    final companyInfo = (json?[_keyCompanyInfo] != null)
-        ? HiveCompanyInfo.fromJson(json?[_keyCompanyInfo])
-        : null;
-    final clientInfo = (json?[_keyClientInfo] != null)
-        ? HiveClientInfo.fromJson(json?[_keyClientInfo])
-        : null;
-    final serviceInfo = (json?[_keyServiceInfo] != null)
-        ? HiveServiceInfo.fromJson(json?[_keyServiceInfo])
-        : null;
-    final bankInfo = (json?[_keyBankInfo] != null)
-        ? HiveBankInfo.fromJson(json?[_keyBankInfo])
-        : null;
-    final invoiceList = (json?[_keyInvoiceList] != null)
-        ? HiveInvoiceList.fromJson(json?[_keyInvoiceList])
-        : null;
+  Future<bool> retrieveBackup() async {
+    try {
+      final json = await _uploadJsonFile();
+      final companyInfo = (json?[_keyCompanyInfo] != null)
+          ? HiveCompanyInfo.fromJson(json?[_keyCompanyInfo])
+          : null;
+      final clientInfo = (json?[_keyClientInfo] != null)
+          ? HiveClientInfo.fromJson(json?[_keyClientInfo])
+          : null;
+      final serviceInfo = (json?[_keyServiceInfo] != null)
+          ? HiveServiceInfo.fromJson(json?[_keyServiceInfo])
+          : null;
+      final bankInfo = (json?[_keyBankInfo] != null)
+          ? HiveBankInfo.fromJson(json?[_keyBankInfo])
+          : null;
+      final invoiceList = (json?[_keyInvoiceList] != null)
+          ? HiveInvoiceList.fromJson(json?[_keyInvoiceList])
+          : null;
 
-    if (companyInfo != null) saveCompanyInfo(companyInfo);
-    if (clientInfo != null) saveClientInfo(clientInfo);
-    if (serviceInfo != null) saveServiceInfo(serviceInfo);
-    if (bankInfo != null) saveBankInfo(bankInfo);
+      if (companyInfo != null) saveCompanyInfo(companyInfo);
+      if (clientInfo != null) saveClientInfo(clientInfo);
+      if (serviceInfo != null) saveServiceInfo(serviceInfo);
+      if (bankInfo != null) saveBankInfo(bankInfo);
 
-    if (invoiceList != null) {
-      _saveInvoiceList(
-          invoiceList.invoiceList.map((elem) => elem.toInvoice()).toList());
+      if (invoiceList != null) {
+        _saveInvoiceList(
+            invoiceList.invoiceList.map((elem) => elem.toInvoice()).toList());
+      }
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
@@ -279,47 +289,33 @@ class LocalDataSource implements ILocalDataSource {
       ..setAttribute("download", fileName)
       ..click();
 
-    // Clean up the created object URL to free memory
     html.Url.revokeObjectUrl(url);
   }
 
   Future<Map<String, dynamic>?> _uploadJsonFile() async {
-    // Create a completer to return the result asynchronously
     final Completer<Map<String, dynamic>?> completer = Completer();
-
-    // Create an HTML file input element
     final html.FileUploadInputElement input = html.FileUploadInputElement()
-      ..accept = '.json'; // Only allow JSON files
+      ..accept = '.json';
 
-    // Trigger the file selection dialog
     input.click();
 
-    // Listen for the file selection event
     input.onChange.listen((e) async {
-      final file = input.files!.first; // Get the first selected file
+      final file = input.files!.first;
       final reader = html.FileReader();
 
-      // Listen for the file to be read and loaded
       reader.onLoadEnd.listen((e) {
         try {
-          // The file is loaded, we can now read the content
           final jsonString = reader.result as String;
-
-          // Parse the content as JSON
           final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
-          completer.complete(jsonData); // Complete with the parsed JSON
+          completer.complete(jsonData);
         } catch (error) {
-          completer
-              .completeError(error); // Complete with an error if parsing fails
+          completer.completeError(error);
         }
       });
-
-      // Read the file as text (the JSON content)
       reader.readAsText(file);
     });
 
-    return completer
-        .future; // Return the future, which will complete with the JSON data
+    return completer.future;
   }
 
   Future<void> _saveInvoiceList(List<Invoice> list) async {

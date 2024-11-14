@@ -2,7 +2,7 @@ import 'package:ambush_app/src/data/repositories/backup_repository.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ISaveBackup {
-  Future<void> save();
+  Future<bool> save();
 }
 
 @Injectable(as: ISaveBackup)
@@ -12,5 +12,5 @@ class SaveBackup extends ISaveBackup {
   SaveBackup(this._backupRepository);
 
   @override
-  Future<void> save() async => await _backupRepository.saveBackup();
+  Future<bool> save() async => await _backupRepository.saveBackup();
 }

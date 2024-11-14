@@ -2,8 +2,8 @@ import 'package:ambush_app/src/data/datasource/local_datasource.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class IBackupRepository {
-  Future<void> saveBackup();
-  Future<void> retrieveBackup();
+  Future<bool> saveBackup();
+  Future<bool> retrieveBackup();
 }
 
 @Injectable(as: IBackupRepository)
@@ -13,9 +13,9 @@ class BackupRepository implements IBackupRepository {
   BackupRepository(this._localDataSource);
 
   @override
-  Future<void> saveBackup() async => await _localDataSource.saveBackup();
+  Future<bool> saveBackup() async => await _localDataSource.saveBackup();
 
   @override
-  Future<void> retrieveBackup() async =>
+  Future<bool> retrieveBackup() async =>
       await _localDataSource.retrieveBackup();
 }
