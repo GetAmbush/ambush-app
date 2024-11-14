@@ -1,3 +1,5 @@
+import 'package:ambush_app/src/designsystem/buttons.dart';
+import 'package:ambush_app/src/designsystem/error_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -44,6 +46,14 @@ class InvoiceListPage extends StatelessWidget {
             );
           }),
           IconButton(
+            icon: const Icon(Icons.upload),
+            onPressed: () => _onRetrieveBackupClick(context),
+          ),
+          IconButton(
+            icon: const Icon(Icons.download),
+            onPressed: () => _onSaveBackupClick(context),
+          ),
+          IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               context.router.push(const SettingsRoute());
@@ -70,11 +80,9 @@ class InvoiceListPage extends StatelessWidget {
       }),
       body: Observer(builder: (context) {
         if (_viewModel.invoiceList.isEmpty) {
-          return EmptyList(
-            onAddClick: () {
-              _onAddClick(context);
-            },
-          );
+          return EmptyList(onAddClick: () {
+            _onAddClick(context);
+          });
         } else {
           return ListBody(
             invoiceList: _viewModel.invoiceList,
@@ -92,6 +100,20 @@ class InvoiceListPage extends StatelessWidget {
     final navigator = context.router;
     final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
+  }
+
+  void _onSaveBackupClick(BuildContext context) async {
+    final success = await _viewModel.saveApplicationBackup();
+    if (!success && context.mounted) {
+      showErrorDialog(context);
+    }
+  }
+
+  void _onRetrieveBackupClick(BuildContext context) async {
+    bool isSuccess = await _viewModel.retrieveApplicationBackup();
+    if (!isSuccess && context.mounted) {
+      showErrorDialog(context);
+    }
   }
 }
 

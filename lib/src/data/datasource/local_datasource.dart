@@ -1,3 +1,7 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:injectable/injectable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
@@ -9,6 +13,7 @@ import 'package:ambush_app/src/data/models/hive_service_info.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 
 import '../../domain/models/ambush_info.dart';
+import 'dart:html' as html;
 
 const _appBoxName = 'AppBox';
 const _keyDbVersion = 'dbVersion';
@@ -64,6 +69,10 @@ abstract class ILocalDataSource {
   Stream<List<Invoice>> observeInvoiceList();
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
+
+  Future<bool> saveBackup();
+
+  Future<bool> retrieveBackup();
 }
 
 @Singleton(as: ILocalDataSource)
@@ -187,7 +196,7 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   int getDbVersion() {
-    if(_appBox.containsKey(_keyDbVersion)) {
+    if (_appBox.containsKey(_keyDbVersion)) {
       return _appBox.get(_keyDbVersion);
     } else {
       return 1;
@@ -197,5 +206,122 @@ class LocalDataSource implements ILocalDataSource {
   @override
   Future setDbVersion(int version) async {
     await _appBox.put(_keyDbVersion, version);
+  }
+
+  @override
+  Future<bool> saveBackup() async {
+    final companyInfo = getCompanyInfo()?.toJson();
+    final clientInfo = getClientInfo().toJson();
+    final bankInfo = getBankInfo()?.toJson();
+    final serviceInfo = getServiceInfo()?.toJson();
+    final HiveInvoiceList invoiceList =
+        _appBox.get(_keyInvoiceList, defaultValue: HiveInvoiceList([]));
+
+    final invoiceListJson = invoiceList.toJson();
+
+    Map<String, dynamic> json = {
+      _keyClientInfo: clientInfo,
+      _keyInvoiceList: invoiceListJson
+    };
+
+    if (companyInfo != null) {
+      json[_keyCompanyInfo] = companyInfo;
+    }
+
+    if (bankInfo != null) {
+      json[_keyBankInfo] = bankInfo;
+    }
+
+    if (serviceInfo != null) {
+      json[_keyServiceInfo] = serviceInfo;
+    }
+
+    try {
+      final jsonString = jsonEncode(json);
+      _downloadJsonString(jsonString, "invoice_data.json");
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool> retrieveBackup() async {
+    clearDB();
+    try {
+      final json = await _uploadJsonFile();
+      final companyInfo = (json?[_keyCompanyInfo] != null)
+          ? HiveCompanyInfo.fromJson(json?[_keyCompanyInfo])
+          : null;
+      final clientInfo = (json?[_keyClientInfo] != null)
+          ? HiveClientInfo.fromJson(json?[_keyClientInfo])
+          : null;
+      final serviceInfo = (json?[_keyServiceInfo] != null)
+          ? HiveServiceInfo.fromJson(json?[_keyServiceInfo])
+          : null;
+      final bankInfo = (json?[_keyBankInfo] != null)
+          ? HiveBankInfo.fromJson(json?[_keyBankInfo])
+          : null;
+      final invoiceList = (json?[_keyInvoiceList] != null)
+          ? HiveInvoiceList.fromJson(json?[_keyInvoiceList])
+          : null;
+
+      if (companyInfo != null) saveCompanyInfo(companyInfo);
+      if (clientInfo != null) saveClientInfo(clientInfo);
+      if (serviceInfo != null) saveServiceInfo(serviceInfo);
+      if (bankInfo != null) saveBankInfo(bankInfo);
+
+      if (invoiceList != null) {
+        _saveInvoiceList(
+            invoiceList.invoiceList.map((elem) => elem.toInvoice()).toList());
+      }
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  void _downloadJsonString(String content, String fileName) {
+    final bytes = utf8.encode(content);
+    final blob = html.Blob([bytes]);
+    final url = html.Url.createObjectUrlFromBlob(blob);
+
+    html.AnchorElement(href: url)
+      ..setAttribute("download", fileName)
+      ..click();
+
+    html.Url.revokeObjectUrl(url);
+  }
+
+  Future<Map<String, dynamic>?> _uploadJsonFile() async {
+    final Completer<Map<String, dynamic>?> completer = Completer();
+    final html.FileUploadInputElement input = html.FileUploadInputElement()
+      ..accept = '.json';
+
+    input.click();
+
+    input.onChange.listen((e) async {
+      final file = input.files!.first;
+      final reader = html.FileReader();
+
+      reader.onLoadEnd.listen((e) {
+        try {
+          final jsonString = reader.result as String;
+          final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
+          completer.complete(jsonData);
+        } catch (error) {
+          completer.completeError(error);
+        }
+      });
+      reader.readAsText(file);
+    });
+
+    return completer.future;
+  }
+
+  Future<void> _saveInvoiceList(List<Invoice> list) async {
+    for (var elem in list) {
+      await saveInvoice(elem);
+    }
   }
 }

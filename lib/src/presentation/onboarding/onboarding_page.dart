@@ -1,3 +1,5 @@
+import 'package:ambush_app/src/core/routes/app_route.gr.dart';
+import 'package:ambush_app/src/designsystem/error_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/di/di.dart';
@@ -24,34 +26,84 @@ class OnBoardingPage extends StatelessWidget {
         alignment: Alignment.center,
         child: Padding(
           padding: const EdgeInsets.all(regularMargin),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text(
-                'Welcome to the\nAmbush Invoice tool!',
-                style: textTheme.headlineSmall?.copyWith(
-                    color: colors.primary, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              Text(
-                'It seems like it is your first time here.',
-                style: textTheme.bodyMedium,
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 36),
-              PrimaryButton(
-                onPressed: () async {
-                  await _viewModel.finishOnboarding();
-                  final flow = OnBoardingNavigationFlow(navigator);
-                  flow.start();
-                },
-                text: 'Set my info',
-              ),
-            ],
-          ),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Text(
+              'Welcome to the\nAmbush Invoice tool!',
+              style: textTheme.headlineSmall?.copyWith(
+                  color: colors.primary, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              'It seems like it is your first time here.',
+              style: textTheme.bodyMedium,
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 36),
+            PrimaryButton(
+              onPressed: () async {
+                await _viewModel.finishOnboarding();
+                final flow = OnBoardingNavigationFlow(navigator);
+                flow.start();
+              },
+              text: 'Set my info',
+            ),
+            const SizedBox(
+              height: 16,
+            ),
+            _OrDivider(),
+            const SizedBox(
+              height: 16,
+            ),
+            SecondaryButton(
+                text: "Retrieve a back up",
+                onPressed: () => _onRetrieveBackUpClick(context)),
+          ]),
         ),
       ),
     );
+  }
+
+  void _onRetrieveBackUpClick(BuildContext context) async {
+    bool isBackupRecoverySuccess = await _viewModel.executeRetrieveBackup();
+    if (context.mounted) {
+      if (isBackupRecoverySuccess) {
+        _viewModel.finishOnboarding();
+        context.router.replace(InvoiceListRoute());
+      } else {
+        showErrorDialog(context);
+      }
+    }
+  }
+}
+
+class _OrDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      SizedBox(
+        width: 20,
+        child: Divider(
+          height: 1,
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      Text(
+        'Or',
+        style: TextStyle(color: Colors.white),
+        textAlign: TextAlign.center,
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      SizedBox(
+        width: 20,
+        child: Divider(
+          height: 1,
+        ),
+      )
+    ]);
   }
 }

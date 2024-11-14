@@ -4,6 +4,13 @@ import 'package:ambush_app/src/domain/models/service_info.dart';
 
 part 'hive_service_info.g.dart';
 
+const _keyDescription = 'description';
+const _keyQuantity = 'quantity';
+const _keyCurrencyName = 'currency_name';
+const _keyCurrencySymbol = 'currency_symbol';
+const _keyCurrencyCc = 'currency_cc';
+const _keyPrice = 'price';
+
 @HiveType(typeId: 3)
 class HiveServiceInfo extends HiveObject {
   @HiveField(0)
@@ -49,4 +56,22 @@ class HiveServiceInfo extends HiveObject {
         serviceInfo.currency.cc,
         serviceInfo.price,
       );
+
+  Map<String, dynamic> toJson() => {
+        _keyDescription: description,
+        _keyQuantity: quantity,
+        _keyCurrencyName: currencyName,
+        _keyCurrencySymbol: currencySymbol,
+        _keyCurrencyCc: currencyCC,
+        _keyPrice: price
+      };
+
+  factory HiveServiceInfo.fromJson(Map<String, dynamic> json) =>
+      HiveServiceInfo(
+          json[_keyDescription].toString(),
+          json[_keyQuantity] as double,
+          json[_keyCurrencyName].toString(),
+          json[_keyCurrencySymbol].toString(),
+          json[_keyCurrencyCc].toString(),
+          json[_keyPrice] as double);
 }
