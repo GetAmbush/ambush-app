@@ -1,4 +1,5 @@
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
+import 'package:ambush_app/src/designsystem/error_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/di/di.dart';
@@ -70,22 +71,9 @@ class OnBoardingPage extends StatelessWidget {
         _viewModel.finishOnboarding();
         context.router.replace(InvoiceListRoute());
       } else {
-        _showErrorDialog(context);
+        showErrorDialog(context);
       }
     }
-  }
-
-  Future<void> _showErrorDialog(BuildContext context) {
-    return showDialog<void>(
-        context: context,
-        builder: (context) => AlertDialog(
-              title: Text('Finished with an error'),
-              content: Text('There was an error formatting your backup file.'),
-              actions: [
-                PrimaryButton(
-                    text: 'Ok', onPressed: () => Navigator.pop(context))
-              ],
-            ));
   }
 }
 

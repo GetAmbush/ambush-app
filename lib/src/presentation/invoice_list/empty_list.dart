@@ -3,11 +3,12 @@ import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
 
 class EmptyList extends StatelessWidget {
-  const EmptyList(
-      {super.key, required this.onAddClick, required this.onSaveBackupClick});
+  const EmptyList({
+    super.key,
+    required this.onAddClick,
+  });
 
   final VoidCallback onAddClick;
-  final VoidCallback onSaveBackupClick;
 
   @override
   Widget build(BuildContext context) {

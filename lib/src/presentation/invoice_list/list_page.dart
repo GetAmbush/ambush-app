@@ -1,4 +1,5 @@
 import 'package:ambush_app/src/designsystem/buttons.dart';
+import 'package:ambush_app/src/designsystem/error_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -46,11 +47,11 @@ class InvoiceListPage extends StatelessWidget {
           }),
           IconButton(
             icon: const Icon(Icons.upload),
-            onPressed: _onRetrieveBackupClick,
+            onPressed: () => _onRetrieveBackupClick(context),
           ),
           IconButton(
             icon: const Icon(Icons.download),
-            onPressed: _onSaveBackupClick,
+            onPressed: () => _onSaveBackupClick(context),
           ),
           IconButton(
             icon: const Icon(Icons.settings),
@@ -79,12 +80,9 @@ class InvoiceListPage extends StatelessWidget {
       }),
       body: Observer(builder: (context) {
         if (_viewModel.invoiceList.isEmpty) {
-          return EmptyList(
-            onAddClick: () {
-              _onAddClick(context);
-            },
-            onSaveBackupClick: _onSaveBackupClick,
-          );
+          return EmptyList(onAddClick: () {
+            _onAddClick(context);
+          });
         } else {
           return ListBody(
             invoiceList: _viewModel.invoiceList,
@@ -104,10 +102,19 @@ class InvoiceListPage extends StatelessWidget {
     flow.start();
   }
 
-  void _onSaveBackupClick() async => await _viewModel.saveApplicationBackup();
+  void _onSaveBackupClick(BuildContext context) async {
+    final success = await _viewModel.saveApplicationBackup();
+    if (!success && context.mounted) {
+      showErrorDialog(context);
+    }
+  }
 
-  void _onRetrieveBackupClick() async =>
-      await _viewModel.retrieveApplicationBackup();
+  void _onRetrieveBackupClick(BuildContext context) async {
+    bool isSuccess = await _viewModel.retrieveApplicationBackup();
+    if (!isSuccess && context.mounted) {
+      showErrorDialog(context);
+    }
+  }
 }
 
 class ListBody extends StatelessWidget {
