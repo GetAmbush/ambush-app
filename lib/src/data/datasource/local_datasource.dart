@@ -70,9 +70,9 @@ abstract class ILocalDataSource {
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
 
-  void saveBackup();
+  Future<void> saveBackup();
 
-  void retrieveBackup();
+  Future<void> retrieveBackup();
 }
 
 @Singleton(as: ILocalDataSource)
@@ -209,28 +209,39 @@ class LocalDataSource implements ILocalDataSource {
   }
 
   @override
-  void saveBackup() {
+  Future<void> saveBackup() async {
     final companyInfo = getCompanyInfo()?.toJson();
     final clientInfo = getClientInfo().toJson();
     final bankInfo = getBankInfo()?.toJson();
+    final serviceInfo = getServiceInfo()?.toJson();
     final HiveInvoiceList invoiceList =
         _appBox.get(_keyInvoiceList, defaultValue: HiveInvoiceList([]));
 
     final invoiceListJson = invoiceList.toJson();
 
-    final json = {
-      _keyCompanyInfo: companyInfo,
+    Map<String, dynamic> json = {
       _keyClientInfo: clientInfo,
-      _keyBankInfo: bankInfo,
       _keyInvoiceList: invoiceListJson
     };
+
+    if (companyInfo != null) {
+      json[_keyCompanyInfo] = companyInfo;
+    }
+
+    if (bankInfo != null) {
+      json[_keyBankInfo] = bankInfo;
+    }
+
+    if (serviceInfo != null) {
+      json[_keyServiceInfo] = serviceInfo;
+    }
 
     final jsonString = jsonEncode(json);
     _downloadJsonString(jsonString, "invoice_data.json");
   }
 
   @override
-  void retrieveBackup() async {
+  Future<void> retrieveBackup() async {
     final json = await _uploadJsonFile();
     final companyInfo = (json?[_keyCompanyInfo] != null)
         ? HiveCompanyInfo.fromJson(json?[_keyCompanyInfo])
@@ -298,7 +309,6 @@ class LocalDataSource implements ILocalDataSource {
           final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
           completer.complete(jsonData); // Complete with the parsed JSON
         } catch (error) {
-          print('Error parsing JSON: $error');
           completer
               .completeError(error); // Complete with an error if parsing fails
         }
@@ -312,6 +322,9 @@ class LocalDataSource implements ILocalDataSource {
         .future; // Return the future, which will complete with the JSON data
   }
 
-  void _saveInvoiceList(List<Invoice> list) =>
-      list.forEach((item) => saveInvoice(item));
+  Future<void> _saveInvoiceList(List<Invoice> list) async {
+    for (var elem in list) {
+      await saveInvoice(elem);
+    }
+  }
 }

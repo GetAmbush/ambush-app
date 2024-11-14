@@ -123,6 +123,7 @@ class HiveInvoice extends HiveObject {
         _keyServiceInfo: serviceInfo.toJson(),
         _keyCompanyInfo: companyInfo.toJson(),
         _keyClientInfo: clientInfo.toJson(),
+        _keyBankInfo: bankInfo.toJson(),
         _keyCreatedAt: createdAt,
         _keyUpdatedAt: updatedAt,
       };

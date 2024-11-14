@@ -111,8 +111,16 @@ class HiveBankInfo extends HiveObject {
       json[_keySwift].toString(),
       json[_keyBankName].toString(),
       json[_keyBankAddress].toString(),
-      json[_keyIntermediaryIban].toString(),
-      json[_keyIntermediarySwift].toString(),
-      json[_keyIntermediaryBankName].toString(),
-      json[_keyIntermediaryBankAddress].toString());
+      (json[_keyIntermediaryIban] != null)
+          ? json[_keyIntermediaryIban].toString()
+          : null,
+      (json[_keyIntermediarySwift] != null)
+          ? json[_keyIntermediarySwift].toString()
+          : null,
+      (json[_keyIntermediaryBankName] != null)
+          ? json[_keyIntermediaryBankName].toString()
+          : null,
+      (json[_keyIntermediaryBankAddress] != null)
+          ? json[_keyIntermediaryBankAddress].toString()
+          : null);
 }

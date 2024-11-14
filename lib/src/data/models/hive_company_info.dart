@@ -67,15 +67,16 @@ class HiveCompanyInfo extends HiveObject {
         _keyCnpj: cnpj
       };
 
-  factory HiveCompanyInfo.fromJson(
-          Map<String, dynamic> json) =>
+  factory HiveCompanyInfo.fromJson(Map<String, dynamic> json) =>
       HiveCompanyInfo(
           json[_keyName].toString(),
-          HiveCompanyAddress.fromJson(
-              json[_keyAddress] as Map<String, dynamic>),
+          (json[_keyAddress] != null)
+              ? HiveCompanyAddress.fromJson(
+                  json[_keyAddress] as Map<String, dynamic>)
+              : null,
           json[_keyEmail].toString(),
           json[_keyOwnerName].toString(),
-          json[_keyCnpj].toString());
+          (json[_keyCnpj] != null) ? json[_keyCnpj].toString() : null);
 }
 
 @HiveType(typeId: 7)
@@ -145,7 +146,7 @@ class HiveCompanyAddress extends HiveObject {
   factory HiveCompanyAddress.fromJson(Map<String, dynamic> json) =>
       HiveCompanyAddress(
           json[_keyState].toString(),
-          json[_keyExtraInfo].toString(),
+          (json[_keyExtraInfo] != null) ? json[_keyExtraInfo].toString() : null,
           json[_keyNeighbourhood].toString(),
           json[_keyCity].toString(),
           json[_keyState].toString(),

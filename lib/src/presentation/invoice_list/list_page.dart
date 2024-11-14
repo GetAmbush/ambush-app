@@ -45,10 +45,12 @@ class InvoiceListPage extends StatelessWidget {
             );
           }),
           IconButton(
+            icon: const Icon(Icons.upload),
+            onPressed: _onRetrieveBackupClick,
+          ),
+          IconButton(
             icon: const Icon(Icons.download),
-            onPressed: () {
-              _onSaveBackupClick();
-            },
+            onPressed: _onSaveBackupClick,
           ),
           IconButton(
             icon: const Icon(Icons.settings),
@@ -102,9 +104,10 @@ class InvoiceListPage extends StatelessWidget {
     flow.start();
   }
 
-  void _onSaveBackupClick() {
-    _viewModel.saveApplicationBackup();
-  }
+  void _onSaveBackupClick() async => await _viewModel.saveApplicationBackup();
+
+  void _onRetrieveBackupClick() async =>
+      await _viewModel.retrieveApplicationBackup();
 }
 
 class ListBody extends StatelessWidget {
