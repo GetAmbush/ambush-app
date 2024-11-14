@@ -21,7 +21,6 @@ class BaseSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(title: Text(title)),
       body: ListView(
@@ -35,9 +34,7 @@ class BaseSettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 36),
               child: Text(
                 infoText!,
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.primary,
-                ),
+                style: textTheme.titleMedium?.copyWith(),
               ),
             ),
           form,

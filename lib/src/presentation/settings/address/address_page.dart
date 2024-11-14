@@ -25,7 +25,7 @@ class AddressPage extends StatelessWidget {
         return BaseSettingsPage(
           title: "Company Address",
           infoText:
-              "With your information as a contractor, fill the details below",
+              "Now we need to know where your company is located. Please provide the business address of your company, not the company that hired you",
           buttonText: screenConfig.ctaText,
           onButtonPressed: () async {
             await onNextStepClick();

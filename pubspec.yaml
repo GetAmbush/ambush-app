@@ -131,6 +131,7 @@
       - assets/extended_logo.svg
       - assets/currency.json
       - assets/icons/
+      - assets/illustration_success.png
 
   #Font mapping -------------------
   #FontWeight.w100: 'Thin',

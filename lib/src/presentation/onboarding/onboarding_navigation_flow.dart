@@ -51,8 +51,11 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
         );
         break;
       case ServiceInfoRoute.name:
-        _router.replaceAll([InvoiceListRoute()]);
+        _router.push(OnboardingSuccessRoute());
         break;
+
+      case OnboardingSuccessRoute.name:
+        _router.push(InvoiceListRoute());
     }
   }
 
