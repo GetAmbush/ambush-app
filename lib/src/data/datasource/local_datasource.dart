@@ -247,6 +247,7 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   Future<bool> retrieveBackup() async {
+    clearDB();
     try {
       final json = await _uploadJsonFile();
       final companyInfo = (json?[_keyCompanyInfo] != null)
