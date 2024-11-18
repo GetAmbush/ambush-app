@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
@@ -18,7 +19,8 @@ class SettingsPage extends StatelessWidget {
       ctaText: 'Save',
     );
 
-    return Scaffold(
+    return ConstrainedScaffold(
+      maxWidth: double.infinity,
       appBar: AppBar(title: const Text("Settings")),
       body: Observer(builder: (_) {
         return ListView(
