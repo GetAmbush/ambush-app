@@ -5,8 +5,8 @@ import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_f
 import 'package:flutter/material.dart';
 
 @RoutePage()
-class OnboardingSuccessScreen extends StatelessWidget {
-  const OnboardingSuccessScreen({super.key});
+class OnboardingSuccessPage extends StatelessWidget {
+  const OnboardingSuccessPage({super.key});
 
   void _onAddClick(BuildContext context) {
     final navigator = context.router;
@@ -29,7 +29,7 @@ class OnboardingSuccessScreen extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            context.router.push(InvoiceListRoute());
           },
         ),
         elevation: 0,
