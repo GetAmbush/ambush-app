@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -22,7 +23,8 @@ class InvoiceListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    return Scaffold(
+    return ConstrainedScaffold(
+      maxWidth: double.infinity,
       appBar: AppBar(
         title: SvgPicture.asset(
           'assets/extended_logo.svg',

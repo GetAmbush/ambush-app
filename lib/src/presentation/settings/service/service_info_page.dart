@@ -29,7 +29,7 @@ class ServiceInfoPage extends StatelessWidget {
         return BaseSettingsPage(
           title: "Service information",
           infoText:
-              "Fill in the form with information about the service provided",
+              "Describe the service your company provides. We want to know the details of what you and your company offer. Remember, this is about the service your company delivers.",
           onButtonPressed: () async {
             await _onNextClick();
           },

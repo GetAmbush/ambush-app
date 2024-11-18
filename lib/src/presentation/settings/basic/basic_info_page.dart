@@ -23,7 +23,7 @@ class BasicInfoPage extends StatelessWidget {
     return Observer(builder: (context) {
       return BaseSettingsPage(
         title: "Contractor Information",
-        infoText: "With your information as a contractor, fill the details below",
+        infoText: "Please enter your company’s information. This is where you tell us who you are and the name of the company you represent as a contractor",
         buttonText: screenConfig.ctaText,
         onButtonPressed: () async {
           await onNextStepClick();
