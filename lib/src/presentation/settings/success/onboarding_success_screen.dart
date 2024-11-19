@@ -1,11 +1,10 @@
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
+import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
 import 'package:ambush_app/src/presentation/add_invoice/add_invoice_navigation_flow.dart';
 import 'package:flutter/material.dart';
-
-import '../../../designsystem/constrained_scaffold.dart';
 
 @RoutePage()
 class OnboardingSuccessPage extends StatelessWidget {

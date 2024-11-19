@@ -23,7 +23,7 @@ class BaseSettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return ConstrainedScaffold(
-      maxWidth: double.infinity,
+      maxWidth: defaultPageMaxWidth,
       appBar: AppBar(title: Text(title)),
       body: ListView(
         padding: const EdgeInsets.symmetric(
@@ -54,7 +54,6 @@ class BaseSettingsPage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class BasicInfoPageConfig {
