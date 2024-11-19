@@ -3,13 +3,14 @@ import 'dart:convert';
 
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/domain/models/backup_data.dart';
+import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:ambush_app/src/presentation/utils/backup_persistency.dart';
 import 'package:injectable/injectable.dart';
 import 'package:universal_html/html.dart' as html;
 
 abstract class IBackup {
-  Future<bool> save();
-  Future<bool> get();
+  Future<void> save();
+  Future<void> get();
 }
 
 @Injectable(as: IBackup)
@@ -19,7 +20,7 @@ class Backup implements IBackup {
   Backup(this._backupPersistency);
 
   @override
-  Future<bool> save() async {
+  Future<void> save() async {
     final backupData = _backupPersistency.get();
 
     try {
@@ -33,15 +34,13 @@ class Backup implements IBackup {
         ..setAttribute("download", jsonFilepath)
         ..click();
       html.Url.revokeObjectUrl(url);
-      return true;
     } catch (_) {
-      return false;
+      throw BackupError('There was an error parsing your backup data');
     }
   }
 
   @override
-  Future<bool> get() async {
-    final Completer<bool> completer = Completer();
+  Future<void> get() async {
     final html.FileUploadInputElement input = html.FileUploadInputElement()
       ..accept = '.json';
 
@@ -57,14 +56,12 @@ class Backup implements IBackup {
           final json = jsonDecode(jsonString) as Map<String, dynamic>;
           final backupData = BackupData.fromJson(json);
           _backupPersistency.save(backupData);
-          completer.complete(true);
         } catch (_) {
-          completer.complete(false);
+          throw BackupError('There was an error parsing your backup data');
+          ;
         }
       });
       reader.readAsText(file);
     });
-
-    return completer.future;
   }
 }
