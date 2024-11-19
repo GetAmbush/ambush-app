@@ -1,4 +1,4 @@
-import 'package:ambush_app/src/designsystem/buttons.dart';
+import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/error_dialog.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'empty_list.dart';
 import 'invoice_list_item.dart';
 import 'list_page_viewmodel.dart';
-
-const _backupCreationErrorTitle = 'Backup creation failure';
-const _backupRecoveryErrorTitle = 'Backup recovery failure';
-const _backupCreationErrorContent =
-    'There was an error formatting your back up';
-const _backupRecoveryErrorContent =
-    'There was an error formatting your back up';
-const _ctaText = 'Ok';
 
 @RoutePage()
 class InvoiceListPage extends StatelessWidget {
@@ -55,7 +47,7 @@ class InvoiceListPage extends StatelessWidget {
           }),
           IconButton(
             icon: const Icon(Icons.upload),
-            onPressed: () => _onRecoverBackupClick(context),
+            onPressed: () => _onRestoreBackupClick(context),
           ),
           IconButton(
             icon: const Icon(Icons.download),
@@ -113,16 +105,16 @@ class InvoiceListPage extends StatelessWidget {
   void _onSaveBackupClick(BuildContext context) async {
     final success = await _viewModel.createApplicationBackup();
     if (!success && context.mounted) {
-      showErrorDialog(context, _backupCreationErrorTitle,
-          _backupCreationErrorContent, _ctaText);
+      showErrorDialog(
+          context, backupCreationErrorTitle, backupCreationErrorContent, ok);
     }
   }
 
-  void _onRecoverBackupClick(BuildContext context) async {
-    final isSuccess = await _viewModel.recoverApplicationBackup();
+  void _onRestoreBackupClick(BuildContext context) async {
+    final isSuccess = await _viewModel.restoreApplicationBackup();
     if (!isSuccess && context.mounted) {
-      showErrorDialog(context, _backupRecoveryErrorTitle,
-          _backupRecoveryErrorContent, _ctaText);
+      showErrorDialog(
+          context, backupRestoreErrorTitle, backupRestoreErrorContent, ok);
     }
   }
 }

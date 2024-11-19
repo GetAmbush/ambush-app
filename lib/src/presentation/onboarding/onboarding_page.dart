@@ -56,28 +56,25 @@ class OnBoardingPage extends StatelessWidget {
               height: 16,
             ),
             SecondaryButton(
-                text: "Retrieve a back up",
-                onPressed: () => _onRetrieveBackUpClick(context)),
+                text: "Restore a back up",
+                onPressed: () => _onRestoreBackUpClick(context)),
           ]),
         ),
       ),
     );
   }
 
-  void _onRetrieveBackUpClick(BuildContext context) async {
-    await _viewModel.executeRecoverBackup();
+  void _onRestoreBackUpClick(BuildContext context) async {
+    final success = await _viewModel.executeRestoreBackup();
     if (context.mounted) {
-      _viewModel.finishOnboarding();
-      context.router.replace(InvoiceListRoute());
+      if (success) {
+        _viewModel.finishOnboarding();
+        context.router.replace(InvoiceListRoute());
+      } else {
+        showErrorDialog(
+            context, backupRestoreErrorTitle, backupRestoreErrorContent, ok);
+      }
     }
-    // if (context.mounted) {
-    //   if (isBackupRecoverySuccess) {
-    //     _viewModel.finishOnboarding();
-    //     context.router.replace(InvoiceListRoute());
-    //   } else {
-    //     showErrorDialog(context);
-    //   }
-    // }
   }
 }
 

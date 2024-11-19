@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class IBackup {
   Future<bool> save();
-  Future<bool> recover();
+  Future<bool> get();
 }
 
 @Injectable(as: IBackup)
@@ -41,7 +41,7 @@ class Backup implements IBackup {
   }
 
   @override
-  Future<bool> recover() async {
+  Future<bool> get() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['json'],

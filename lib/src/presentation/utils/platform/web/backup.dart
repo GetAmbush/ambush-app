@@ -9,7 +9,7 @@ import 'package:universal_html/html.dart' as html;
 
 abstract class IBackup {
   Future<bool> save();
-  Future<bool> recover();
+  Future<bool> get();
 }
 
 @Injectable(as: IBackup)
@@ -40,7 +40,7 @@ class Backup implements IBackup {
   }
 
   @override
-  Future<bool> recover() async {
+  Future<bool> get() async {
     final Completer<bool> completer = Completer();
     final html.FileUploadInputElement input = html.FileUploadInputElement()
       ..accept = '.json';

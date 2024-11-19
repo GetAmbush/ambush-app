@@ -61,8 +61,8 @@ abstract class _ListPageViewModelBase with Store {
 
   Future<bool> createApplicationBackup() async => await _backup.save();
 
-  Future<bool> recoverApplicationBackup() async {
-    final isSuccess = await _backup.recover();
+  Future<bool> restoreApplicationBackup() async {
+    final isSuccess = await _backup.get();
     refresh();
     return isSuccess;
   }
