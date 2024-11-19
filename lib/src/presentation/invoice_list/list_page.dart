@@ -52,7 +52,7 @@ class InvoiceListPage extends StatelessWidget {
           ),
           IconButton(
             icon: const Icon(Icons.download),
-            onPressed: () => _onSaveBackupClick(context),
+            onPressed: () => _onCreateBackupClick(context),
           ),
           IconButton(
             icon: const Icon(Icons.settings),
@@ -103,7 +103,7 @@ class InvoiceListPage extends StatelessWidget {
     flow.start();
   }
 
-  void _onSaveBackupClick(BuildContext context) async {
+  void _onCreateBackupClick(BuildContext context) async {
     try {
       await _viewModel.createApplicationBackup();
     } catch (err) {
