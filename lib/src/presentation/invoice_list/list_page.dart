@@ -1,5 +1,6 @@
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/error_dialog.dart';
+import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -103,19 +104,29 @@ class InvoiceListPage extends StatelessWidget {
   }
 
   void _onSaveBackupClick(BuildContext context) async {
-    final success = await _viewModel.createApplicationBackup();
-    if (!success && context.mounted) {
-      showErrorDialog(
-          context, backupCreationErrorTitle, backupCreationErrorContent, ok);
+    try {
+      await _viewModel.createApplicationBackup();
+    } catch (err) {
+      if (context.mounted && err is Error) {
+        _handleError(err, context);
+      }
     }
   }
 
   void _onRestoreBackupClick(BuildContext context) async {
-    final isSuccess = await _viewModel.restoreApplicationBackup();
-    if (!isSuccess && context.mounted) {
-      showErrorDialog(
-          context, backupRestoreErrorTitle, backupRestoreErrorContent, ok);
+    try {
+      await _viewModel.restoreApplicationBackup();
+    } catch (err) {
+      if (context.mounted && err is Error) {
+        _handleError(err, context);
+      }
     }
+  }
+
+  void _handleError(Error err, BuildContext context) {
+    final description =
+        (err is BackupError) ? err.message : genericErrorMessage;
+    showErrorDialog(context, genericErrorTitle, description, ok);
   }
 }
 

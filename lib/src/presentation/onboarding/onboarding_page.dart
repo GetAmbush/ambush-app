@@ -1,5 +1,6 @@
 import 'package:ambush_app/src/core/routes/app_route.gr.dart';
 import 'package:ambush_app/src/designsystem/error_dialog.dart';
+import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/di/di.dart';
@@ -65,16 +66,21 @@ class OnBoardingPage extends StatelessWidget {
   }
 
   void _onRestoreBackUpClick(BuildContext context) async {
-    final success = await _viewModel.executeRestoreBackup();
-    if (context.mounted) {
-      if (success) {
-        _viewModel.finishOnboarding();
-        context.router.replace(InvoiceListRoute());
-      } else {
-        showErrorDialog(
-            context, backupRestoreErrorTitle, backupRestoreErrorContent, ok);
+    try {
+      await _viewModel.executeRestoreBackup();
+      _viewModel.finishOnboarding();
+      if (context.mounted) context.router.replace(InvoiceListRoute());
+    } catch (err) {
+      if (context.mounted && err is Error) {
+        _handleError(err, context);
       }
     }
+  }
+
+  void _handleError(Error err, BuildContext context) {
+    final description =
+        (err is BackupError) ? err.message : genericErrorMessage;
+    showErrorDialog(context, genericErrorTitle, description, ok);
   }
 }
 

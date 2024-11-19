@@ -4,8 +4,6 @@ const double bigBetweenFields = 24;
 const double extraBigBetweenFields = 32;
 
 const jsonFilepath = 'invoice_app.json';
-const backupCreationErrorTitle = 'Backup creation failure';
-const backupRestoreErrorTitle = 'Backup restore failure';
-const backupCreationErrorContent = 'There was an error formatting your back up';
-const backupRestoreErrorContent = 'There was an error formatting your back up';
+const genericErrorTitle = 'You got an error';
+const genericErrorMessage = 'Please try again';
 const ok = 'Ok';

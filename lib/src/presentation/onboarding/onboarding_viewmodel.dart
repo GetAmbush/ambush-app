@@ -21,5 +21,5 @@ abstract class _OnboardingViewModelBase with Store {
     await setOnboardingStatus.set(true);
   }
 
-  Future<bool> executeRestoreBackup() async => await _backup.get();
+  Future<void> executeRestoreBackup() async => await _backup.get();
 }

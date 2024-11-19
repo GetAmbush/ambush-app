@@ -4,12 +4,13 @@ import 'dart:io';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/domain/models/backup_data.dart';
 import 'package:ambush_app/src/presentation/utils/backup_persistency.dart';
+import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class IBackup {
-  Future<bool> save();
-  Future<bool> get();
+  Future<void> save();
+  Future<void> get();
 }
 
 @Injectable(as: IBackup)
@@ -19,7 +20,7 @@ class Backup implements IBackup {
   Backup(this._backupPersistency);
 
   @override
-  Future<bool> save() async {
+  Future<void> save() async {
     final backupData = _backupPersistency.get();
 
     final json = backupData.toJson();
@@ -31,24 +32,23 @@ class Backup implements IBackup {
           type: FileType.custom,
           fileName: jsonFilepath);
       final path = result;
-      if (path == null) return false;
+      if (path == null) return;
       final file = File(path);
       file.writeAsString(jsonString);
-      return true;
     } catch (_) {
-      return false;
+      throw BackupError('There was an error parsing your backup data');
     }
   }
 
   @override
-  Future<bool> get() async {
+  Future<void> get() async {
     final result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowedExtensions: ['json'],
     );
     final path = result?.files.first.path;
 
-    if (path == null) return false;
+    if (path == null) return;
 
     final file = File(path);
     final jsonString = await file.readAsString();
@@ -57,9 +57,8 @@ class Backup implements IBackup {
       final json = jsonDecode(jsonString);
       final backupData = BackupData.fromJson(json);
       _backupPersistency.save(backupData);
-      return true;
     } catch (_) {
-      return false;
+      throw BackupError('There was an error parsing your backup data');
     }
   }
 }
