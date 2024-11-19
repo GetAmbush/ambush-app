@@ -5,20 +5,20 @@ import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'backup_data.g.dart';
+part 'application_data.g.dart';
 
 @JsonSerializable()
-class BackupData {
+class ApplicationData {
   ServiceInfo? serviceInfo;
   BankInfo? bankInfo;
   CompanyInfo? companyInfo;
   ClientInfo? clientInfo;
   List<Invoice>? invoiceList;
 
-  BackupData(this.serviceInfo, this.bankInfo, this.companyInfo, this.clientInfo,
-      this.invoiceList);
+  ApplicationData(this.serviceInfo, this.bankInfo, this.companyInfo,
+      this.clientInfo, this.invoiceList);
 
-  factory BackupData.fromJson(Map<String, dynamic> json) =>
-      _$BackupDataFromJson(json);
-  Map<String, dynamic> toJson() => _$BackupDataToJson(this);
+  factory ApplicationData.fromJson(Map<String, dynamic> json) =>
+      _$ApplicationDataFromJson(json);
+  Map<String, dynamic> toJson() => _$ApplicationDataToJson(this);
 }

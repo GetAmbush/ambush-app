@@ -11,13 +11,13 @@ import 'package:ambush_app/src/domain/usecases/save_company_info.dart';
 import 'package:ambush_app/src/domain/usecases/save_invoice.dart';
 import 'package:ambush_app/src/domain/usecases/save_service_info.dart';
 
-abstract class IBackupPersistency {
-  BackupData get();
-  Future<void> save(BackupData backupData);
+abstract class IApplicationPersistency {
+  ApplicationData get();
+  Future<void> save(ApplicationData backupData);
 }
 
-@Injectable(as: IBackupPersistency)
-class BackupPersistency implements IBackupPersistency {
+@Injectable(as: IApplicationPersistency)
+class ApplicationPersistency implements IApplicationPersistency {
   final ISaveCompanyInfo _saveCompanyInfo;
   final IGetCompanyInfo _getCompanyInfo;
   final ISaveBankInfo _saveBankInfo;
@@ -29,7 +29,7 @@ class BackupPersistency implements IBackupPersistency {
   final ISaveInvoice _saveInvoice;
   final IGetInvoiceList _getInvoiceList;
 
-  BackupPersistency(
+  ApplicationPersistency(
       this._saveCompanyInfo,
       this._getCompanyInfo,
       this._saveBankInfo,
@@ -42,11 +42,15 @@ class BackupPersistency implements IBackupPersistency {
       this._saveInvoice);
 
   @override
-  BackupData get() => BackupData(_getServiceInfo.get(), _getBankInfo.get(),
-      _getCompanyInfo.get(), _getClientInfo.get(), _getInvoiceList.get());
+  ApplicationData get() => ApplicationData(
+      _getServiceInfo.get(),
+      _getBankInfo.get(),
+      _getCompanyInfo.get(),
+      _getClientInfo.get(),
+      _getInvoiceList.get());
 
   @override
-  Future<void> save(BackupData backupData) async {
+  Future<void> save(ApplicationData backupData) async {
     final companyInfo = backupData.companyInfo;
     final bankInfo = backupData.bankInfo;
     final clientInfo = backupData.clientInfo;

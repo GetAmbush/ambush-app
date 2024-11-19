@@ -2,25 +2,25 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ambush_app/src/core/settings/const.dart';
-import 'package:ambush_app/src/domain/models/backup_data.dart';
+import 'package:ambush_app/src/domain/models/application_data.dart';
 import 'package:ambush_app/src/presentation/utils/backup_error.dart';
-import 'package:ambush_app/src/presentation/utils/backup_persistency.dart';
+import 'package:ambush_app/src/presentation/utils/application_persistency.dart';
 import 'package:injectable/injectable.dart';
 import 'package:universal_html/html.dart' as html;
 
 abstract class IBackup {
-  Future<void> save();
-  Future<void> get();
+  Future<void> create();
+  Future<void> restore();
 }
 
 @Injectable(as: IBackup)
 class Backup implements IBackup {
-  final IBackupPersistency _backupPersistency;
+  final IApplicationPersistency _backupPersistency;
 
   Backup(this._backupPersistency);
 
   @override
-  Future<void> save() async {
+  Future<void> create() async {
     final backupData = _backupPersistency.get();
 
     try {
@@ -40,7 +40,7 @@ class Backup implements IBackup {
   }
 
   @override
-  Future<void> get() async {
+  Future<void> restore() async {
     final html.FileUploadInputElement input = html.FileUploadInputElement()
       ..accept = '.json';
 
@@ -54,7 +54,7 @@ class Backup implements IBackup {
         try {
           final jsonString = reader.result as String;
           final json = jsonDecode(jsonString) as Map<String, dynamic>;
-          final backupData = BackupData.fromJson(json);
+          final backupData = ApplicationData.fromJson(json);
           _backupPersistency.save(backupData);
         } catch (_) {
           throw BackupError('There was an error parsing your backup data');
