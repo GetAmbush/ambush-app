@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:ambush_app/src/core/settings/const.dart';
+import 'package:ambush_app/src/data/models/hive_backup.dart';
 import 'package:ambush_app/src/domain/usecases/get_backup.dart';
 import 'package:ambush_app/src/domain/usecases/save_backup.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:injectable/injectable.dart';
+import 'dart:html' as html;
 
 abstract class IBackup {
   Future<bool> save();
@@ -24,32 +25,49 @@ class Backup implements IBackup {
     final backup = _getBackup.get();
     final json = backup?.toJson();
     if (json == null) return false;
-    final jsonString = jsonEncode(json);
 
-    final result = await FilePicker.platform.saveFile(
-        allowedExtensions: ['json'],
-        type: FileType.custom,
-        fileName: jsonFilepath);
-    final path = result;
-    if (path == null) return false;
-    final file = File(path);
-    file.writeAsString(jsonString);
-    return true;
+    try {
+      final jsonString = jsonEncode(json);
+      final bytes = utf8.encode(jsonString);
+      final blob = html.Blob([bytes]);
+      final url = html.Url.createObjectUrlFromBlob(blob);
+
+      html.AnchorElement(href: url)
+        ..setAttribute("download", jsonFilepath)
+        ..click();
+      html.Url.revokeObjectUrl(url);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
   Future<bool> recover() async {
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['json'],
-    );
-    final path = result?.files.first.path;
-    if (path == null) return false;
-    final file = File(path);
-    final jsonString = await file.readAsString();
-    final json = jsonDecode(jsonString);
-    final backup = jsonDecode(json);
-    _saveBackup.save(backup);
-    return true;
+    final Completer<bool> completer = Completer();
+    final html.FileUploadInputElement input = html.FileUploadInputElement()
+      ..accept = '.json';
+
+    input.click();
+
+    input.onChange.listen((e) async {
+      final file = input.files!.first;
+      final reader = html.FileReader();
+
+      reader.onLoadEnd.listen((e) {
+        try {
+          final jsonString = reader.result as String;
+          final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
+          final backup = HiveBackup.fromJson(jsonData);
+          _saveBackup.save(backup);
+          completer.complete(true);
+        } catch (_) {
+          completer.complete(false);
+        }
+      });
+      reader.readAsText(file);
+    });
+
+    return completer.future;
   }
 }

@@ -6,9 +6,7 @@ import 'package:ambush_app/src/data/models/hive_backup.dart';
 import 'package:ambush_app/src/domain/usecases/get_backup.dart';
 import 'package:ambush_app/src/domain/usecases/save_backup.dart';
 import 'package:file_picker/file_picker.dart';
-import 'package:hive/hive.dart';
 import 'package:injectable/injectable.dart';
-import 'package:json_hive_generator/json_hive_generator.dart';
 
 abstract class IBackup {
   Future<bool> save();
@@ -26,18 +24,23 @@ class Backup implements IBackup {
   Future<bool> save() async {
     final backup = _getBackup.get();
     final json = backup?.toJson();
-    if (json == null) return false;
-    final jsonString = jsonEncode(json);
 
-    final result = await FilePicker.platform.saveFile(
-        allowedExtensions: ['json'],
-        type: FileType.custom,
-        fileName: jsonFilepath);
-    final path = result;
-    if (path == null) return false;
-    final file = File(path);
-    file.writeAsString(jsonString);
-    return true;
+    if (json == null) return false;
+
+    try {
+      final jsonString = jsonEncode(json);
+      final result = await FilePicker.platform.saveFile(
+          allowedExtensions: ['json'],
+          type: FileType.custom,
+          fileName: jsonFilepath);
+      final path = result;
+      if (path == null) return false;
+      final file = File(path);
+      file.writeAsString(jsonString);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 
   @override
@@ -47,12 +50,19 @@ class Backup implements IBackup {
       allowedExtensions: ['json'],
     );
     final path = result?.files.first.path;
+
     if (path == null) return false;
+
     final file = File(path);
     final jsonString = await file.readAsString();
-    final json = jsonDecode(jsonString);
-    final backup = HiveBackup.fromJson(json);
-    _saveBackup.save(backup);
-    return true;
+
+    try {
+      final json = jsonDecode(jsonString);
+      final backup = HiveBackup.fromJson(json);
+      _saveBackup.save(backup);
+      return true;
+    } catch (_) {
+      return false;
+    }
   }
 }
