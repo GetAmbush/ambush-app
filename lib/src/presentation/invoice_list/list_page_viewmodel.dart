@@ -1,5 +1,4 @@
-import 'package:ambush_app/src/domain/usecases/retrieve_backup.dart';
-import 'package:ambush_app/src/domain/usecases/save_backup.dart';
+import 'package:ambush_app/src/presentation/utils/platform/backup.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
@@ -14,19 +13,17 @@ class ListPageViewModel extends _ListPageViewModelBase
   ListPageViewModel(
     super._getInvoiceList,
     super._deleteInvoice,
-    super._saveBackup,
-    super._retrieveBackup,
+    super._backup,
   );
 }
 
 abstract class _ListPageViewModelBase with Store {
   final IGetInvoiceList _getInvoiceList;
   final IDeleteInvoice _deleteInvoice;
-  final ISaveBackup _saveBackup;
-  final IRetrieveBackup _retrieveBackup;
+  final IBackup _backup;
 
-  _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
-      this._saveBackup, this._retrieveBackup) {
+  _ListPageViewModelBase(
+      this._getInvoiceList, this._deleteInvoice, this._backup) {
     // Get initial value
     refresh();
 
@@ -62,14 +59,11 @@ abstract class _ListPageViewModelBase with Store {
     hideMode = !hideMode;
   }
 
-  Future<bool> saveApplicationBackup() async => await _saveBackup.save();
+  Future<void> createApplicationBackup() async => await _backup.save();
 
-  Future<bool> retrieveApplicationBackup() async {
-    final isBackupRecoverySuccessful = await _retrieveBackup.retrieve();
-    if (isBackupRecoverySuccessful) {
-      refresh();
-    }
-    return isBackupRecoverySuccessful;
+  Future<void> recoverApplicationBackup() async {
+    await _backup.recover();
+    refresh();
   }
 
   void _observeChanges() {

@@ -1,16 +1,18 @@
-import 'package:ambush_app/src/data/repositories/backup_repository.dart';
+import 'package:ambush_app/src/data/models/hive_backup.dart';
+import 'package:ambush_app/src/data/repositories/general_repository.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class ISaveBackup {
-  Future<bool> save();
+  Future<void> save(HiveBackup backup);
 }
 
 @Injectable(as: ISaveBackup)
-class SaveBackup extends ISaveBackup {
-  final IBackupRepository _backupRepository;
+class SaveBackup implements ISaveBackup {
+  final IBackupRepository _generalRepository;
 
-  SaveBackup(this._backupRepository);
+  SaveBackup(this._generalRepository);
 
   @override
-  Future<bool> save() async => await _backupRepository.saveBackup();
+  Future<void> save(HiveBackup backup) =>
+      _generalRepository.createBackup(backup);
 }

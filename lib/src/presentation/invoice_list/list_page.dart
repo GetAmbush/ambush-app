@@ -103,17 +103,17 @@ class InvoiceListPage extends StatelessWidget {
   }
 
   void _onSaveBackupClick(BuildContext context) async {
-    final success = await _viewModel.saveApplicationBackup();
-    if (!success && context.mounted) {
-      showErrorDialog(context);
-    }
+    await _viewModel.createApplicationBackup();
+    // if (!success && context.mounted) {
+    //   showErrorDialog(context);
+    // }
   }
 
   void _onRetrieveBackupClick(BuildContext context) async {
-    bool isSuccess = await _viewModel.retrieveApplicationBackup();
-    if (!isSuccess && context.mounted) {
-      showErrorDialog(context);
-    }
+    await _viewModel.recoverApplicationBackup();
+    // if (!isSuccess && context.mounted) {
+    //   showErrorDialog(context);
+    // }
   }
 }
 

@@ -65,15 +65,19 @@ class OnBoardingPage extends StatelessWidget {
   }
 
   void _onRetrieveBackUpClick(BuildContext context) async {
-    bool isBackupRecoverySuccess = await _viewModel.executeRetrieveBackup();
+    await _viewModel.executeRecoverBackup();
     if (context.mounted) {
-      if (isBackupRecoverySuccess) {
-        _viewModel.finishOnboarding();
-        context.router.replace(InvoiceListRoute());
-      } else {
-        showErrorDialog(context);
-      }
+      _viewModel.finishOnboarding();
+      context.router.replace(InvoiceListRoute());
     }
+    // if (context.mounted) {
+    //   if (isBackupRecoverySuccess) {
+    //     _viewModel.finishOnboarding();
+    //     context.router.replace(InvoiceListRoute());
+    //   } else {
+    //     showErrorDialog(context);
+    //   }
+    // }
   }
 }
 

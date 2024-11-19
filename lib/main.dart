@@ -1,5 +1,4 @@
 import 'package:ambush_app/src/core/utils/migration_utils.dart';
-import 'package:ambush_app/src/platform/file_service_stub.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
@@ -30,7 +29,6 @@ class MainPage extends StatelessWidget {
   }
 
   void route(BuildContext context) {
-    final IFileService fileService = FileService();
     if (_hasFinishedOnboarding.get()) {
       context.router.replace(InvoiceListRoute());
     } else {

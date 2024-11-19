@@ -1,22 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'hive_company_info.g.dart';
 
-const _keyStreet = 'street';
-const _keyAddress = 'address';
-const _keyEmail = 'email';
-const _keyOwnerName = 'owner_name';
-const _keyCnpj = 'cnpj';
-const _keyName = 'name';
-const _keyExtraInfo = 'extra_info';
-const _keyNeighbourhood = 'neighbourhood';
-const _keyCity = 'city';
-const _keyState = 'state';
-const _keyCountry = 'country';
-const _keyZipcode = 'zipcode';
-
 @HiveType(typeId: 1)
+@JsonSerializable()
 class HiveCompanyInfo extends HiveObject {
   @HiveField(0)
   String name;
@@ -59,27 +48,13 @@ class HiveCompanyInfo extends HiveObject {
         cnpj,
       );
 
-  Map<String, dynamic> toJson() => {
-        _keyName: name,
-        _keyAddress: address?.toJson(),
-        _keyEmail: email,
-        _keyOwnerName: ownerName,
-        _keyCnpj: cnpj
-      };
-
   factory HiveCompanyInfo.fromJson(Map<String, dynamic> json) =>
-      HiveCompanyInfo(
-          json[_keyName].toString(),
-          (json[_keyAddress] != null)
-              ? HiveCompanyAddress.fromJson(
-                  json[_keyAddress] as Map<String, dynamic>)
-              : null,
-          json[_keyEmail].toString(),
-          json[_keyOwnerName].toString(),
-          (json[_keyCnpj] != null) ? json[_keyCnpj].toString() : null);
+      _$HiveCompanyInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveCompanyInfoToJson(this);
 }
 
 @HiveType(typeId: 7)
+@JsonSerializable()
 class HiveCompanyAddress extends HiveObject {
   @HiveField(0)
   String street;
@@ -133,23 +108,7 @@ class HiveCompanyAddress extends HiveObject {
         zipCode,
       );
 
-  Map<String, dynamic> toJson() => {
-        _keyStreet: street,
-        _keyExtraInfo: extraInfo,
-        _keyNeighbourhood: neighbourhood,
-        _keyCity: city,
-        _keyState: state,
-        _keyCountry: country,
-        _keyZipcode: zipCode
-      };
-
   factory HiveCompanyAddress.fromJson(Map<String, dynamic> json) =>
-      HiveCompanyAddress(
-          json[_keyState].toString(),
-          (json[_keyExtraInfo] != null) ? json[_keyExtraInfo].toString() : null,
-          json[_keyNeighbourhood].toString(),
-          json[_keyCity].toString(),
-          json[_keyState].toString(),
-          json[_keyCountry].toString(),
-          json[_keyZipcode].toString());
+      _$HiveCompanyAddressFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveCompanyAddressToJson(this);
 }

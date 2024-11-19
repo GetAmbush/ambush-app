@@ -1,9 +1,10 @@
 import 'package:ambush_app/src/data/datasource/local_datasource.dart';
+import 'package:ambush_app/src/data/models/hive_backup.dart';
 import 'package:injectable/injectable.dart';
 
 abstract class IBackupRepository {
-  Future<bool> saveBackup();
-  Future<bool> retrieveBackup();
+  HiveBackup? getBackup();
+  Future<void> createBackup(HiveBackup backup);
 }
 
 @Injectable(as: IBackupRepository)
@@ -13,9 +14,9 @@ class BackupRepository implements IBackupRepository {
   BackupRepository(this._localDataSource);
 
   @override
-  Future<bool> saveBackup() async => await _localDataSource.saveBackup();
+  HiveBackup? getBackup() => _localDataSource.recoverBackup();
 
   @override
-  Future<bool> retrieveBackup() async =>
-      await _localDataSource.retrieveBackup();
+  Future<void> createBackup(HiveBackup backup) =>
+      _localDataSource.createBackup(backup);
 }
