@@ -408,14 +408,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  hive_generator:
-    dependency: "direct dev"
-    description:
-      name: hive_generator
-      sha256: "06cb8f58ace74de61f63500564931f9505368f45f98958bd7a6c35ba24159db4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.1"
   html:
     dependency: transitive
     description:
@@ -504,14 +496,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.9.0"
-  json_hive_generator:
-    dependency: "direct main"
-    description:
-      name: json_hive_generator
-      sha256: adf176076fe8953e87a623848a1d43d07db5f8d5f5b808e053169e2de15ee38d
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.2"
   json_serializable:
     dependency: "direct main"
     description:
