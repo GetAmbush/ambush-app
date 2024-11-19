@@ -1,4 +1,4 @@
-import 'package:ambush_app/src/domain/models/backup_data.dart';
+import 'package:ambush_app/src/domain/models/application_data.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/usecases/get_bank_info.dart';
 import 'package:ambush_app/src/domain/usecases/get_client_info.dart';
