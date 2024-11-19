@@ -15,6 +15,14 @@ import 'empty_list.dart';
 import 'invoice_list_item.dart';
 import 'list_page_viewmodel.dart';
 
+const _backupCreationErrorTitle = 'Backup creation failure';
+const _backupRecoveryErrorTitle = 'Backup recovery failure';
+const _backupCreationErrorContent =
+    'There was an error formatting your back up';
+const _backupRecoveryErrorContent =
+    'There was an error formatting your back up';
+const _ctaText = 'Ok';
+
 @RoutePage()
 class InvoiceListPage extends StatelessWidget {
   InvoiceListPage({super.key});
@@ -47,7 +55,7 @@ class InvoiceListPage extends StatelessWidget {
           }),
           IconButton(
             icon: const Icon(Icons.upload),
-            onPressed: () => _onRetrieveBackupClick(context),
+            onPressed: () => _onRecoverBackupClick(context),
           ),
           IconButton(
             icon: const Icon(Icons.download),
@@ -103,17 +111,19 @@ class InvoiceListPage extends StatelessWidget {
   }
 
   void _onSaveBackupClick(BuildContext context) async {
-    await _viewModel.createApplicationBackup();
-    // if (!success && context.mounted) {
-    //   showErrorDialog(context);
-    // }
+    final success = await _viewModel.createApplicationBackup();
+    if (!success && context.mounted) {
+      showErrorDialog(context, _backupCreationErrorTitle,
+          _backupCreationErrorContent, _ctaText);
+    }
   }
 
-  void _onRetrieveBackupClick(BuildContext context) async {
-    await _viewModel.recoverApplicationBackup();
-    // if (!isSuccess && context.mounted) {
-    //   showErrorDialog(context);
-    // }
+  void _onRecoverBackupClick(BuildContext context) async {
+    final isSuccess = await _viewModel.recoverApplicationBackup();
+    if (!isSuccess && context.mounted) {
+      showErrorDialog(context, _backupRecoveryErrorTitle,
+          _backupRecoveryErrorContent, _ctaText);
+    }
   }
 }
 

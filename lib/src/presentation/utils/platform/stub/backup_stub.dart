@@ -1,19 +1,19 @@
 import 'package:injectable/injectable.dart';
 
 abstract class IBackup {
-  Future<void> save();
-  Future<void> recover();
+  Future<bool> save();
+  Future<bool> recover();
 }
 
 @Injectable(as: IBackup)
 class Backup implements IBackup {
   @override
-  Future<void> save() {
+  Future<bool> save() {
     throw UnimplementedError();
   }
 
   @override
-  Future<void> recover() {
+  Future<bool> recover() {
     throw UnimplementedError();
   }
 }

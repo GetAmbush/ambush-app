@@ -59,11 +59,12 @@ abstract class _ListPageViewModelBase with Store {
     hideMode = !hideMode;
   }
 
-  Future<void> createApplicationBackup() async => await _backup.save();
+  Future<bool> createApplicationBackup() async => await _backup.save();
 
-  Future<void> recoverApplicationBackup() async {
-    await _backup.recover();
+  Future<bool> recoverApplicationBackup() async {
+    final isSuccess = await _backup.recover();
     refresh();
+    return isSuccess;
   }
 
   void _observeChanges() {
