@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:ambush_app/src/data/models/hive_backup.dart';
 import 'package:injectable/injectable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
@@ -67,10 +66,6 @@ abstract class ILocalDataSource {
   Stream<List<Invoice>> observeInvoiceList();
 
   Stream<HiveCompanyInfo?> observeCompanyInfo();
-
-  HiveBackup? recoverBackup();
-
-  Future<void> createBackup(HiveBackup backup);
 }
 
 @Singleton(as: ILocalDataSource)
@@ -87,7 +82,6 @@ class LocalDataSource implements ILocalDataSource {
     Hive.registerAdapter(HiveInvoiceAdapter());
     Hive.registerAdapter(HiveInvoiceListAdapter());
     Hive.registerAdapter(HiveCompanyAddressAdapter());
-    Hive.registerAdapter(HiveBackupAdapter());
 
     _appBox = await _getAppBox();
   }
@@ -205,38 +199,5 @@ class LocalDataSource implements ILocalDataSource {
   @override
   Future setDbVersion(int version) async {
     await _appBox.put(_keyDbVersion, version);
-  }
-
-  @override
-  HiveBackup recoverBackup() {
-    final clientInfo = getClientInfo();
-    final companyInfo = getCompanyInfo();
-    final serviceInfo = getServiceInfo();
-    final bankInfo = getBankInfo();
-    final invoiceList =
-        _appBox.get(_keyInvoiceList, defaultValue: HiveInvoiceList([]));
-
-    return HiveBackup(
-        bankInfo, clientInfo, companyInfo, invoiceList, serviceInfo);
-  }
-
-  @override
-  Future<void> createBackup(HiveBackup backup) async {
-    await _appBox.clear();
-    final clientInfo = backup.clientInfo;
-    final companyInfo = backup.companyInfo;
-    final serviceInfo = backup.serviceInfo;
-    final bankInfo = backup.bankInfo;
-    final invoiceList = backup.invoiceList;
-
-    if (clientInfo != null) await saveClientInfo(clientInfo);
-    if (companyInfo != null) await saveCompanyInfo(companyInfo);
-    if (serviceInfo != null) await saveServiceInfo(serviceInfo);
-    if (bankInfo != null) await saveBankInfo(bankInfo);
-    if (invoiceList != null) {
-      for (var invoice in invoiceList.invoiceList) {
-        await saveInvoice(invoice.toInvoice());
-      }
-    }
   }
 }

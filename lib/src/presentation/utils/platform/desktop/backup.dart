@@ -2,9 +2,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:ambush_app/src/core/settings/const.dart';
-import 'package:ambush_app/src/data/models/hive_backup.dart';
-import 'package:ambush_app/src/domain/usecases/get_backup.dart';
-import 'package:ambush_app/src/domain/usecases/save_backup.dart';
+import 'package:ambush_app/src/domain/models/backup_data.dart';
+import 'package:ambush_app/src/presentation/utils/backup_persistency.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:injectable/injectable.dart';
 
@@ -15,17 +14,15 @@ abstract class IBackup {
 
 @Injectable(as: IBackup)
 class Backup implements IBackup {
-  final ISaveBackup _saveBackup;
-  final IGetBackup _getBackup;
+  final IBackupPersistency _backupPersistency;
 
-  Backup(this._saveBackup, this._getBackup);
+  Backup(this._backupPersistency);
 
   @override
   Future<bool> save() async {
-    final backup = _getBackup.get();
-    final json = backup?.toJson();
+    final backupData = _backupPersistency.get();
 
-    if (json == null) return false;
+    final json = backupData.toJson();
 
     try {
       final jsonString = jsonEncode(json);
@@ -58,8 +55,8 @@ class Backup implements IBackup {
 
     try {
       final json = jsonDecode(jsonString);
-      final backup = HiveBackup.fromJson(json);
-      _saveBackup.save(backup);
+      final backupData = BackupData.fromJson(json);
+      _backupPersistency.save(backupData);
       return true;
     } catch (_) {
       return false;

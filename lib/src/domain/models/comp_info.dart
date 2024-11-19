@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'comp_info.g.dart';
+
+@JsonSerializable()
 class CompanyInfo {
   final String name;
   final CompanyAddress? address;
@@ -35,8 +40,13 @@ class CompanyInfo {
       cnpj ?? this.cnpj,
     );
   }
+
+  factory CompanyInfo.fromJson(Map<String, dynamic> json) =>
+      _$CompanyInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$CompanyInfoToJson(this);
 }
 
+@JsonSerializable()
 class CompanyAddress {
   final String street;
   final String? extraInfo;
@@ -55,4 +65,8 @@ class CompanyAddress {
     this.country,
     this.zipCode,
   );
+
+  factory CompanyAddress.fromJson(Map<String, dynamic> json) =>
+      _$CompanyAddressFromJson(json);
+  Map<String, dynamic> toJson() => _$CompanyAddressToJson(this);
 }

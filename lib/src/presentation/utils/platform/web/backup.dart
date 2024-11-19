@@ -2,11 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:ambush_app/src/core/settings/const.dart';
-import 'package:ambush_app/src/data/models/hive_backup.dart';
-import 'package:ambush_app/src/domain/usecases/get_backup.dart';
-import 'package:ambush_app/src/domain/usecases/save_backup.dart';
+import 'package:ambush_app/src/domain/models/backup_data.dart';
+import 'package:ambush_app/src/presentation/utils/backup_persistency.dart';
 import 'package:injectable/injectable.dart';
-import 'dart:html' as html;
+import 'package:universal_html/html.dart' as html;
 
 abstract class IBackup {
   Future<bool> save();
@@ -15,18 +14,16 @@ abstract class IBackup {
 
 @Injectable(as: IBackup)
 class Backup implements IBackup {
-  final ISaveBackup _saveBackup;
-  final IGetBackup _getBackup;
+  final IBackupPersistency _backupPersistency;
 
-  Backup(this._saveBackup, this._getBackup);
+  Backup(this._backupPersistency);
 
   @override
   Future<bool> save() async {
-    final backup = _getBackup.get();
-    final json = backup?.toJson();
-    if (json == null) return false;
+    final backupData = _backupPersistency.get();
 
     try {
+      final json = backupData.toJson();
       final jsonString = jsonEncode(json);
       final bytes = utf8.encode(jsonString);
       final blob = html.Blob([bytes]);
@@ -57,9 +54,9 @@ class Backup implements IBackup {
       reader.onLoadEnd.listen((e) {
         try {
           final jsonString = reader.result as String;
-          final jsonData = jsonDecode(jsonString) as Map<String, dynamic>;
-          final backup = HiveBackup.fromJson(jsonData);
-          _saveBackup.save(backup);
+          final json = jsonDecode(jsonString) as Map<String, dynamic>;
+          final backupData = BackupData.fromJson(json);
+          _backupPersistency.save(backupData);
           completer.complete(true);
         } catch (_) {
           completer.complete(false);

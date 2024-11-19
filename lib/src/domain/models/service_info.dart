@@ -1,8 +1,12 @@
 import 'package:ambush_app/src/domain/models/currency.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import '../../presentation/utils/remove_trailing_zeros.dart';
 
+part 'service_info.g.dart';
+
+@JsonSerializable()
 class ServiceInfo {
   final String description;
   final double quantity;
@@ -36,4 +40,8 @@ class ServiceInfo {
       price ?? this.price,
     );
   }
+
+  factory ServiceInfo.fromJson(Map<String, dynamic> json) =>
+      _$ServiceInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$ServiceInfoToJson(this);
 }

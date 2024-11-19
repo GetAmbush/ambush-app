@@ -3,7 +3,11 @@ import 'package:ambush_app/src/domain/models/bank_info.dart';
 import 'package:ambush_app/src/domain/models/client_info.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'invoice.g.dart';
+
+@JsonSerializable()
 class Invoice {
   final int id;
   final int issueDate;
@@ -32,12 +36,14 @@ class Invoice {
   }
 
   String formattedPrice(String symbol) {
-    return NumberFormat.currency(locale: 'en_US', symbol: symbol).format(service.price);
+    return NumberFormat.currency(locale: 'en_US', symbol: symbol)
+        .format(service.price);
   }
 
   String formattedTotalPrice(String symbol) {
     final totalPrice = service.price * service.quantity;
-    return NumberFormat.currency(locale: 'en_US', symbol: symbol).format(totalPrice);
+    return NumberFormat.currency(locale: 'en_US', symbol: symbol)
+        .format(totalPrice);
   }
 
   String formattedAddress() {
@@ -77,4 +83,8 @@ Zip-code: ${address.zipCode}
       updatedAt ?? this.updatedAt,
     );
   }
+
+  factory Invoice.fromJson(Map<String, dynamic> json) =>
+      _$InvoiceFromJson(json);
+  Map<String, dynamic> toJson() => _$InvoiceToJson(this);
 }

@@ -3,6 +3,7 @@ import 'package:ambush_app/src/domain/models/client_info.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
 import 'package:injectable/injectable.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 // Validate the saved information.
 @lazySingleton
@@ -18,7 +19,7 @@ class InvoiceFlowData {
     }
     if (companyInfo == null) {
       throw Exception("Company info is null");
-    } else if(companyInfo.address == null) {
+    } else if (companyInfo.address == null) {
       throw Exception("Company address is null");
     } else if (companyInfo.ownerName.isEmpty) {
       throw Exception("Needs to provide the owner name");

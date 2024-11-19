@@ -1,12 +1,10 @@
 import 'package:hive/hive.dart';
 import 'package:ambush_app/src/domain/models/bank.dart';
 import 'package:ambush_app/src/domain/models/bank_info.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 part 'hive_bank_info.g.dart';
 
 @HiveType(typeId: 2)
-@JsonSerializable()
 class HiveBankInfo extends HiveObject {
   @HiveField(0)
   String beneficiaryName;
@@ -84,8 +82,4 @@ class HiveBankInfo extends HiveObject {
 
     return BankInfo(beneficiaryName, mainBank, intermediaryBank);
   }
-
-  factory HiveBankInfo.fromJson(Map<String, dynamic> json) =>
-      _$HiveBankInfoFromJson(json);
-  Map<String, dynamic> toJson() => _$HiveBankInfoToJson(this);
 }
