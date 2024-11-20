@@ -5,7 +5,7 @@ on:
     types:
       - opened
       - synchronize
-      
+
 jobs:
   build:
     runs-on: macos-latest
