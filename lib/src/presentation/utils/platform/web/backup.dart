@@ -58,7 +58,6 @@ class Backup implements IBackup {
           _backupPersistency.save(backupData);
         } catch (_) {
           throw BackupError('There was an error parsing your backup data');
-          ;
         }
       });
       reader.readAsText(file);

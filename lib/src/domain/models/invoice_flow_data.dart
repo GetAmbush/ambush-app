@@ -3,7 +3,6 @@ import 'package:ambush_app/src/domain/models/client_info.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
 import 'package:injectable/injectable.dart';
-import 'package:json_annotation/json_annotation.dart';
 
 // Validate the saved information.
 @lazySingleton
