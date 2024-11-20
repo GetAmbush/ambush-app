@@ -40,7 +40,8 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
   @override
   Future<void> save(String backup) async {
     try {
-      final HiveApplicationData applicationData = jsonDecode(backup);
+      final Map<String, dynamic> json = jsonDecode(backup);
+      final applicationData = HiveApplicationData.fromJson(json);
       final clientInfo = applicationData.clientInfo;
       final serviceInfo = applicationData.serviceInfo;
       final bankInfo = applicationData.bankInfo;

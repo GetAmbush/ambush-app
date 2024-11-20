@@ -1,10 +1,12 @@
 import 'package:ambush_app/src/domain/models/ambush_info.dart';
 import 'package:hive/hive.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'hive_service_info.g.dart';
 
 @HiveType(typeId: 3)
+@JsonSerializable()
 class HiveServiceInfo extends HiveObject {
   @HiveField(0)
   String description;
@@ -49,4 +51,8 @@ class HiveServiceInfo extends HiveObject {
         serviceInfo.currency.cc,
         serviceInfo.price,
       );
+
+  factory HiveServiceInfo.fromJson(Map<String, dynamic> json) =>
+      _$HiveServiceInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveServiceInfoToJson(this);
 }

@@ -31,6 +31,9 @@
     material_color_utilities: ^0.11.1
     file_picker: ^8.0.3
     extended_masked_text: ^3.0.1
+    json_annotation: ^4.9.0
+    json_serializable: ^6.9.0
+    mockito: ^5.4.4
 
   dev_dependencies:
     flutter_test:

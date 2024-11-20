@@ -4,6 +4,7 @@ import 'package:ambush_app/src/domain/models/client_info.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 import 'hive_bank_info.dart';
 import 'hive_client_info.dart';
@@ -13,6 +14,7 @@ import 'hive_service_info.dart';
 part 'hive_invoice.g.dart';
 
 @HiveType(typeId: 5)
+@JsonSerializable()
 class HiveInvoice extends HiveObject {
   // Invoice basic info
   @HiveField(0)
@@ -105,4 +107,8 @@ class HiveInvoice extends HiveObject {
         createdAt,
         updatedAt,
       );
+
+  factory HiveInvoice.fromJson(Map<String, dynamic> json) =>
+      _$HiveInvoiceFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveInvoiceToJson(this);
 }

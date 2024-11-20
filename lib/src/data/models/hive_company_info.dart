@@ -1,9 +1,11 @@
 import 'package:hive/hive.dart';
 import 'package:ambush_app/src/domain/models/comp_info.dart';
+import 'package:json_annotation/json_annotation.dart';
 
 part 'hive_company_info.g.dart';
 
 @HiveType(typeId: 1)
+@JsonSerializable()
 class HiveCompanyInfo extends HiveObject {
   @HiveField(0)
   String name;
@@ -45,9 +47,14 @@ class HiveCompanyInfo extends HiveObject {
         ownerName,
         cnpj,
       );
+
+  factory HiveCompanyInfo.fromJson(Map<String, dynamic> json) =>
+      _$HiveCompanyInfoFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveCompanyInfoToJson(this);
 }
 
 @HiveType(typeId: 7)
+@JsonSerializable()
 class HiveCompanyAddress extends HiveObject {
   @HiveField(0)
   String street;
@@ -100,4 +107,8 @@ class HiveCompanyAddress extends HiveObject {
         country,
         zipCode,
       );
+
+  factory HiveCompanyAddress.fromJson(Map<String, dynamic> json) =>
+      _$HiveCompanyAddressFromJson(json);
+  Map<String, dynamic> toJson() => _$HiveCompanyAddressToJson(this);
 }
