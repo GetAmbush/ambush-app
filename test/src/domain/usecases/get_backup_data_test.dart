@@ -19,8 +19,12 @@ void main() {
   group('GetBackupData', () {
     setUp();
     test('test get - should return string', () async {
+      // Given
       when(mockApplicationBackupRepository.get()).thenReturn('String');
-      expect(await sut.get(), 'String');
+      // When
+      final output = await sut.get();
+      // Then
+      expect(output, 'String');
     });
   });
 }
