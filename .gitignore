@@ -42,6 +42,7 @@ app.*.map.json
 *.g.dart
 di.config.dart
 app_route.gr.dart
+*.mocks.dart
 
 # Android Studio will place build artifacts here
 /android/app/debug
