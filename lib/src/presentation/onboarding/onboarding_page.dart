@@ -87,11 +87,14 @@ class OnBoardingPage extends StatelessWidget {
 class _OrDivider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+    final colors = Theme.of(context).colorScheme;
+
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
       SizedBox(
         width: 20,
         child: Divider(
           height: 1,
+          color: colors.primary,
         ),
       ),
       SizedBox(
@@ -99,7 +102,7 @@ class _OrDivider extends StatelessWidget {
       ),
       Text(
         'Or',
-        style: TextStyle(color: Colors.white),
+        style: TextStyle(color: colors.primary),
         textAlign: TextAlign.center,
       ),
       SizedBox(
@@ -109,6 +112,7 @@ class _OrDivider extends StatelessWidget {
         width: 20,
         child: Divider(
           height: 1,
+          color: colors.primary,
         ),
       )
     ]);
