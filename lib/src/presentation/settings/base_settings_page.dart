@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
@@ -21,8 +22,8 @@ class BaseSettingsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-    return Scaffold(
+    return ConstrainedScaffold(
+      maxWidth: defaultPageMaxWidth,
       appBar: AppBar(title: Text(title)),
       body: ListView(
         padding: const EdgeInsets.symmetric(
@@ -35,9 +36,7 @@ class BaseSettingsPage extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 36),
               child: Text(
                 infoText!,
-                style: textTheme.titleMedium?.copyWith(
-                  color: colorScheme.primary,
-                ),
+                style: textTheme.titleMedium?.copyWith(),
               ),
             ),
           form,
@@ -55,7 +54,6 @@ class BaseSettingsPage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class BasicInfoPageConfig {

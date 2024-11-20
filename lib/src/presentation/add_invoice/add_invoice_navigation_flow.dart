@@ -30,7 +30,7 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
 
   @override
   void onFinishFlow() {
-    _router.popUntilRoot();
+    _router.push(InvoiceListRoute());
   }
 
   @override
@@ -63,8 +63,12 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
         break;
       case ServiceInfoRoute.name:
         _router.push(
-          AddInvoiceRoute(flow: this),
+          OnboardingSuccessRoute(),
         );
+        break;
+
+      case OnBoardingRoute.name:
+        _router.push(AddInvoiceRoute(flow: this));
         break;
     }
   }
