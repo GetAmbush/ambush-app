@@ -19,7 +19,9 @@ void main() {
   group('SaveBackupData', () {
     setUp();
     test('test save - should output be string', () async {
+      // When
       await sut.save('String');
+      // Then
       verify(mockApplicationDataRepository.save('String'));
     });
   });
