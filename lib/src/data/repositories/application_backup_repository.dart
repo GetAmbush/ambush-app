@@ -48,6 +48,8 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
       final companyInfo = applicationData.companyInfo;
       final invoiceList = applicationData.invoiceList;
 
+      await _localDataSource.clearDB();
+
       if (clientInfo != null) {
         await _localDataSource.saveClientInfo(clientInfo);
       }
