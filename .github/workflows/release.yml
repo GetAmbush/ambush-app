@@ -81,11 +81,8 @@ jobs:
           projectId: invoices-app-c2491
           channelId: live
 
-      - name: Create Git Release
-        uses: docker://antonyurchenko/git-release:v6
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: ncipollo/release-action@v1
         with:
-          args: |
-            ./pwa.zip
-            ./macos.zip
+          artifacts: "pwa.zip,macos.zip"
+          generateReleaseNotes: true
+          draft: true
