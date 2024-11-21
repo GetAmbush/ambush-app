@@ -3,8 +3,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'models_mocks.dart';
 
 void main() {
-
-
   group('ServiceInfo', () {
     test(
         'Given quantity 2.0 and price 50.0, when getTotalPrice is called, then it should return 100.0',

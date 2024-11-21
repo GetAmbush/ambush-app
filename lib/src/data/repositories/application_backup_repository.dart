@@ -20,7 +20,7 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
 
   @override
   String get() {
-    final applicationData = HiveApplicationData(
+    final applicationData = ApplicationData(
         _localDataSource.getClientInfo(),
         _localDataSource.getServiceInfo(),
         _localDataSource.getBankInfo(),
@@ -41,7 +41,7 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
   Future<void> save(String backup) async {
     try {
       final Map<String, dynamic> json = jsonDecode(backup);
-      final applicationData = HiveApplicationData.fromJson(json);
+      final applicationData = ApplicationData.fromJson(json);
       final clientInfo = applicationData.clientInfo;
       final serviceInfo = applicationData.serviceInfo;
       final bankInfo = applicationData.bankInfo;

@@ -43,6 +43,7 @@ void main() {
       verify(mockLocalDataSource.saveClientInfo(any)).called(1);
       verify(mockLocalDataSource.saveCompanyInfo(any)).called(1);
       verify(mockLocalDataSource.saveServiceInfo(any)).called(1);
+      verify(mockLocalDataSource.saveInvoice(any)).called(1);
     });
   });
 }
