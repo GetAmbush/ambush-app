@@ -9,7 +9,7 @@ import 'package:injectable/injectable.dart';
 
 abstract class IApplicationBackupRepository {
   String get();
-  Future<void> save(String backup);
+  Future<void> restore(String backup);
 }
 
 @Injectable(as: IApplicationBackupRepository)
@@ -38,7 +38,7 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
   }
 
   @override
-  Future<void> save(String backup) async {
+  Future<void> restore(String backup) async {
     try {
       final Map<String, dynamic> json = jsonDecode(backup);
       final applicationData = ApplicationData.fromJson(json);
