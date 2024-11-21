@@ -1,4 +1,7 @@
+import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
+import 'package:ambush_app/src/designsystem/show_error_dialog.dart';
+import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -45,6 +48,11 @@ class InvoiceListPage extends StatelessWidget {
               },
             );
           }),
+          IconButton(
+              onPressed: () => _onBackupRestoreClick, icon: Icon(Icons.upload)),
+          IconButton(
+              onPressed: () => _onBackupCreateClick,
+              icon: Icon(Icons.download)),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
@@ -95,6 +103,31 @@ class InvoiceListPage extends StatelessWidget {
     final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
   }
+
+  void _onBackupRestoreClick(BuildContext context) async {
+    try {
+      await _viewModel.restoreApplicationBackup();
+    } catch (e) {
+      if (context.mounted) {
+        _showErrorDialog(
+            context, e is BackupError ? e.message : genericErrorMessage);
+      }
+    }
+  }
+
+  void _onBackupCreateClick(BuildContext context) async {
+    try {
+      await _viewModel.createApplicationBackup();
+    } catch (e) {
+      if (context.mounted) {
+        _showErrorDialog(
+            context, e is BackupError ? e.message : genericErrorMessage);
+      }
+    }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) =>
+      showErrorDialog(context, genericErrorTitle, message, ok);
 }
 
 class ListBody extends StatelessWidget {

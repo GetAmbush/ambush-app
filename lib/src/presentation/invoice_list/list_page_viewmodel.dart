@@ -1,3 +1,6 @@
+import 'package:ambush_app/src/domain/usecases/get_backup_data.dart';
+import 'package:ambush_app/src/domain/usecases/save_backup_data.dart';
+import 'package:ambush_app/src/presentation/utils/backup.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
@@ -9,17 +12,21 @@ part 'list_page_viewmodel.g.dart';
 @injectable
 class ListPageViewModel extends _ListPageViewModelBase
     with _$ListPageViewModel {
-  ListPageViewModel(super._getInvoiceList, super._deleteInvoice,);
+  ListPageViewModel(
+    super._getInvoiceList,
+    super._deleteInvoice,
+  );
 }
 
 abstract class _ListPageViewModelBase with Store {
   final IGetInvoiceList _getInvoiceList;
   final IDeleteInvoice _deleteInvoice;
+  final IGetBackupData _getBackupData;
+  final ISaveBackupData _saveBackupData;
+  final IBackup _backup;
 
-  _ListPageViewModelBase(
-    this._getInvoiceList,
-    this._deleteInvoice,
-  ) {
+  _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
+      this._getBackupData, this._saveBackupData, this._backup) {
     // Get initial value
     updateList(_getInvoiceList.get());
 
@@ -59,5 +66,15 @@ abstract class _ListPageViewModelBase with Store {
     _getInvoiceList.observe().listen((event) {
       updateList(event);
     });
+  }
+
+  Future<void> createApplicationBackup() async {
+    final data = await _getBackupData.get();
+    await _backup.create(data);
+  }
+
+  Future<void> restoreApplicationBackup() async {
+    final data = await _backup.restore();
+    await _saveBackupData.save(data);
   }
 }

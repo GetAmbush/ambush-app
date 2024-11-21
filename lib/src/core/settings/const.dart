@@ -7,3 +7,7 @@ const double extraLargeMargin = 64;
 const double defaultPageMaxWidth = 396.0;
 
 const formatErrorMessage = 'There was an error formatting your backup.';
+const jsonFilepath = 'invoice_app.json';
+const genericErrorTitle = 'You got an error';
+const genericErrorMessage = 'Please try again';
+const ok = 'Ok';
