@@ -80,6 +80,6 @@ abstract class _ListPageViewModelBase with Store {
 
   Future<void> restoreApplicationBackup() async {
     final data = await _backup.restore();
-    await _saveBackupData.save(data);
+    if (data != null) await _saveBackupData.save(data);
   }
 }

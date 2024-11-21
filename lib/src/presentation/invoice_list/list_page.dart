@@ -49,9 +49,10 @@ class InvoiceListPage extends StatelessWidget {
             );
           }),
           IconButton(
-              onPressed: () => _onBackupRestoreClick, icon: Icon(Icons.upload)),
+              onPressed: () => _onBackupRestoreClick(context),
+              icon: Icon(Icons.upload)),
           IconButton(
-              onPressed: () => _onBackupCreateClick,
+              onPressed: () => _onBackupCreateClick(context),
               icon: Icon(Icons.download)),
           IconButton(
             icon: const Icon(Icons.settings),
