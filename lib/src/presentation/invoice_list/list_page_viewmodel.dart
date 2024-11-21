@@ -1,6 +1,7 @@
 import 'package:ambush_app/src/domain/usecases/get_backup_data.dart';
 import 'package:ambush_app/src/domain/usecases/save_backup_data.dart';
 import 'package:ambush_app/src/presentation/utils/backup.dart';
+import 'package:ambush_app/src/presentation/utils/backup_factory.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
@@ -15,6 +16,9 @@ class ListPageViewModel extends _ListPageViewModelBase
   ListPageViewModel(
     super._getInvoiceList,
     super._deleteInvoice,
+    super._getBackupData,
+    super._saveBackupData,
+    super._backupFactory,
   );
 }
 
@@ -23,10 +27,10 @@ abstract class _ListPageViewModelBase with Store {
   final IDeleteInvoice _deleteInvoice;
   final IGetBackupData _getBackupData;
   final ISaveBackupData _saveBackupData;
-  final IBackup _backup;
+  final IBackupFactory _backupFactory;
 
   _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
-      this._getBackupData, this._saveBackupData, this._backup) {
+      this._getBackupData, this._saveBackupData, this._backupFactory) {
     // Get initial value
     updateList(_getInvoiceList.get());
 
@@ -35,6 +39,7 @@ abstract class _ListPageViewModelBase with Store {
   }
 
   bool canShowInfoAlert = false;
+  IBackup get _backup => _backupFactory.create();
 
   @observable
   ObservableList<Invoice> invoiceList = ObservableList();

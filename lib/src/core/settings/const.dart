@@ -11,3 +11,5 @@ const jsonFilepath = 'invoice_app.json';
 const genericErrorTitle = 'You got an error';
 const genericErrorMessage = 'Please try again';
 const ok = 'Ok';
+const platformError =
+    'This feature is not implemented for the current platform';
