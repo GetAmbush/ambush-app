@@ -1,5 +1,5 @@
 import 'package:ambush_app/src/domain/usecases/get_backup_data.dart';
-import 'package:ambush_app/src/domain/usecases/save_backup_data.dart';
+import 'package:ambush_app/src/domain/usecases/restore_backup_data.dart';
 import 'package:ambush_app/src/presentation/utils/backup.dart';
 import 'package:ambush_app/src/presentation/utils/backup_factory.dart';
 import 'package:injectable/injectable.dart';
@@ -28,6 +28,7 @@ abstract class _ListPageViewModelBase with Store {
   final IGetBackupData _getBackupData;
   final IRestoreBackupData _restoreBackupData;
   final IBackupFactory _backupFactory;
+  late IBackup _backup;
 
   _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
       this._getBackupData, this._restoreBackupData, this._backupFactory) {
@@ -36,10 +37,10 @@ abstract class _ListPageViewModelBase with Store {
 
     // Observe for changes
     _observeChanges();
+    _backup = _backupFactory.create();
   }
 
   bool canShowInfoAlert = false;
-  IBackup get _backup => _backupFactory.create();
 
   @observable
   ObservableList<Invoice> invoiceList = ObservableList();
@@ -80,6 +81,6 @@ abstract class _ListPageViewModelBase with Store {
 
   Future<void> restoreApplicationBackup() async {
     final data = await _backup.restore();
-    if (data != null) await _restoreBackupData.save(data);
+    if (data != null) await _restoreBackupData.restore(data);
   }
 }
