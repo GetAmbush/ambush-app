@@ -28,7 +28,7 @@ abstract class _ListPageViewModelBase with Store {
   final IGetBackupData _getBackupData;
   final IRestoreBackupData _restoreBackupData;
   final IBackupFactory _backupFactory;
-  late IBackup _backup;
+  late final IBackup _backup;
 
   _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
       this._getBackupData, this._restoreBackupData, this._backupFactory) {

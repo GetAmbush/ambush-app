@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:ambush_app/src/core/routes/app_route.gr.dart';
+import 'package:ambush_app/src/designsystem/show_error_dialog.dart';
+import 'package:ambush_app/src/presentation/utils/backup/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -74,8 +77,20 @@ class OnBoardingPage extends StatelessWidget {
       (kIsWeb) || Platform.isMacOS || Platform.isLinux || Platform.isWindows;
 
   void _onRestoreBackUpClick(BuildContext context) async {
-    //
+    try {
+      await _viewModel.restoreApplicationBackup();
+      await _viewModel.finishOnboarding();
+      if (context.mounted) context.router.replace(InvoiceListRoute());
+    } catch (e) {
+      if (context.mounted) {
+        _showErrorDialog(
+            context, e is BackupError ? e.message : genericErrorMessage);
+      }
+    }
   }
+
+  void _showErrorDialog(BuildContext context, String message) =>
+      showErrorDialog(context, genericErrorTitle, message, ok);
 }
 
 class _OrDivider extends StatelessWidget {
