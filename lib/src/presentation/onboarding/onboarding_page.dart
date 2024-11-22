@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/di/di.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
@@ -48,10 +51,64 @@ class OnBoardingPage extends StatelessWidget {
                 },
                 text: 'Set my info',
               ),
+              if (_shouldHaveBackupFeature()) ...[
+                const SizedBox(
+                  height: 16,
+                ),
+                _OrDivider(),
+                const SizedBox(
+                  height: 16,
+                ),
+                SecondaryButton(
+                    text: "Restore a back up",
+                    onPressed: () => _onRestoreBackUpClick(context)),
+              ]
             ],
           ),
         ),
       ),
     );
+  }
+
+  bool _shouldHaveBackupFeature() =>
+      (kIsWeb) || Platform.isMacOS || Platform.isLinux || Platform.isWindows;
+
+  void _onRestoreBackUpClick(BuildContext context) async {
+    //
+  }
+}
+
+class _OrDivider extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
+    return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+      SizedBox(
+        width: 20,
+        child: Divider(
+          height: 1,
+          color: colors.primary,
+        ),
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      Text(
+        'Or',
+        style: TextStyle(color: colors.primary),
+        textAlign: TextAlign.center,
+      ),
+      SizedBox(
+        width: 4,
+      ),
+      SizedBox(
+        width: 20,
+        child: Divider(
+          height: 1,
+          color: colors.primary,
+        ),
+      )
+    ]);
   }
 }
