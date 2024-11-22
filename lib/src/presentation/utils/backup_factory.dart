@@ -15,8 +15,6 @@ class BackupFactory implements IBackupFactory {
   IBackup create() {
     if (kIsWeb) {
       return getIt<WebBackup>();
-    } else if (Platform.isIOS || Platform.isAndroid) {
-      return getIt<MobileBackup>();
     } else if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
       return getIt<DesktopBackup>();
     } else {
