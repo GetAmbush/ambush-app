@@ -1,7 +1,7 @@
 import 'package:ambush_app/src/domain/usecases/get_backup_data.dart';
 import 'package:ambush_app/src/domain/usecases/restore_backup_data.dart';
-import 'package:ambush_app/src/presentation/utils/backup.dart';
-import 'package:ambush_app/src/presentation/utils/backup_factory.dart';
+import 'package:ambush_app/src/presentation/utils/backup/backup_contract.dart';
+import 'package:ambush_app/src/presentation/utils/backup/backup_factory.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/domain/models/invoice.dart';
 import 'package:ambush_app/src/domain/usecases/delete_invoice.dart';
