@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/data/datasource/local_datasource.dart';
-import 'package:ambush_app/src/data/models/hive_application_data.dart';
+import 'package:ambush_app/src/data/models/application_data.dart';
 import 'package:ambush_app/src/data/models/hive_invoice.dart';
 import 'package:ambush_app/src/presentation/utils/backup_error.dart';
 import 'package:injectable/injectable.dart';

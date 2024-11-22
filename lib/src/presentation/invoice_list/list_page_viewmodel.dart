@@ -26,11 +26,11 @@ abstract class _ListPageViewModelBase with Store {
   final IGetInvoiceList _getInvoiceList;
   final IDeleteInvoice _deleteInvoice;
   final IGetBackupData _getBackupData;
-  final ISaveBackupData _saveBackupData;
+  final IRestoreBackupData _restoreBackupData;
   final IBackupFactory _backupFactory;
 
   _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
-      this._getBackupData, this._saveBackupData, this._backupFactory) {
+      this._getBackupData, this._restoreBackupData, this._backupFactory) {
     // Get initial value
     updateList(_getInvoiceList.get());
 
@@ -80,6 +80,6 @@ abstract class _ListPageViewModelBase with Store {
 
   Future<void> restoreApplicationBackup() async {
     final data = await _backup.restore();
-    if (data != null) await _saveBackupData.save(data);
+    if (data != null) await _restoreBackupData.save(data);
   }
 }

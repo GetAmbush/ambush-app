@@ -22,7 +22,7 @@ void main() {
       // When
       await sut.save('String');
       // Then
-      verify(mockApplicationDataRepository.save('String'));
+      verify(mockApplicationDataRepository.restore('String'));
     });
   });
 }
