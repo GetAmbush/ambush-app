@@ -83,7 +83,7 @@ class OnBoardingPage extends StatelessWidget {
   void _onRestoreBackUpClick(BuildContext context) async {
     try {
       await _viewModel.restoreApplicationBackup();
-      _viewModel.finishOnboarding();
+      await _viewModel.finishOnboarding();
       if (context.mounted) context.router.replace(InvoiceListRoute());
     } catch (e) {
       if (context.mounted) {
