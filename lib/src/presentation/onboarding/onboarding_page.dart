@@ -74,12 +74,16 @@ class OnBoardingPage extends StatelessWidget {
   }
 
   bool _shouldHaveBackupFeature() =>
-      (kIsWeb) || Platform.isMacOS || Platform.isLinux || Platform.isWindows;
+      (kIsWeb) ||
+      Platform.isMacOS ||
+      Platform.isLinux ||
+      Platform.isWindows ||
+      Platform.isIOS;
 
   void _onRestoreBackUpClick(BuildContext context) async {
     try {
       await _viewModel.restoreApplicationBackup();
-      await _viewModel.finishOnboarding();
+      _viewModel.finishOnboarding();
       if (context.mounted) context.router.replace(InvoiceListRoute());
     } catch (e) {
       if (context.mounted) {

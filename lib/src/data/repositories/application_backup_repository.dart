@@ -66,6 +66,8 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
       for (var invoice in invoiceList) {
         _localDataSource.saveInvoice(invoice.toInvoice());
       }
+
+      _localDataSource.saveOnboardingStatus(true);
     } catch (_) {
       throw BackupError(formatErrorMessage);
     }

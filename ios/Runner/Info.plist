@@ -49,5 +49,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>NSDocumentFolderUsageDescription</key>
+    <string>Need permission to select file path</string>
 </dict>
 </plist>

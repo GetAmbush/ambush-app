@@ -9,6 +9,9 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		3FF52E102CF4A753004B6139 /* FileWriteUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF52E0F2CF4A753004B6139 /* FileWriteUseCase.swift */; };
+		3FF52E122CF4A941004B6139 /* BackupError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF52E112CF4A941004B6139 /* BackupError.swift */; };
+		3FF52E142CF4AFD6004B6139 /* FileReadUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FF52E132CF4AFD6004B6139 /* FileReadUseCase.swift */; };
 		6FB42D6B7441DBDD3EEEFAEE /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AF0F8CCC2850E033974EDFF1 /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
@@ -34,6 +37,9 @@
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		1CB1935C2BF936F500E528A1 /* Base.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Base.xcconfig; sourceTree = "<group>"; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
+		3FF52E0F2CF4A753004B6139 /* FileWriteUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileWriteUseCase.swift; sourceTree = "<group>"; };
+		3FF52E112CF4A941004B6139 /* BackupError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackupError.swift; sourceTree = "<group>"; };
+		3FF52E132CF4AFD6004B6139 /* FileReadUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileReadUseCase.swift; sourceTree = "<group>"; };
 		74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Runner-Bridging-Header.h"; sourceTree = "<group>"; };
 		74858FAE1ED2DC5600515810 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7AFA3C8E1D35360C0083082E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Flutter/Release.xcconfig; sourceTree = "<group>"; };
@@ -62,6 +68,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3FF52E0E2CF4A740004B6139 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3FF52E0F2CF4A753004B6139 /* FileWriteUseCase.swift */,
+				3FF52E112CF4A941004B6139 /* BackupError.swift */,
+				3FF52E132CF4AFD6004B6139 /* FileReadUseCase.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
 		4935E9D498853ADA828FEB93 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -114,6 +130,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				3FF52E0E2CF4A740004B6139 /* Utils */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -276,7 +293,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3FF52E122CF4A941004B6139 /* BackupError.swift in Sources */,
+				3FF52E142CF4AFD6004B6139 /* FileReadUseCase.swift in Sources */,
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				3FF52E102CF4A753004B6139 /* FileWriteUseCase.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -365,6 +385,7 @@
 				DEVELOPMENT_TEAM = 7F7VKV67V6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -496,6 +517,7 @@
 				DEVELOPMENT_TEAM = 7F7VKV67V6;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -517,6 +539,7 @@
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Runner/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
