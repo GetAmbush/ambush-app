@@ -54,31 +54,22 @@ class OnBoardingPage extends StatelessWidget {
                 },
                 text: 'Set my info',
               ),
-              if (_shouldHaveBackupFeature()) ...[
-                const SizedBox(
-                  height: 16,
-                ),
-                _OrDivider(),
-                const SizedBox(
-                  height: 16,
-                ),
-                SecondaryButton(
-                    text: "Restore a back up",
-                    onPressed: () => _onRestoreBackUpClick(context)),
-              ]
+              const SizedBox(
+                height: 16,
+              ),
+              _OrDivider(),
+              const SizedBox(
+                height: 16,
+              ),
+              SecondaryButton(
+                  text: "Restore a back up",
+                  onPressed: () => _onRestoreBackUpClick(context)),
             ],
           ),
         ),
       ),
     );
   }
-
-  bool _shouldHaveBackupFeature() =>
-      (kIsWeb) ||
-      Platform.isMacOS ||
-      Platform.isLinux ||
-      Platform.isWindows ||
-      Platform.isIOS;
 
   void _onRestoreBackUpClick(BuildContext context) async {
     try {

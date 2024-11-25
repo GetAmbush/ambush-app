@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:share_plus/share_plus.dart';
 
 @injectable
-class IosBackup implements IBackup {
+class MobileBackup implements IBackup {
   final _platform = MethodChannel('flutter.dev/preferences');
 
   @override
