@@ -35,12 +35,12 @@ class AddInvoicePage extends StatelessWidget {
           children: [
             InputField(
               label: "Invoice Id",
-              helperText: "Enter the a unique invoice Id",
+              helperText: "Enter a numeric unique invoice Id",
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.number,
               controller: _viewModel.idController,
               autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: requiredFieldValidator,
+              validator: intValueValidator,
             ),
             const SizedBox(height: marginBetweenFields),
             InputField(

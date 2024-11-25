@@ -1,17 +1,19 @@
+import 'package:ambush_app/src/core/settings/const.dart';
+
 String? requiredFieldValidator(String? value) {
-  if(value == null || value.isEmpty) {
-    return "Required filed";
+  if (value == null || value.isEmpty) {
+    return requiredField;
   }
   return null;
 }
 
 String? doubleValueValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return "Required filed";
+    return requiredField;
   }
 
   if (double.tryParse(value) == null) {
-    return "Invalid value";
+    return invalidValue;
   }
 
   return null;
@@ -19,11 +21,23 @@ String? doubleValueValidator(String? value) {
 
 String? requiredEmailValidator(String? value) {
   if (value == null || value.isEmpty) {
-    return "Required filed";
+    return requiredField;
   }
 
   if (!value.contains("@")) {
-    return "Invalid email";
+    return invalidEmail;
+  }
+
+  return null;
+}
+
+String? intValueValidator(String? value) {
+  if (value == null || value.isEmpty) {
+    return requiredField;
+  }
+
+  if (int.tryParse(value) == null) {
+    return invalidValue;
   }
 
   return null;
