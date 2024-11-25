@@ -60,6 +60,9 @@ class ApplicationBackupRepository implements IApplicationBackupRepository {
       if (companyInfo != null) {
         await _localDataSource.saveCompanyInfo(companyInfo);
       }
+
+      _localDataSource.clearInvoiceList();
+
       for (var invoice in invoiceList) {
         _localDataSource.saveInvoice(invoice.toInvoice());
       }

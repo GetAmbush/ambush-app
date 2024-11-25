@@ -53,6 +53,8 @@ abstract class ILocalDataSource {
 
   Future<void> saveInvoice(Invoice invoice);
 
+  Future<void> clearInvoiceList();
+
   Future<void> saveOnboardingStatus(bool status);
 
   Future<void> saveInfoAlertStatus(bool status);
@@ -153,6 +155,10 @@ class LocalDataSource implements ILocalDataSource {
   }
 
   @override
+  Future<void> clearInvoiceList() =>
+      _appBox.put(_keyInvoiceList, HiveInvoiceList([]));
+
+  @override
   Stream<List<Invoice>> observeInvoiceList() {
     //TODO: how to emit value on each subscribe? stream.startWith ??
     return _appBox.watch(key: _keyInvoiceList).map((event) {
@@ -187,7 +193,7 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   int getDbVersion() {
-    if(_appBox.containsKey(_keyDbVersion)) {
+    if (_appBox.containsKey(_keyDbVersion)) {
       return _appBox.get(_keyDbVersion);
     } else {
       return 1;
