@@ -1,11 +1,8 @@
-import 'dart:io';
-
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:ambush_app/src/designsystem/show_error_dialog.dart';
 import 'package:ambush_app/src/presentation/utils/backup/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:ambush_app/src/core/di/di.dart';
