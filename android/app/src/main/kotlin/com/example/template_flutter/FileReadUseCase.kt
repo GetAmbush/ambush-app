@@ -3,9 +3,6 @@ package com.example.template_flutter
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -13,16 +10,6 @@ import kotlinx.coroutines.flow.SharedFlow
 class FileReadUseCase(private val lifecycleOwner: LifecycleOwner?) {
     private val _resultFlow = MutableSharedFlow<Result<String>>()
     val resultFlow: SharedFlow<Result<String>> get() = _resultFlow
-
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun accessFileSystem() {
-        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "application/json"
-            putExtra(Intent.EXTRA_TITLE, "invoice_app.json")
-        }
-        startActivityForResult(lifecycleOwner as Activity, intent, 1001, null)
-    }
 
     suspend fun handleActivityResult(data: Intent?) {
         val uri = data?.data
