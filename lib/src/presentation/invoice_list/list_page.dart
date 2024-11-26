@@ -102,13 +102,6 @@ class InvoiceListPage extends StatelessWidget {
     );
   }
 
-  bool _shouldHaveBackupFeature() =>
-      (kIsWeb) ||
-      Platform.isMacOS ||
-      Platform.isLinux ||
-      Platform.isWindows ||
-      Platform.isIOS;
-
   void _onAddClick(BuildContext context) {
     final navigator = context.router;
     final flow = AddInvoiceNavigationFlow(navigator);
