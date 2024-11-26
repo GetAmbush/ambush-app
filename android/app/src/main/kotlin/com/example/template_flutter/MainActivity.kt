@@ -1,6 +1,6 @@
 package com.theolm.ambush_app
 
-import FileWriteUseCase
+import com.example.template_flutter.FileWriteUseCase
 import android.app.Activity
 import android.content.Intent
 import android.os.Build
@@ -64,7 +64,6 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-
     @RequiresApi(Build.VERSION_CODES.O)
     private fun handleRestoreBackup(result: MethodChannel.Result) {
         lifecycleScope.launch {
@@ -82,12 +81,12 @@ class MainActivity : FlutterActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         lifecycleScope.launch {
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == OPEN_REQUEST_CODE) {
-                    fileReadUseCase.handleActivityResult(data)
-                } else if (requestCode == CREATE_REQUEST_CODE) {
-                    val uri = data?.data
-                    uri?.let { uri ->
+            val uri = data?.data
+            uri?.let { uri ->
+                if (resultCode == Activity.RESULT_OK) {
+                    if (requestCode == OPEN_REQUEST_CODE) {
+                        fileReadUseCase.readFileContent(uri)
+                    } else if (requestCode == CREATE_REQUEST_CODE) {
                         backupData?.let { content ->
                             fileWriteUseCase.writeFileContent(uri, content)
                         }

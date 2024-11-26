@@ -1,7 +1,6 @@
 package com.example.template_flutter
 
 import android.app.Activity
-import android.content.Intent
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -11,14 +10,7 @@ class FileReadUseCase(private val lifecycleOwner: LifecycleOwner?) {
     private val _resultFlow = MutableSharedFlow<Result<String>>()
     val resultFlow: SharedFlow<Result<String>> get() = _resultFlow
 
-    suspend fun handleActivityResult(data: Intent?) {
-        val uri = data?.data
-        if (uri != null) {
-            readFileContent(uri)
-        }
-    }
-
-    private suspend fun readFileContent(uri: Uri) {
+    suspend fun readFileContent(uri: Uri) {
         try {
             val contentResolver = (lifecycleOwner as Activity).contentResolver
             val inputStream = contentResolver.openInputStream(uri)

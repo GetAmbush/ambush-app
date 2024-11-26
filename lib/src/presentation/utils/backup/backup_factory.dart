@@ -1,9 +1,10 @@
 import 'dart:io';
 
 import 'package:ambush_app/src/core/di/di.dart';
+import 'package:ambush_app/src/presentation/utils/backup/backup_android.dart';
 import 'package:ambush_app/src/presentation/utils/backup/backup_contract.dart';
 import 'package:ambush_app/src/presentation/utils/backup/backup_desktop.dart';
-import 'package:ambush_app/src/presentation/utils/backup/backup_mobile.dart';
+import 'package:ambush_app/src/presentation/utils/backup/backup_ios.dart';
 import 'package:ambush_app/src/presentation/utils/backup/backup_web.dart';
 import 'package:injectable/injectable.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
@@ -20,8 +21,10 @@ class BackupFactory implements IBackupFactory {
       return getIt<WebBackup>();
     } else if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
       return getIt<DesktopBackup>();
-    } else if (Platform.isIOS || Platform.isAndroid) {
-      return getIt<MobileBackup>();
+    } else if (Platform.isIOS) {
+      return getIt<IosBackup>();
+    } else if (Platform.isAndroid) {
+      return getIt<AndroidBackup>();
     } else {
       return getIt<UnimplementedBackup>();
     }

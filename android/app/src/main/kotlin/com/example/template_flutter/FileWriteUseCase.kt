@@ -1,9 +1,10 @@
+package com.example.template_flutter
+
 import android.app.Activity
 import android.net.Uri
 import androidx.lifecycle.LifecycleOwner
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
-
 
 class FileWriteUseCase(private val lifecycleOwner: LifecycleOwner?) {
     private val _resultFlow = MutableSharedFlow<Result<String>>()
@@ -17,7 +18,7 @@ class FileWriteUseCase(private val lifecycleOwner: LifecycleOwner?) {
                 if (writer != null) {
                     writer.write(content)
                     writer.flush()
-                    _resultFlow.emit(Result.success("File written successfully"))
+                    _resultFlow.emit(Result.success(uri.toString()))
                 } else {
                     _resultFlow.emit(Result.failure(Error("Failed to open output stream")))
                 }
