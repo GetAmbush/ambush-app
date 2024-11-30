@@ -51,14 +51,6 @@ class InvoiceListPage extends StatelessWidget {
               },
             );
           }),
-          if (_shouldHaveBackupFeature()) ...[
-            IconButton(
-                onPressed: () => _onBackupRestoreClick(context),
-                icon: Icon(Icons.upload)),
-            IconButton(
-                onPressed: () => _onBackupCreateClick(context),
-                icon: Icon(Icons.download))
-          ],
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {

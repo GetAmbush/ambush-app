@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
     );
 
     return ConstrainedScaffold(
-      maxWidth: double.infinity,
+      maxWidth: defaultPageMaxWidth,
       appBar: AppBar(title: const Text("Settings")),
       body: Observer(builder: (_) {
         return ListView(
@@ -75,6 +75,14 @@ class SettingsPage extends StatelessWidget {
                     screenConfig: pageConfig,
                   ),
                 );
+              },
+            ),
+            const Divider(indent: regularMargin, endIndent: regularMargin),
+            SettingsItem(
+              title: "Backup",
+              subtitle: "Create and restore backups",
+              onClick: () {
+                context.router.push(BackupRoute());
               },
             ),
           ],
