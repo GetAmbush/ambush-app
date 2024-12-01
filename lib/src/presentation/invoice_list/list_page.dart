@@ -96,39 +96,11 @@ class InvoiceListPage extends StatelessWidget {
     );
   }
 
-  bool _shouldHaveBackupFeature() =>
-      (kIsWeb) || Platform.isMacOS || Platform.isLinux || Platform.isWindows;
-
   void _onAddClick(BuildContext context) {
     final navigator = context.router;
     final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
   }
-
-  void _onBackupRestoreClick(BuildContext context) async {
-    try {
-      await _viewModel.restoreApplicationBackup();
-    } catch (e) {
-      if (context.mounted) {
-        _showErrorDialog(
-            context, e is BackupError ? e.message : genericErrorMessage);
-      }
-    }
-  }
-
-  void _onBackupCreateClick(BuildContext context) async {
-    try {
-      await _viewModel.createApplicationBackup();
-    } catch (e) {
-      if (context.mounted) {
-        _showErrorDialog(
-            context, e is BackupError ? e.message : genericErrorMessage);
-      }
-    }
-  }
-
-  void _showErrorDialog(BuildContext context, String message) =>
-      showErrorDialog(context, genericErrorTitle, message, ok);
 }
 
 class ListBody extends StatelessWidget {
