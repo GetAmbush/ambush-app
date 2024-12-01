@@ -16,28 +16,22 @@ class ListPageViewModel extends _ListPageViewModelBase
   ListPageViewModel(
     super._getInvoiceList,
     super._deleteInvoice,
-    super._getBackupData,
-    super._saveBackupData,
-    super._backupFactory,
   );
 }
 
 abstract class _ListPageViewModelBase with Store {
   final IGetInvoiceList _getInvoiceList;
   final IDeleteInvoice _deleteInvoice;
-  final IGetBackupData _getBackupData;
-  final IRestoreBackupData _restoreBackupData;
-  final IBackupFactory _backupFactory;
-  late final IBackup _backup;
 
-  _ListPageViewModelBase(this._getInvoiceList, this._deleteInvoice,
-      this._getBackupData, this._restoreBackupData, this._backupFactory) {
+  _ListPageViewModelBase(
+    this._getInvoiceList,
+    this._deleteInvoice,
+  ) {
     // Get initial value
     updateList(_getInvoiceList.get());
 
     // Observe for changes
     _observeChanges();
-    _backup = _backupFactory.create();
   }
 
   bool canShowInfoAlert = false;
@@ -72,15 +66,5 @@ abstract class _ListPageViewModelBase with Store {
     _getInvoiceList.observe().listen((event) {
       updateList(event);
     });
-  }
-
-  Future<void> createApplicationBackup() async {
-    final data = await _getBackupData.get();
-    await _backup.create(data);
-  }
-
-  Future<void> restoreApplicationBackup() async {
-    final data = await _backup.restore();
-    if (data != null) await _restoreBackupData.restore(data);
   }
 }
