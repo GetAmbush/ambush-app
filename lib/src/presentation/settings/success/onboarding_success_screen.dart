@@ -28,82 +28,79 @@ class OnboardingSuccessPage extends StatelessWidget {
 
     return ConstrainedScaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            context.router.push(InvoiceListRoute());
-          },
-        ),
-        elevation: 0,
-        backgroundColor: Colors.transparent,
+        automaticallyImplyLeading: false,
       ),
       maxWidth: defaultPageMaxWidth,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(height: extraBigBetweenFields),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Success!',
-                style: textTheme.titleLarge,
-              ),
-              SizedBox(height: minorMargin),
-              Text(
-                "All set! YOUR company's information has been\nsuccessfully submitted. We're ready to move\nforward with your invoice!",
-                textAlign: TextAlign.start,
-                style: textTheme.bodyLarge?.copyWith(color: Colors.grey[700]),
-              ),
-            ],
-          ),
-          SizedBox(height: extraBigBetweenFields),
-          Container(
-            height: 120,
-            width: 120,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Center(
-              child: Image.asset(
-                'assets/illustration_success.png',
-                fit: BoxFit.contain,
-              ),
-            ),
-          ),
-          SizedBox(height: extraLargeMargin),
-          Padding(
-            padding: const EdgeInsets.all(minorMargin),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+      bottomNavigationBar: null,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(height: extraBigBetweenFields),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextButton(
-                  onPressed: () {
-                    _willDoThisLater(context);
-                  },
-                  child: Text(
-                    "I'll do it later",
-                    style: TextStyle(
-                      color: colorTheme.primary,
-                      fontSize: 16,
-                    ),
-                  ),
+                Text(
+                  'Success!',
+                  style: textTheme.titleLarge,
                 ),
-                SizedBox(
-                  width: regularMargin,
+                SizedBox(height: minorMargin),
+                Text(
+                  "All set! YOUR company's information has been\nsuccessfully submitted. We're ready to move\nforward with your invoice!",
+                  textAlign: TextAlign.start,
+                  style: textTheme.bodyLarge?.copyWith(color: Colors.grey[700]),
                 ),
-                PrimaryButton(
-                    text: "Create Invoice",
-                    onPressed: () {
-                      _onAddClick(context);
-                    }),
               ],
             ),
-          ),
-          SizedBox(height: bigBetweenFields),
-        ],
+            SizedBox(height: extraBigBetweenFields),
+            Container(
+              height: 120,
+              width: 120,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: Center(
+                child: Image.asset(
+                  'assets/illustration_success.png',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
+            SizedBox(height: extraLargeMargin),
+            Padding(
+              padding: const EdgeInsets.all(minorMargin),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      _willDoThisLater(context);
+                    },
+                    child: Text(
+                      "I'll do it later",
+                      style: TextStyle(
+                        color: colorTheme.primary,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: regularMargin,
+                  ),
+                  PrimaryButton(
+                      text: "Create Invoice",
+                      onPressed: () {
+                        _onAddClick(context);
+                      }),
+                ],
+              ),
+            ),
+            SizedBox(height: bigBetweenFields),
+          ],
+        ),
       ),
     );
   }

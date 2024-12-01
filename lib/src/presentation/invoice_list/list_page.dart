@@ -32,6 +32,7 @@ class InvoiceListPage extends StatelessWidget {
           colorFilter: ColorFilter.mode(colorScheme.primary, BlendMode.srcIn),
         ),
         centerTitle: false,
+        automaticallyImplyLeading: false,
         actions: [
           Observer(builder: (context) {
             var shouldHide = _viewModel.hideMode;
@@ -73,10 +74,10 @@ class InvoiceListPage extends StatelessWidget {
       body: Observer(builder: (context) {
         if (_viewModel.invoiceList.isEmpty) {
           return EmptyList(
-            onAddClick: () {
-              _onAddClick(context);
-            },
-          );
+              onAddClick: () {
+                _onAddClick(context);
+              },
+            );
         } else {
           return ListBody(
             invoiceList: _viewModel.invoiceList,

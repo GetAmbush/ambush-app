@@ -1,3 +1,4 @@
+import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/buttons.dart';
@@ -14,14 +15,13 @@ class EmptyList extends StatelessWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final contentOffset = screenHeight * 0.25;
 
-    return SingleChildScrollView(
-      child: Padding(
+    return ConstrainedScaffold(
+      body: Container(
         padding: const EdgeInsets.all(regularMargin),
-        child: SizedBox(
-          width: double.infinity,
+        child: Center(
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               SizedBox(height: contentOffset),
               Text(
