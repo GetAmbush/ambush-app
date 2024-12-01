@@ -1,7 +1,7 @@
 import 'package:ambush_app/src/core/di/di.dart';
 import 'package:ambush_app/src/core/settings/const.dart';
 import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
-import 'package:ambush_app/src/designsystem/show_error_dialog.dart';
+import 'package:ambush_app/src/designsystem/show_dialogs.dart';
 import 'package:ambush_app/src/presentation/settings/backup/backup_viewmodel.dart';
 import 'package:ambush_app/src/presentation/utils/backup/backup_error.dart';
 import 'package:auto_route/auto_route.dart';
@@ -43,10 +43,19 @@ class BackupPage extends StatelessWidget {
     );
   }
 
-
   void _onBackupRestoreClick(BuildContext context) async {
     try {
       await _viewModel.restoreApplicationBackup();
+
+      if(context.mounted) {
+        await showOnButtonDialog(
+          context,
+          "Backup Restored",
+          "Backup has been restored",
+          "Ok",
+        );
+      }
+
     } catch (e) {
       if (context.mounted) {
         _showErrorDialog(
@@ -58,6 +67,14 @@ class BackupPage extends StatelessWidget {
   void _onBackupCreateClick(BuildContext context) async {
     try {
       await _viewModel.createApplicationBackup();
+      if(context.mounted) {
+        await showOnButtonDialog(
+          context,
+          "Backup Created",
+          "Backup has been created",
+          "Ok",
+        );
+      }
     } catch (e) {
       if (context.mounted) {
         _showErrorDialog(
@@ -67,5 +84,5 @@ class BackupPage extends StatelessWidget {
   }
 
   void _showErrorDialog(BuildContext context, String message) =>
-      showErrorDialog(context, genericErrorTitle, message, ok);
+      showOnButtonDialog(context, genericErrorTitle, message, ok);
 }
