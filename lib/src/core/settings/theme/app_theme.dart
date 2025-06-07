@@ -157,8 +157,8 @@ AppBarTheme appBarThemeDark(ColorScheme colorScheme) {
   );
 }
 
-DialogTheme get dialogTheme {
-  return DialogTheme(
+DialogThemeData get dialogTheme {
+  return DialogThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(24),
     ),
