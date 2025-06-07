@@ -70,7 +70,7 @@ abstract class _AddInvoiceViewModelBase with Store {
   }
 
   void updateDueDateWithNet15(DateTime date) {
-    _dueDate = date.add(const Duration(days: 15));
+    _dueDate = _addBusinessDays(date, 15);
     dueDateController.text = _formatDate(_dueDate!);
   }
 
@@ -117,4 +117,19 @@ abstract class _AddInvoiceViewModelBase with Store {
 
   bool isDueDateValid() =>
       _dueDate!.isAfter(_issueDate!) || _dueDate!.isAtSameMomentAs(_issueDate!);
+
+  DateTime _addBusinessDays(DateTime startDate, int businessDaysToAdd) {
+    int addedDays = 0;
+    DateTime currentDate = startDate;
+
+    while (addedDays < businessDaysToAdd) {
+      currentDate = currentDate.add(const Duration(days: 1));
+      if (currentDate.weekday != DateTime.saturday &&
+          currentDate.weekday != DateTime.sunday) {
+        addedDays++;
+      }
+    }
+
+    return currentDate;
+  }
 }
