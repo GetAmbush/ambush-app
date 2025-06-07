@@ -21,7 +21,7 @@ class SettingsItem extends StatelessWidget {
       subtitle: Text(
         subtitle,
         style: textTheme.titleSmall?.apply(
-          color: colorTheme.onSurface.withOpacity(0.5),
+          color: colorTheme.onSurface.withValues(alpha: 0.5),
         ),
       ),
       onTap: onClick,
