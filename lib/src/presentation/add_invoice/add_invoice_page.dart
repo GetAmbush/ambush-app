@@ -66,24 +66,7 @@ class AddInvoicePage extends StatelessWidget {
               controller: _viewModel.dueDateController,
               readOnly: true,
               keyboardType: TextInputType.none,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              onTap: () async {
-                var date = await selectDate(context, null);
-                if (date != null) {
-                  _viewModel.updateDueDate(date);
-                }
-              },
-              validator: (value) {
-                if (value == null || value.isEmpty) {
-                  return 'Please inform a date';
-                }
-
-                if (_viewModel.issueDateController.text.isNotEmpty &&
-                    !_viewModel.isDueDateValid()) {
-                  return "The due date cannot be before the issue date";
-                }
-                return null;
-              },
+              showSuffix: false,
             ),
           ],
         ),
