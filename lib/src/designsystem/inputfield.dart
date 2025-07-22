@@ -18,6 +18,7 @@ class InputField extends StatelessWidget {
     this.onTap,
     this.helperText,
     this.inputFormatters,
+    this.showSuffix = true,
   });
 
   final String label;
@@ -33,6 +34,7 @@ class InputField extends StatelessWidget {
   final bool readOnly;
   final VoidCallback? onTap;
   final List<TextInputFormatter>? inputFormatters;
+  final bool showSuffix;
 
   @override
   Widget build(BuildContext context) {
@@ -46,12 +48,12 @@ class InputField extends StatelessWidget {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(4.0),
         ),
-        suffixIcon: IconButton(
+        suffixIcon: showSuffix ? IconButton(
           onPressed: () {
             controller.clear();
           },
           icon: SvgPicture.asset('assets/icons/ic_clear.svg'),
-        ),
+        ) : null,
       ),
       textInputAction: textInputAction,
       validator: validator,
