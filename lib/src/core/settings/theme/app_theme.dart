@@ -157,8 +157,8 @@ AppBarTheme appBarThemeDark(ColorScheme colorScheme) {
   );
 }
 
-DialogTheme get dialogTheme {
-  return DialogTheme(
+DialogThemeData get dialogTheme {
+  return DialogThemeData(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(24),
     ),
@@ -173,12 +173,17 @@ TimePickerThemeData get timePickerTheme {
 }
 
 extension ColorExtension on Color {
-  /// Convert the color to a darken color based on the [percent]
+  /// Convert the color to a darkened color based on the [percent]
   Color darken([int percent = 40]) {
     assert(1 <= percent && percent <= 100);
-    final value = 1 - percent / 100;
-    return Color.fromARGB(alpha, (red * value).round(), (green * value).round(),
-        (blue * value).round());
+    final factor = 1 - percent / 100;
+
+    return Color.fromARGB(
+      (a * 255).round(),
+      (r * factor * 255).round(),
+      (g * factor * 255).round(),
+      (b * factor * 255).round(),
+    );
   }
 }
 
@@ -196,12 +201,13 @@ ThemeData getLightTheme(ColorScheme lightColorScheme, BuildContext context) {
     colorScheme: lightColorScheme,
   ).copyWith(
     colorScheme: lightColorScheme,
-    dialogTheme: dialogTheme,
+    dialogTheme: dialogTheme.copyWith(
+      backgroundColor: lightColorScheme.surface,
+    ),
     timePickerTheme: timePickerTheme,
     appBarTheme: appBarThemeLight(lightColorScheme),
     textTheme: getTextTheme(false),
     scaffoldBackgroundColor: lightColorScheme.surface,
-    dialogBackgroundColor: lightColorScheme.surface,
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
     extensions: [lightCustomColor],
@@ -216,12 +222,13 @@ ThemeData getDarkTheme(ColorScheme darkColorScheme, BuildContext context) {
     colorScheme: darkColorScheme,
   ).copyWith(
     colorScheme: darkColorScheme,
-    dialogTheme: dialogTheme,
+    dialogTheme: dialogTheme.copyWith(
+      backgroundColor: darkColorScheme.surface
+    ),
     timePickerTheme: timePickerTheme,
     appBarTheme: appBarThemeDark(darkColorScheme),
     textTheme: getTextTheme(true),
     scaffoldBackgroundColor: darkColorScheme.surface,
-    dialogBackgroundColor: darkColorScheme.surface,
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
     extensions: [darkCustomColor],
