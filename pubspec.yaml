@@ -2,7 +2,7 @@ name: ambush_app
 description: The easy way to create and manage invoices on your mobile device.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 0.7.0+22
+version: 0.5.1+20
 
 environment:
   sdk: '>=3.4.0 <4.0.0'
@@ -135,6 +135,7 @@ flutter:
   - assets/currency.json
   - assets/icons/
   - assets/illustration_success.png
+
 #Font mapping -------------------
 #FontWeight.w100: 'Thin',
 #FontWeight.w200: 'ExtraLight',
