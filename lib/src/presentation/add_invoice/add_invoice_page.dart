@@ -12,10 +12,7 @@ import 'add_invoice_viewmodel.dart';
 
 @RoutePage()
 class AddInvoicePage extends StatelessWidget {
-  AddInvoicePage({
-    super.key,
-    required this.flow,
-  });
+  AddInvoicePage({super.key, required this.flow});
 
   final AddInvoiceViewModel _viewModel = getIt();
   final AddInvoiceNavigationFlow flow;
@@ -54,7 +51,9 @@ class AddInvoicePage extends StatelessWidget {
                 var date = await selectDate(context, null);
                 if (date != null) {
                   _viewModel.updateIssueDate(date);
-                  _viewModel.updateDueDateWithNet15(date);
+                  if (!_viewModel.enableDueDate) {
+                    _viewModel.updateDueDateWithNet15(date);
+                  }
                 }
               },
               validator: requiredFieldValidator,
@@ -67,6 +66,20 @@ class AddInvoicePage extends StatelessWidget {
               readOnly: true,
               keyboardType: TextInputType.none,
               showSuffix: false,
+              validator: _viewModel.enableDueDate
+                  ? requiredFieldValidator
+                  : null,
+              autovalidateMode: _viewModel.enableDueDate
+                  ? AutovalidateMode.onUserInteraction
+                  : null,
+              onTap: _viewModel.enableDueDate
+                  ? () async {
+                      var date = await selectDate(context, null);
+                      if (date != null) {
+                        _viewModel.updateDueDate(date);
+                      }
+                    }
+                  : null,
             ),
           ],
         ),

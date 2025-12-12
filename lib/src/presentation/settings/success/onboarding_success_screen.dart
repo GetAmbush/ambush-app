@@ -12,7 +12,7 @@ class OnboardingSuccessPage extends StatelessWidget {
 
   void _onAddClick(BuildContext context) {
     final navigator = context.router;
-    navigator.replace(InvoiceListRoute());
+    navigator.replaceAll([InvoiceListRoute()]);
     final flow = AddInvoiceNavigationFlow(navigator);
     flow.start();
   }
@@ -31,7 +31,7 @@ class OnboardingSuccessPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            context.router.push(InvoiceListRoute());
+            context.router.replaceAll([InvoiceListRoute()]);
           },
         ),
         elevation: 0,
@@ -46,10 +46,7 @@ class OnboardingSuccessPage extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Success!',
-                style: textTheme.titleLarge,
-              ),
+              Text('Success!', style: textTheme.titleLarge),
               SizedBox(height: minorMargin),
               Text(
                 "All set! YOUR company's information has been\nsuccessfully submitted. We're ready to move\nforward with your invoice!",
@@ -85,20 +82,16 @@ class OnboardingSuccessPage extends StatelessWidget {
                   },
                   child: Text(
                     "I'll do it later",
-                    style: TextStyle(
-                      color: colorTheme.primary,
-                      fontSize: 16,
-                    ),
+                    style: TextStyle(color: colorTheme.primary, fontSize: 16),
                   ),
                 ),
-                SizedBox(
-                  width: regularMargin,
-                ),
+                SizedBox(width: regularMargin),
                 PrimaryButton(
-                    text: "Create Invoice",
-                    onPressed: () {
-                      _onAddClick(context);
-                    }),
+                  text: "Create Invoice",
+                  onPressed: () {
+                    _onAddClick(context);
+                  },
+                ),
               ],
             ),
           ),

@@ -8,9 +8,7 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
 
   OnBoardingNavigationFlow(this._router);
 
-  final _pageConfig = BasicInfoPageConfig(
-    ctaText: 'Next',
-  );
+  final _pageConfig = BasicInfoPageConfig(ctaText: 'Next');
 
   @override
   void onBackPress() {
@@ -19,7 +17,7 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
 
   @override
   void onFinishFlow() {
-    _router.popUntilRoot();
+    _router.replaceAll([InvoiceListRoute()]);
   }
 
   @override
@@ -27,45 +25,25 @@ class OnBoardingNavigationFlow implements InfoNavigationFlow {
     final currentRoute = _router.current.name;
     switch (currentRoute) {
       case BasicInfoRoute.name:
-        _router.push(
-          AddressRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(AddressRoute(flow: this, screenConfig: _pageConfig));
         break;
       case AddressRoute.name:
-        _router.push(
-          BankInfoRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(BankInfoRoute(flow: this, screenConfig: _pageConfig));
         break;
       case BankInfoRoute.name:
-        _router.push(
-          ServiceInfoRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(ServiceInfoRoute(flow: this, screenConfig: _pageConfig));
         break;
       case ServiceInfoRoute.name:
         _router.push(OnboardingSuccessRoute());
         break;
 
       case OnboardingSuccessRoute.name:
-        _router.push(InvoiceListRoute());
+        _router.replaceAll([InvoiceListRoute()]);
     }
   }
 
   @override
   void start() {
-    _router.replace(
-      BasicInfoRoute(
-        flow: this,
-        screenConfig: _pageConfig,
-      ),
-    );
+    _router.replace(BasicInfoRoute(flow: this, screenConfig: _pageConfig));
   }
 }
