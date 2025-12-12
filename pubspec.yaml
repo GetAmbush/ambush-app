@@ -5,7 +5,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 0.7.0+22
 
 environment:
-  sdk: '>=3.4.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -14,15 +14,15 @@ dependencies:
   cupertino_icons: ^1.0.6
   intl: ^0.19.0
   flutter_mobx: ^2.2.0+2
-  mobx: ^2.3.0+1
-  get_it: ^8.0.0
-  injectable: ^2.4.0
+  mobx: ^2.5.0
+  get_it: ^9.0.5
+  injectable: ^2.5.0
   dynamic_color: ^1.6.6
-  auto_route: ^9.0.0
+  auto_route: ^10.2.2
   pdf: ^3.10.8
   path_provider: ^2.1.2
-  hive: ^2.2.3
-  hive_flutter: ^1.1.0
+  hive_ce: ^2.15.1
+  hive_ce_flutter: ^2.3.3
   share_plus: ^10.0.0
   image: ^4.1.7 # fix for the PDF package test_api 0.5.1 (0.6.1 available)
   flutter_svg: ^2.0.10+1
@@ -39,12 +39,12 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
   build_runner: ^2.4.11
-  mobx_codegen: ^2.3.0
-  injectable_generator: ^2.1.5
-  auto_route_generator: ^9.0.0
-  hive_generator: ^2.0.0
+  mobx_codegen: ^2.7.1
+  injectable_generator: ^2.9.1
+  auto_route_generator: ^10.2.6
+  hive_ce_generator: ^1.10.0
   test: ^1.25.2
 
 flutter:
@@ -135,6 +135,7 @@ flutter:
   - assets/currency.json
   - assets/icons/
   - assets/illustration_success.png
+
 #Font mapping -------------------
 #FontWeight.w100: 'Thin',
 #FontWeight.w200: 'ExtraLight',

@@ -1,5 +1,6 @@
+import 'package:hive_ce/hive.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
 import 'package:ambush_app/src/data/models/hive_company_info.dart';
 import 'package:ambush_app/src/data/models/hive_bank_info.dart';
