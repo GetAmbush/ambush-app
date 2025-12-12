@@ -55,6 +55,7 @@ abstract class _AddInvoiceViewModelBase with Store {
   final idController = TextEditingController();
   final issueDateController = TextEditingController();
   final dueDateController = TextEditingController();
+  final enableDueDate = DateTime.now().month == 12;
 
   DateTime? _issueDate;
   DateTime? _dueDate;

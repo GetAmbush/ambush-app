@@ -1,5 +1,5 @@
 import 'package:ambush_app/src/domain/models/ambush_info.dart';
-import 'package:hive/hive.dart';
+import 'package:hive_ce/hive.dart';
 import 'package:ambush_app/src/domain/models/service_info.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -35,12 +35,8 @@ class HiveServiceInfo extends HiveObject {
     this.price,
   );
 
-  ServiceInfo toServiceInfo() => ServiceInfo(
-        description,
-        quantity,
-        defaultCurrency,
-        price,
-      );
+  ServiceInfo toServiceInfo() =>
+      ServiceInfo(description, quantity, defaultCurrency, price);
 
   static HiveServiceInfo fromServiceInfo(ServiceInfo serviceInfo) =>
       HiveServiceInfo(

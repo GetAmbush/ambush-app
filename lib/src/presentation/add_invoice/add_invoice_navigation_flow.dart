@@ -17,9 +17,7 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
   final IGetCompanyInfo _getCompanyInfo = getIt();
   final IGetServiceInfo _getServiceInfo = getIt();
 
-  final _pageConfig = BasicInfoPageConfig(
-    ctaText: 'Next step',
-  );
+  final _pageConfig = BasicInfoPageConfig(ctaText: 'Next step');
 
   AddInvoiceNavigationFlow(this._router);
 
@@ -30,7 +28,7 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
 
   @override
   void onFinishFlow() {
-    _router.push(InvoiceListRoute());
+    _router.replaceAll([InvoiceListRoute()]);
   }
 
   @override
@@ -38,33 +36,16 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
     final currentRoute = _router.current.name;
     switch (currentRoute) {
       case BasicInfoRoute.name:
-        _router.push(
-          AddressRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(AddressRoute(flow: this, screenConfig: _pageConfig));
         break;
       case AddressRoute.name:
-        _router.push(
-          BankInfoRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(BankInfoRoute(flow: this, screenConfig: _pageConfig));
         break;
       case BankInfoRoute.name:
-        _router.push(
-          ServiceInfoRoute(
-            flow: this,
-            screenConfig: _pageConfig,
-          ),
-        );
+        _router.push(ServiceInfoRoute(flow: this, screenConfig: _pageConfig));
         break;
       case ServiceInfoRoute.name:
-        _router.push(
-          OnboardingSuccessRoute(),
-        );
+        _router.push(OnboardingSuccessRoute());
         break;
 
       case OnBoardingRoute.name:
@@ -82,16 +63,9 @@ class AddInvoiceNavigationFlow implements InfoNavigationFlow {
         _getClientInfo.get(),
         _getBankInfo.get(),
       );
-      _router.push(
-        AddInvoiceRoute(flow: this),
-      );
+      _router.push(AddInvoiceRoute(flow: this));
     } catch (e) {
-      _router.push(
-        BasicInfoRoute(
-          flow: this,
-          screenConfig: _pageConfig,
-        ),
-      );
+      _router.push(BasicInfoRoute(flow: this, screenConfig: _pageConfig));
     }
   }
 }
