@@ -1,4 +1,3 @@
-import 'package:hive_ce/hive.dart';
 import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:ambush_app/src/data/models/hive_client_info.dart';
@@ -107,8 +106,10 @@ class LocalDataSource implements ILocalDataSource {
 
   @override
   List<Invoice> getInvoiceList() {
-    HiveInvoiceList hiveInvoiceList =
-        _appBox.get(_keyInvoiceList, defaultValue: HiveInvoiceList([]));
+    HiveInvoiceList hiveInvoiceList = _appBox.get(
+      _keyInvoiceList,
+      defaultValue: HiveInvoiceList([]),
+    );
 
     return hiveInvoiceList.invoiceList.map((e) => e.toInvoice()).toList();
   }
@@ -136,9 +137,7 @@ class LocalDataSource implements ILocalDataSource {
 
     return _appBox.put(
       _keyInvoiceList,
-      HiveInvoiceList(
-        hiveList.map((e) => HiveInvoice.fromInvoice(e)).toList(),
-      ),
+      HiveInvoiceList(hiveList.map((e) => HiveInvoice.fromInvoice(e)).toList()),
     );
   }
 
@@ -149,9 +148,7 @@ class LocalDataSource implements ILocalDataSource {
 
     return _appBox.put(
       _keyInvoiceList,
-      HiveInvoiceList(
-        list.map((e) => HiveInvoice.fromInvoice(e)).toList(),
-      ),
+      HiveInvoiceList(list.map((e) => HiveInvoice.fromInvoice(e)).toList()),
     );
   }
 

@@ -23,6 +23,7 @@ class ServiceInfo {
     return removeTrailingZeros(quantity.toString());
   }
 
+  //ignore: strict_top_level_inference
   copyWith({
     String? description,
     double? quantity,

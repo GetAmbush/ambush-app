@@ -1,4 +1,3 @@
-
 import 'package:ambush_app/src/designsystem/constrained_scaffold.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
@@ -34,60 +33,66 @@ class InvoiceListPage extends StatelessWidget {
         ),
         centerTitle: false,
         actions: [
-          Observer(builder: (context) {
-            var shouldHide = _viewModel.hideMode;
+          Observer(
+            builder: (context) {
+              var shouldHide = _viewModel.hideMode;
 
-            return IconButton(
-              icon: Icon(
-                shouldHide ? Icons.visibility_off : Icons.visibility,
-              ),
-              onPressed: () {
-                _viewModel.toggleHideMode();
-              },
-            );
-          }),
+              return IconButton(
+                icon: Icon(
+                  shouldHide ? Icons.visibility_off : Icons.visibility,
+                ),
+                onPressed: () {
+                  _viewModel.toggleHideMode();
+                },
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.settings),
             onPressed: () {
               context.router.push(const SettingsRoute());
             },
-          )
+          ),
         ],
       ),
-      floatingActionButton: Observer(builder: (context) {
-        final bool showFab = _viewModel.invoiceList.isNotEmpty;
-        return SafeArea(
-          bottom: true,
-          right: true,
-          child: Visibility(
-            visible: showFab,
-            child: FloatingActionButton.extended(
-              label: const Text('New invoice'),
-              icon: const Icon(Icons.add),
-              onPressed: () {
+      floatingActionButton: Observer(
+        builder: (context) {
+          final bool showFab = _viewModel.invoiceList.isNotEmpty;
+          return SafeArea(
+            bottom: true,
+            right: true,
+            child: Visibility(
+              visible: showFab,
+              child: FloatingActionButton.extended(
+                label: const Text('New invoice'),
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  _onAddClick(context);
+                },
+              ),
+            ),
+          );
+        },
+      ),
+      body: Observer(
+        builder: (context) {
+          if (_viewModel.invoiceList.isEmpty) {
+            return EmptyList(
+              onAddClick: () {
                 _onAddClick(context);
               },
-            ),
-          ),
-        );
-      }),
-      body: Observer(builder: (context) {
-        if (_viewModel.invoiceList.isEmpty) {
-          return EmptyList(
-            onAddClick: () {
-              _onAddClick(context);
-            },
-          );
-        } else {
-          return ListBody(
-            invoiceList: _viewModel.invoiceList,
-            hideMode: _viewModel.hideMode,
-            onDelete: (invoice) async {
-              await _viewModel.deleteInvoice(invoice);
-            },
-          );
-        }
-      }),
+            );
+          } else {
+            return ListBody(
+              invoiceList: _viewModel.invoiceList,
+              hideMode: _viewModel.hideMode,
+              onDelete: (invoice) async {
+                await _viewModel.deleteInvoice(invoice);
+              },
+            );
+          }
+        },
+      ),
     );
   }
 
@@ -117,7 +122,7 @@ class ListBody extends StatelessWidget {
     return ListView.separated(
       itemCount: invoiceList.length + 1,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-      separatorBuilder: (_, __) => const SizedBox(height: 8),
+      separatorBuilder: (_, _) => const SizedBox(height: 8),
       itemBuilder: (context, index) {
         if (index == 0) {
           return Padding(
