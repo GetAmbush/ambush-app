@@ -1,8 +1,6 @@
 import 'package:ambush_app/src/domain/models/currency.dart';
 import 'package:extended_masked_text/extended_masked_text.dart';
 
-import '../../presentation/utils/remove_trailing_zeros.dart';
-
 class ServiceInfo {
   final String description;
   final double quantity;
@@ -20,7 +18,9 @@ class ServiceInfo {
   }
 
   String formattedQuantity() {
-    return removeTrailingZeros(quantity.toString());
+    final hasDecimal = quantity % 10 != 0;
+    final fixed = hasDecimal ? 2 : 0;
+    return quantity.toStringAsFixed(fixed);
   }
 
   //ignore: strict_top_level_inference
