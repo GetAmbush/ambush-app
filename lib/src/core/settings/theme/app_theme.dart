@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ambush_app/src/core/settings/theme/text_theme.dart';
-import 'package:material_color_utilities/material_color_utilities.dart';
 
 import 'custom_color.dart';
 
@@ -61,73 +60,9 @@ extension ColorText on BuildContext {
   }
 }
 
-extension CorePaletteMapping on CorePalette {
-  ColorScheme get colorScheme {
-    return ColorScheme.light(
-      primary: Color(primary.get(40)),
-      onPrimary: Color(primary.get(100)),
-      primaryContainer: Color(primary.get(90)),
-      onPrimaryContainer: Color(primary.get(10)),
-      secondary: Color(secondary.get(40)),
-      onSecondary: Color(secondary.get(100)),
-      secondaryContainer: Color(secondary.get(90)),
-      onSecondaryContainer: Color(secondary.get(10)),
-      tertiary: Color(tertiary.get(40)),
-      onTertiary: Color(tertiary.get(100)),
-      tertiaryContainer: Color(tertiary.get(90)),
-      onTertiaryContainer: Color(tertiary.get(10)),
-      error: Color(error.get(40)),
-      onError: Color(error.get(100)),
-      errorContainer: Color(error.get(90)),
-      onErrorContainer: Color(error.get(10)),
-      surface: Color(neutral.get(99)),
-      onSurface: Color(neutral.get(10)),
-      surfaceContainerHighest: Color(neutralVariant.get(90)),
-      onSurfaceVariant: Color(neutralVariant.get(30)),
-      outline: Color(neutralVariant.get(50)),
-      shadow: Color(neutral.get(0)),
-      inverseSurface: Color(neutral.get(20)),
-      onInverseSurface: Color(neutral.get(95)),
-      inversePrimary: Color(primary.get(80)),
-    );
-  }
-
-  ColorScheme get darkColorScheme {
-    return ColorScheme.dark(
-      primary: Color(primary.get(80)),
-      onPrimary: Color(primary.get(20)),
-      primaryContainer: Color(primary.get(30)),
-      onPrimaryContainer: Color(primary.get(90)),
-      secondary: Color(secondary.get(80)),
-      onSecondary: Color(secondary.get(20)),
-      secondaryContainer: Color(secondary.get(30)),
-      onSecondaryContainer: Color(secondary.get(90)),
-      tertiary: Color(tertiary.get(80)),
-      onTertiary: Color(tertiary.get(20)),
-      tertiaryContainer: Color(tertiary.get(30)),
-      onTertiaryContainer: Color(tertiary.get(90)),
-      error: Color(error.get(80)),
-      onError: Color(error.get(20)),
-      errorContainer: Color(error.get(30)),
-      onErrorContainer: Color(error.get(80)),
-      surface: Color(neutral.get(10)),
-      onSurface: Color(neutral.get(90)),
-      surfaceContainerHighest: Color(neutralVariant.get(30)),
-      onSurfaceVariant: Color(neutralVariant.get(80)),
-      outline: Color(neutralVariant.get(60)),
-      shadow: Color(neutral.get(0)),
-      inverseSurface: Color(neutral.get(90)),
-      onInverseSurface: Color(neutral.get(20)),
-      inversePrimary: Color(primary.get(40)),
-    );
-  }
-}
-
 InputDecorationTheme get inputDecorationTheme {
   return InputDecorationTheme(
-    border: OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12.0),
-    ),
+    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12.0)),
     filled: true,
   );
 }
@@ -159,9 +94,7 @@ AppBarTheme appBarThemeDark(ColorScheme colorScheme) {
 
 DialogThemeData get dialogTheme {
   return DialogThemeData(
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(24),
-    ),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
   );
 }
 
@@ -197,9 +130,7 @@ CustomColors darkCustomColor = CustomColors(
 );
 
 ThemeData getLightTheme(ColorScheme lightColorScheme, BuildContext context) {
-  return ThemeData.from(
-    colorScheme: lightColorScheme,
-  ).copyWith(
+  return ThemeData.from(colorScheme: lightColorScheme).copyWith(
     colorScheme: lightColorScheme,
     dialogTheme: dialogTheme.copyWith(
       backgroundColor: lightColorScheme.surface,
@@ -211,20 +142,14 @@ ThemeData getLightTheme(ColorScheme lightColorScheme, BuildContext context) {
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
     extensions: [lightCustomColor],
-    dividerTheme: DividerThemeData(
-      color: ThemeData.light().dividerColor,
-    ),
+    dividerTheme: DividerThemeData(color: ThemeData.light().dividerColor),
   );
 }
 
 ThemeData getDarkTheme(ColorScheme darkColorScheme, BuildContext context) {
-  return ThemeData.from(
+  return ThemeData.from(colorScheme: darkColorScheme).copyWith(
     colorScheme: darkColorScheme,
-  ).copyWith(
-    colorScheme: darkColorScheme,
-    dialogTheme: dialogTheme.copyWith(
-      backgroundColor: darkColorScheme.surface
-    ),
+    dialogTheme: dialogTheme.copyWith(backgroundColor: darkColorScheme.surface),
     timePickerTheme: timePickerTheme,
     appBarTheme: appBarThemeDark(darkColorScheme),
     textTheme: getTextTheme(true),
@@ -232,8 +157,6 @@ ThemeData getDarkTheme(ColorScheme darkColorScheme, BuildContext context) {
     applyElevationOverlayColor: true,
     inputDecorationTheme: inputDecorationTheme,
     extensions: [darkCustomColor],
-    dividerTheme: DividerThemeData(
-      color: ThemeData.dark().dividerColor,
-    ),
+    dividerTheme: DividerThemeData(color: ThemeData.dark().dividerColor),
   );
 }
