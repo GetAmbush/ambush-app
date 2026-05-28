@@ -18,9 +18,9 @@ class ServiceInfo {
   }
 
   String formattedQuantity() {
-    final hasDecimal = quantity % 10 != 0;
-    final fixed = hasDecimal ? 2 : 0;
-    return quantity.toStringAsFixed(fixed);
+    return quantity % 1 == 0
+        ? quantity.toInt().toString()
+        : quantity.toString();
   }
 
   //ignore: strict_top_level_inference
